@@ -128,17 +128,17 @@ TimeAudio.addEventListener("click", function (e) {
 
 
 //Function récupérer audio, image et artiste
-function getAudiofromData(idDonne, idMusique=null) {
-    axios.get("footer/function/data.php").then(response => {
-    if(idMusique != null){
-            for(music of response.data){
-                if(music.idMusic == idMusique){
-                    idDonne = music.idData  
-                    idData = idDonne           
+function getAudiofromData(idDonne, idMusique = null) {
+    axios.get("config/data.php").then(response => {
+        if (idMusique != null) {
+            for (music of response.data) {
+                if (music.idMusic == idMusique) {
+                    idDonne = music.idData
+                    idData = idDonne
                 }
             }
         }
-    
+
         var linkAudio = response.data[idDonne].musique
         var titreAudio = response.data[idDonne].titre
         var artisteAudio = response.data[idDonne].artiste
@@ -147,15 +147,15 @@ function getAudiofromData(idDonne, idMusique=null) {
         audio.src = "musiques/" + linkAudio
         titre.innerHTML = titreAudio
         artiste.innerHTML = artisteAudio
-        imgMusic.src = "images/musique/"+image
+        imgMusic.src = "images/musique/" + image
     })
- 
-    
+
+
 }
 
-//Function pour récupérer le nombre de music dans le ficher data_footer.json
+//Function pour récupérer le nombre de music dans le ficher data.json
 function getNbMusicofData() {
-    tailleMusic = axios.get("footer/function/data.php").then(response => {
+    tailleMusic = axios.get("config/data.php").then(response => {
         return response.data.length
     })
 
@@ -177,7 +177,7 @@ function buttonPlayPause(count) {
 
 //Function music Suivante
 function nextMusic() {
-    axios.get("footer/function/data.php").then(response => {
+    axios.get("config/data.php").then(response => {
         let nbMusic = response.data.length
 
         // Si le bouton random est appuyé alors on lance une musique aléatoire 

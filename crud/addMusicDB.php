@@ -1,6 +1,9 @@
+
 <?php
 
+
 include("dbConnect.php");
+
 
 $Titre = NULL;
 if (isset($_POST['Titre'])) {
@@ -42,4 +45,6 @@ if ($resultat) {
 } else {
     header("Location: ../pages/addMusic.php");
 }
+
+
 ?>

@@ -1,24 +1,64 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Freezer Music Player</title>
-    <link rel="stylesheet" type="text/css" href="<?php echo HOST_CSS . '/index.css'; ?>" >
-    <link rel="stylesheet" type="text/css" href="<?php echo HOST_CSS . '/footer.css'; ?>" >
+    <link rel="stylesheet" type="text/css" href="<?php echo HOST_CSS . '/index.css'; ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo HOST_CSS . '/footer.css'; ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo HOST_CSS . '/playlist.css'; ?>">
+    <script src="https://kit.fontawesome.com/bb4997e1c6.js" crossorigin="anonymous"></script>
 </head>
-<body>
-<!-- HEADER -->
-<div class="header">
-    <div class="header--buttons--right">
-        <button onclick="window.location.href='<?php echo HOST . '/Freezer/pages/register.php'; ?>'" class="header--button--signUp">
-            S'inscrire
-        </button>
 
-        <button onclick="window.location.href='<?php echo HOST . '/Freezer/pages/login.php'; ?>'" class="header--button--login">
-            Se connecter
-        </button>
-    </div>
+
+<div class="header">
+    <?php
+
+    // Ouverture de la session
+    session_start();
+    require_once(ROOT_DIR . '/components/search.php');
+
+    //Connection à la base de donnée 
+    require_once(ROOT_DIR . '/crud/dbConnect.php');
+
+
+    if (isset($_SESSION['id'])) {
+        $id = $_SESSION['id'];
+
+        // Récupération du pseudo
+        $pseudo = mysqli_query($mysqli, "SELECT `login` FROM `utilisateurs` WHERE `id` = $id");
+        $data = mysqli_fetch_array($pseudo);
+        if (isset($data['login'])) {
+            $pseudo = $data['login'];
+        }
+
+        // Variable de SESSION 
+        $_SESSION["pseudo"] = $pseudo;
+
+        echo '<div class="header--buttons">';
+        echo '<button class="header--button previous"> <i class="lni-chevron-left"></i> </button>';
+        echo '<button class="header--button next"> <i class="lni-chevron-right"></i> </button>';
+        echo '</div>';
+
+        echo '<div class="header--buttons--right">';
+        echo '<button class="header--button--signUp">';
+        echo "<i class='fa-solid fa-user'></i> $pseudo </button>";
+        echo '<button onclick="window.location.href=`/Freezer-Project/crud/logout.php`" class="header--button--login">';
+        echo '<i class="fa-solid fa-right-from-bracket"></i> </button>';
+        echo '</div>';
+    } else {
+        echo '<div class="header--buttons">';
+        echo '<button class="header--button previous"> <i class="lni-chevron-left"></i> </button>';
+        echo '<button class="header--button next"> <i class="lni-chevron-right"></i> </button>';
+        echo '</div>';
+
+        echo '<div class="header--buttons--right">';
+        echo '<button onclick="window.location.href=`/Freezer-Project/pages/register.php`" class="header--button--signUp">';
+        echo "S'inscrire </button>";
+        echo '<button onclick="window.location.href=`/Freezer-Project/pages/login.php`" class="header--button--login">';
+        echo 'Se connecter </button>';
+        echo '</div>';
+    } ?>
 </div>
-<!-- /HEADER -->

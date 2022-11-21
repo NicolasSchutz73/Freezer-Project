@@ -4,7 +4,16 @@
 #A changer :
 include("dbConnect.php");
 #Selection data
-$sql = "select * from musics";
+$recherche = $_GET['search'];
+
+if($recherche!="null"){
+    $recherche = htmlspecialchars($_GET['search']);
+    $sql = 'select * from musics where nom_music like "%'.$recherche.'%"';
+}
+else{
+    $sql = "select * from musics";
+}
+
 $result = mysqli_query($mysqli, $sql);
 
 #Resultats vers JS

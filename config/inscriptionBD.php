@@ -13,10 +13,7 @@ $email = NULL;
 if (isset($_POST['email'])) {
     $email = $_POST['email'];
 }
-$birth = NULL;
-if (isset($_POST['birth'])) {
-    $birth = $_POST['birth'];
-}
+
 $pwd = NULL;
 if (isset($_POST['pwd'])) {
     $pwd = $_POST['pwd'];
@@ -35,28 +32,36 @@ while ($ligne = $resultat->fetch_assoc()) {
     }
 }
 
-
-
 $login = $mysqli->real_escape_string($login);
 $pwd = $mysqli->real_escape_string($pwd);
 
 
-if ($dif != True && $login != NULL && $login != "" && $email != NULL && $email != "" && $birth != NULL && $birth != "" && $pwd != NULL && $pwd != "" && $pwd == $pwdConfirm) {
+if ($dif != True && $login != NULL && $login != "" && $email != NULL && $email != "" && $pwd != NULL && $pwd != "" && $pwd == $pwdConfirm) {
     $salt = "sdK2mqlOs4dUibu57SZVGT8qHsmiOm6AqZs5DdkGN4KvghM3dqkfN5DhghplJG539qdm7hSFG8Kgv9qmhcetYHvDERfHF412csr79hfEScgmKH53dSXCVtyh75gDSer1";
     $pwd = hash("sha256", $pwd . $salt);
-    $requete = "INSERT INTO `utilisateurs` (`id`, `login`, `pwd`, `email`, `dateOfbirth`) VALUES (NULL, '$login', '$pwd', '$email', '$birth');";
+    $requete = "INSERT INTO `utilisateurs` (`id`, `login`, `pwd`, `email`) VALUES (NULL, '$login', '$pwd', '$email');";
     $resultat = mysqli_query($mysqli, $requete);
 }
-echo ($requete);
 
-$mysqli->close();
+
+$requete_id = "SELECT id FROM `utilisateurs` WHERE login='$login';";
+$resultat_id = $mysqli->query($requete_id);
+while ($ligne = $resultat_id->fetch_assoc()) {
+    $id = $ligne['id'];
+}
 
 
 if ($resultat && $dif != True) {
-    header("Location: login.php");
+    session_start();
+    // $request = "UPDATE `utilisateurs` set statut= 'connected'  WHERE id= $id";
+    // $resultat = mysqli_query($mysqli, $request);
+
+    $_SESSION['id'] = $id;
+    header("Location: ../index.php");
 } else {
     header("Location: register.php");
 }
 
+$mysqli->close();
 
 ?>

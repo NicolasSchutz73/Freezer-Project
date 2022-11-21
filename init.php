@@ -15,13 +15,10 @@ $host = $_SERVER['HTTP_HOST'];
 define('HOST', 'http://' . $host);
 
 //chemin du dossier style
-define('HOST_CSS', HOST . '/Freezer/style');
+define('HOST_CSS', HOST . '/Freezer-Project/style');
 
 //chemin du dossier script
-define('HOST_JS', HOST . '/Freezer/script');
+define('HOST_JS', HOST . '/Freezer-Project/script');
 
 //chemin du dossier images
-define('HOST_IMG', HOST . '/Freezer/images');
-
-
-
+define('HOST_IMG', HOST . '/Freezer-Project/images');

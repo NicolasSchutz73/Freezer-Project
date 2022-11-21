@@ -34,12 +34,11 @@ $resultat->close();
 if ($nbLignes == 0) {
     header("Location: login.php");
 } else if ($nbLignes == 1) {
-    // session_start();
-
+    session_start();
     // $request = "UPDATE `utilisateurs` set statut= 'connected'  WHERE id= $id";
     // $resultat = mysqli_query($mysqli, $request);
 
-    // $_SESSION['id'] = $id;
+    $_SESSION['id'] = $id;
 
     header("Location: ../index.php");
 }

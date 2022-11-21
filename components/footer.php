@@ -12,10 +12,10 @@
             </div>
         </div>
         <div id="Music">
-            <img id="imgMusic" src="<?php echo HOST_IMG . '/footer/test.jpg'; ?>" alt="#">
+            <img id="imgMusic" src="<?php echo HOST_IMG . '/footer/iconeMusique.jpg'; ?>" alt="#">
             <div id="infoMusic">
-                <h2>Titre</h2>
-                <p>Auteur</p>
+                <h2></h2>
+                <p></p>
             </div>
             <img src="<?php echo HOST_IMG . '/footer/noLike.png'; ?>" alt="like" id="like">
         </div>
@@ -39,4 +39,5 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="<?php echo HOST_JS . '/scriptFooter.js' ?>"></script>
 </body>
+
 </html>

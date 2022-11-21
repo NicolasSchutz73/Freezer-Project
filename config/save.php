@@ -1,7 +1,6 @@
 <?php
 
-$mysqli = mysqli_connect("localhost", "root", "root", "user");
-mysqli_set_charset($mysqli, "utf-8");
+include("../crud/dbConnect.php");
 
 $requete = "SELECT * FROM musics";
 $result = mysqli_query($mysqli, $requete);
@@ -34,7 +33,7 @@ while ($row = mysqli_fetch_array($result)) {
 }
 
 file_put_contents(
-    $_SERVER['DOCUMENT_ROOT'] . '/json/data_footer.json',
+    $_SERVER['DOCUMENT_ROOT'] . 'Freezer-Project/json/data_footer.json',
     json_encode(
         $music,
         JSON_PRETTY_PRINT |

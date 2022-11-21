@@ -274,7 +274,25 @@ main {
     justify-content: space-between;
     align-items: center;
     z-index: 1;
-    background-color: rebeccapurple;
+    background-color: rgb(53, 50, 50);
+}
+
+.header--buttons--right button {
+    background-color: rgb(18, 18, 18);
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    border-radius: 20px;
+    margin: 5px;
+}
+
+
+.header--buttons--right button:hover {
+    cursor: pointer;
 }
 
 .header--button {
@@ -287,6 +305,7 @@ main {
     cursor: pointer;
     outline: 0;
 }
+
 
 .header--button.previous {
     margin-right: 10px;

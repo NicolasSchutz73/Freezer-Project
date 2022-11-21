@@ -4,6 +4,15 @@
    v2.0 | 20110126
    License: none (public domain)
 */
+@font-face {
+    font-family: 'prestageregular';
+    src: url('../font/prestage_regular-webfont.woff2') format('woff2'),
+        url('../font/prestage_regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 
 html,
 body,
@@ -162,20 +171,22 @@ body {
 
 .sidebar .brand {
     padding-bottom: 1.125rem;
+    display: flex;
     /*18px*/
 }
 
-.sidebar .brand svg {
-    width: 131px;
+.sidebar .brand img {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
 }
 
-.sidebar.menu .menu--item {
-    font-size: 1.5rem;
-    position: relative;
-}
-
-.sidebar .menu.menu-extra .menu--item:not(:first-child) {
-    margin-top: 5px;
+.sidebar .brand h1 {
+    margin-top: 20px;
+    margin-left: 15px;
+    color: white;
+    font-size: 150%;
+    font-family: Tommy;
 }
 
 .sidebar .menu .menu--item a {
@@ -274,7 +285,24 @@ main {
     justify-content: space-between;
     align-items: center;
     z-index: 1;
-    background-color: rebeccapurple;
+    background-color: rgb(53, 50, 50)
+}
+
+.header--buttons--right button {
+    background-color: rgb(18, 18, 18);
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    border-radius: 20px;
+    margin: 5px;
+}
+
+.header--buttons--right button:hover {
+    cursor: pointer;
 }
 
 .header--button {
@@ -306,10 +334,12 @@ main {
 
 /*affichage*/
 
-#dataContainer {
-    color: white;
+#musiquesContainer {
+    display: flex;
+    flex-direction: column;
     padding-bottom: 80px;
 }
+
 
 .label {
     padding: 10px;
@@ -338,12 +368,48 @@ main {
     padding-left: 20px;
 }
 
-/*Musique*/
+/*Playlist */
 
-.musiquesPlaylist {
+.playlistIndex:hover {
+    background-color: #2b2b2b;
+    transition: all 0.5s ease;
+}
+
+#playlistsContainer {
     display: flex;
     flex-direction: column;
 }
+
+.playlistsContainerWrap {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.imagePlaylistWrap img {
+    width: 200px;
+    height: 200px;
+}
+
+.nomPlaylistIndex {
+    text-decoration: none;
+    color: white;
+    padding: 5px;
+    font-size: 140%;
+}
+
+.auteurPlaylistIndex {
+    text-decoration: none;
+    color: white;
+    padding: 5px;
+    color: #B3B3B3;
+
+}
+
+a {
+    text-decoration: none;
+}
+
+/*Musique*/
 
 .musique {
     display: flex;
@@ -351,13 +417,13 @@ main {
 }
 
 .musique:hover {
-    background-color: grey;
+    background-color: #2b2b2b;
     transition: all 0.5s ease;
 }
 
 .texteMusique {
     flex: auto;
-    padding-left: 5px;
+    padding: 5px;
 }
 
 .texteMusique .nomMusique {
@@ -365,20 +431,25 @@ main {
     display: auto;
 }
 
+
 .imageMusique {
     width: 100px;
 }
 
 .imageMusique img {
     width: 100px;
+    height: 100px;
 }
 
 .dureeMusique {
     padding-right: 20px;
 }
 
+
+/*formulaire*/
+
 .formPlaylist {
-    background-color: gray;
+    background-color: rgb(59, 59, 59);
     position: absolute;
     top: 100px;
     left: 500px;

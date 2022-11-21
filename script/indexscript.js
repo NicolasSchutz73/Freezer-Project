@@ -15,30 +15,20 @@ let playlistForm = document.querySelector(".formPlaylist")
 let fieldset = document.querySelector("fieldset")
 
 /*Affichage Playlists*/
-let dataContainer = document.querySelector("#dataContainer")
+let playlistsContainer = document.querySelector("#playlistsContainer")
+let musiquesContainer = document.querySelector("#musiquesContainer")
 
-axios.get("crud/getallplaylists.php")
-    .then(function (response) {
-        let playlists = response.data
-        affichePlaylists(playlists)
-    })
+chercheMusic()
+cherchePlaylist()
 
-
-axios.get("crud/getallmusics.php")
-    .then(function (response) {
-        let musics = response.data
-        afficheMusiques(musics);
-    })
 
 function afficheMusiques(musiques) {
     //Container
-    let musiquesContainer = create("div", dataContainer, null, "musiquesPlaylist");
     create("p", musiquesContainer, "Liste des musiques :", "label");
 
     for (musique of musiques) {
         //Container
         let musiqueContainer = create("div", musiquesContainer, null, "musique", musique.id);
-
 
         //Musique
         let imageMusique = create("div", musiqueContainer, null, "imageMusique");
@@ -47,10 +37,11 @@ function afficheMusiques(musiques) {
 
         //Texte
         let texteMusique = create("div", musiqueContainer, null, "texteMusique");
-        //Nom,Auteur
-        let nom = create("p", texteMusique, musique.nom_music, "nomMusique");
-        let auteur = create("p", texteMusique, musique.nom_artiste, "auteurMusique");
-        let genre = create("span", texteMusique, musique.genre, "genreMusique");
+
+        //Nom,Auteur,Genre
+        create("p", texteMusique, musique.nom_music, "nomMusique");
+        create("p", texteMusique, musique.nom_artiste, "auteurMusique");
+        create("span", texteMusique, musique.genre, "genreMusique");
 
         let button = create("button", musiqueContainer, "+", null, musique.id)
 
@@ -76,24 +67,25 @@ function afficheMusiques(musiques) {
 
 function affichePlaylists(playlists) {
     //Container
-    let playlistsContainer = create("div", dataContainer, null, "musiquesPlaylist");
     create("p", playlistsContainer, "Liste des playlists :", "label");
+    let playlistsContainerWrap = create("div", playlistsContainer, null, "playlistsContainerWrap")
 
     for (playlist of playlists) {
         //Container
-        let playlistContainer = create("div", playlistsContainer, null, "musique");
+        let playlistLink = create("a", playlistsContainerWrap)
+        playlistLink.href = "components/playlist.php?pl=" + playlist.hashlink;
+        let playlistContainer = create("div", playlistLink, null, "playlistIndex");
 
-        //Musique
-        let imagePlaylist = create("div", playlistContainer, null, "imageMusique");
+        //Image
+        let imagePlaylist = create("a", playlistContainer, null, "imagePlaylistWrap");
         let image = create("img", imagePlaylist);
         image.src = "images/playlist/" + playlist.image;
 
         //Texte
-        let textePlaylist = create("div", playlistContainer, null, "texteMusique");
+        let textePlaylist = create("div", playlistContainer, null, "textePlaylist");
         //Nom,Auteur
-        let playlistlink = create("a", textePlaylist, playlist.nom, "nomMusique");
-        playlistlink.href = "components/playlist2.php?pl=" + playlist.hashlink;
-        let auteur = create("p", textePlaylist, playlist.auteur, "auteurMusique");
+        create("p", textePlaylist, playlist.nom, "nomPlaylistIndex");
+        create("p", textePlaylist, "Par : " + playlist.auteur, "auteurPlaylistIndex");
 
         //formulaire
         create("label", fieldset, playlist.nom + " : ")
@@ -102,6 +94,7 @@ function affichePlaylists(playlists) {
         inputRadio.name = "formPlaylist"
         inputRadio.value = playlist.id
         create("br", fieldset)
+
     }
 }
 
