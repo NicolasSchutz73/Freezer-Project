@@ -8,7 +8,7 @@ var audio = document.querySelector("audio");
 var TimeAudio = document.querySelector("#borderTimeBar")
 var ControlTimeAudio = document.querySelector("#controllTimeBar")
 var affichageTimeAudio = document.querySelector("#affichageTime")
-
+var timeSlider = document.querySelector("#timeSlider")
 
 
 //variable pour les info
@@ -89,21 +89,16 @@ volumeSlider.addEventListener("change", function () {
 //BARRE CONTROLE TEMPS AUDIO //
 audio.addEventListener("timeupdate", function () {
     let posBarre = audio.currentTime / audio.duration
-    ControlTimeAudio.style.width = posBarre * 100 + '%'
+    // ControlTimeAudio.style.width = posBarre * 100 + '%'
+    timeSlider.value = posBarre * 100
     // AFFICHAGE DU TEMPS DE L AUDIO // 
     affichageTimeAudio.innerHTML = convertSecond(audio.currentTime)
     document.querySelector("#timeFinalAudio").innerHTML = convertSecond(audio.duration)
 
-    rect = TimeAudio.getBoundingClientRect();
-    largeurTimeAudio = rect.width;
+
 })
-
-
-
-TimeAudio.addEventListener("click", function (e) {
-    let x = ((e.clientX - rect.left) * 100) / largeurTimeAudio;
-    let TimeAudio = (x * audio.duration) / 100;
-    audio.currentTime = TimeAudio;
+timeSlider.addEventListener("input", () => {
+    audio.currentTime = (timeSlider.value * audio.duration) / 100
 })
 
 
@@ -247,12 +242,10 @@ function convertSecond(time) {
     sec = sec < 10 ? "0" + sec : sec
 
     if (hour > 0) {
-        TimeAudio.style.left = 37 + "%"
         res = hour + ":" + min + ":" + sec
     }
     else {
         res = min + ":" + sec;
-        TimeAudio.style.left = 35 + "%"
     }
     return res;
 }

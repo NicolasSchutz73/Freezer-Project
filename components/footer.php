@@ -22,9 +22,7 @@
         <div id="conteneurTimeBar">
             <div id="timeBar">
                 <p id="affichageTime">0:00</p>
-                <div id="borderTimeBar">
-                    <div id="controllTimeBar"></div>
-                </div>
+                <input type="range" id="timeSlider" min="0" max="100" value="0" step="1">
                 <p id="timeFinalAudio"></p>
             </div>
         </div>

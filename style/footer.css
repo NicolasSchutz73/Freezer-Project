@@ -1,30 +1,40 @@
-#barAudio{
+* {
+    margin: 0;
+}
+
+body {
+    height: 40px;
+    color: black;
+}
+
+
+#barAudio {
     height: 80px;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.8);  
+    background-color: rgba(0, 0, 0, 0.8);
     position: fixed;
     bottom: 0;
 
 }
 
-#barAudio #buttonAudio{
+#barAudio #buttonAudio {
     display: flex;
     justify-content: center;
     margin-top: 4vh;
-    
+
 }
 
 
-#barAudio #buttonAudio i{
+#barAudio #buttonAudio i {
     cursor: pointer;
-    font-size:calc(10px + 0.5vw);
+    font-size: calc(10px + 0.5vw);
     margin-right: 2%;
     color: white;
-    
+
 }
 
 
-#barAudio #volume #iconVolume{
+#barAudio #volume #iconVolume {
     width: 20px;
     margin-right: 10px;
     position: absolute;
@@ -32,7 +42,7 @@
     right: 12%;
 }
 
-#barAudio #volume #volumeSlider{
+#barAudio #volume #volumeSlider {
     margin-top: 8px;
     -webkit-appearance: none;
     border-radius: 10px;
@@ -45,13 +55,13 @@
 }
 
 
-#barAudio #conteneurTimeBar {   
+#barAudio #conteneurTimeBar {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-#barAudio #timeBar{
+#barAudio #timeBar {
     width: 45%;
     min-width: 20vh;
     display: flex;
@@ -59,58 +69,39 @@
     color: white;
 }
 
-#barAudio #timeBar #borderTimeBar{
+#barAudio #timeBar input {
     width: 100%;
-    height: 3px;
-    border: 2px solid white;
 
-    border-radius: 10px;
-    cursor: pointer;
-    margin-left: 10px;margin-right: 10px;
-   
+
 }
 
-#barAudio #timeBar #borderTimeBar #controllTimeBar{
-    width: 0;
-    height: 100%;
-    background-color: white;
-    border-radius: 10px;
-
-}
- 
 
 
-
-#Music{
+#Music {
     display: flex;
-    align-items:center;
-    position:absolute;
-    top:50%;
+    align-items: center;
+    position: absolute;
+    top: 50%;
 
     transform: translateY(-50%);
     width: 10%;
 
     margin-left: 10px;
-    
+
 
 }
 
-#Music > *{
+#Music>* {
     margin-right: 10px;
     color: white;
 }
 
-#Music img{
+#Music img {
     width: 50%;
 
 }
 
-#Music #like{
+#Music #like {
     width: 20%;
     margin-left: 30px;
-
-
 }
-
-
-
