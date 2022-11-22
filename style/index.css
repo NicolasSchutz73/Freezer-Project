@@ -361,6 +361,7 @@ main {
 }
 
 .imagePlaylist img {
+    object-fit: cover;
     width: 220px;
     height: 220px;
 }
@@ -387,6 +388,7 @@ main {
 }
 
 .imagePlaylistWrap img {
+    object-fit: cover;
     width: 200px;
     height: 200px;
 }
@@ -442,6 +444,7 @@ main {
 }
 
 .imageMusique img {
+    object-fit: cover;
     width: 100px;
     height: 100px;
 }
