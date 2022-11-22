@@ -10,9 +10,11 @@ function create(tagName, container, text = null, classs = null, id = null) {
     return element
 }
 
+let pagePlaylist=false
 let idMusicForm = document.getElementById("idMusicForm")
 let playlistForm = document.querySelector(".formPlaylist")
 let fieldset = document.querySelector("fieldset")
+let accueilButton = document.querySelector("#accueil")
 
 /*Affichage Playlists*/
 let playlistsContainer = document.querySelector("#playlistsContainer")
@@ -21,6 +23,12 @@ let musiquesContainer = document.querySelector("#musiquesContainer")
 chercheMusic()
 cherchePlaylist()
 
+accueilButton.addEventListener("click",function(){
+    pagePlaylist=false
+    console.log(pagePlaylist)
+    chercheMusic()
+    cherchePlaylist()
+})
 
 function afficheMusiques(musiques) {
     //Container
@@ -62,9 +70,6 @@ function afficheMusiques(musiques) {
     }
 }
 
-//ATTENTION ! LES CLASSES NE SONT PAS A JOUR !
-//CEST UN COPIER COLLER DE LA FONCTION AFFICHEMUSIQUES JUSTE POUR QUE CA SOIT MOINS MOCHE
-
 function affichePlaylists(playlists) {
     //Container
     create("p", playlistsContainer, "Liste des playlists :", "label");
@@ -72,8 +77,31 @@ function affichePlaylists(playlists) {
 
     for (playlist of playlists) {
         //Container
+        let playlistLink = create("div", playlistsContainerWrap,null,null,playlist.hashlink)
+
+        playlistLink.addEventListener("click", function () {
+
+            axios.get("crud/getplaylist.php?pl=" + playlistLink.id)
+            .then(function (response) {
+                let playlistDatas = response.data[0];
+                pagePlaylist = true
+                console.log(pagePlaylist)
+                afficheInfosPlaylist(playlistDatas)
+
+                axios.get("crud/getmusiquesplaylist.php?id=" + playlistDatas.musiques)
+                .then(function (response) {
+                        let musiques = response.data;
+                        removeAllChild(musiquesContainer);
+                        afficheMusiques(musiques);
+                })
+            })
+        })
+
+        //Ancienne vesion
+        /*
         let playlistLink = create("a", playlistsContainerWrap)
         playlistLink.href = "components/playlist.php?pl=" + playlist.hashlink;
+        */
         let playlistContainer = create("div", playlistLink, null, "playlistIndex");
 
         //Image
@@ -96,6 +124,21 @@ function affichePlaylists(playlists) {
         create("br", fieldset)
 
     }
+}
+
+function afficheInfosPlaylist(pl) {
+    //Container
+    removeAllChild(playlistsContainer)
+    let infosPlaylistContainer = create("div", playlistsContainer, null, "infosPlaylist");
+    //Image
+    let imagePlaylist = create("div", infosPlaylistContainer, null, "imagePlaylist");
+    let image = create("img", imagePlaylist);
+    image.src = "images/playlist/" + pl.image;
+    //Texte
+    let texteInfoContainer = create("div", infosPlaylistContainer, null, "texteInfoPlaylist");
+    //Nom,auteur
+    create("p", texteInfoContainer, pl.nom, "nomPlaylist");
+    create("p", texteInfoContainer, "Playlist créée par " + pl.auteur, "auteurPlaylist");
 }
 
 let addButton = document.querySelector(".formPlaylist button")

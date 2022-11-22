@@ -8,23 +8,27 @@ mot.addEventListener("keyup", () => {
 //Function chercher musique et playlist dans base de données 
 
 function chercheMusic(recherche = null) {
-	axios.get("crud/getallmusics.php?search=" + recherche)
-		.then(function (response) {
-			let musics = response.data
-			removeAllChild(musiquesContainer);
-			afficheMusiques(musics);
-		})
+	if (!pagePlaylist){
+		axios.get("crud/getallmusics.php?search=" + recherche)
+			.then(function (response) {
+				let musics = response.data
+				removeAllChild(musiquesContainer);
+				afficheMusiques(musics);
+			})
+	}
 }
 
 
 function cherchePlaylist(recherche = null) {
-	axios.get("crud/getallplaylists.php?search=" + recherche)
+	if (!pagePlaylist){
+		axios.get("crud/getallplaylists.php?search=" + recherche)
 		.then(function (response) {
 
 			let playlists = response.data
 			removeAllChild(playlistsContainer);
 			affichePlaylists(playlists)
 		})
+	}
 }
 
 

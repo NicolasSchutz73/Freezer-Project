@@ -349,7 +349,7 @@ main {
 
 .infosPlaylist {
     display: flex;
-    background: linear-gradient(grey, #1c1c1c);
+    background: linear-gradient(#535353, black);
 }
 
 .nomPlaylist {
@@ -362,6 +362,7 @@ main {
 
 .imagePlaylist img {
     width: 220px;
+    height: 220px;
 }
 
 .texteInfoPlaylist {
@@ -405,10 +406,6 @@ main {
 
 }
 
-a {
-    text-decoration: none;
-}
-
 /*Musique*/
 
 .musique {
@@ -429,6 +426,14 @@ a {
 .texteMusique .nomMusique {
     font-size: 140%;
     display: auto;
+}
+
+.texteMusique .auteurMusique {
+    color: #B3B3B3;
+}
+
+.texteMusique .genreMusique {
+    color: #B3B3B3;
 }
 
 
