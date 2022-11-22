@@ -349,7 +349,7 @@ main {
 
 .infosPlaylist {
     display: flex;
-    background: linear-gradient(#535353, black);
+    background: linear-gradient(#535353, rgb(18, 18, 18));
 }
 
 .nomPlaylist {

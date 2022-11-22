@@ -10,11 +10,16 @@ function create(tagName, container, text = null, classs = null, id = null) {
     return element
 }
 
-let pagePlaylist=false
 let idMusicForm = document.getElementById("idMusicForm")
 let playlistForm = document.querySelector(".formPlaylist")
 let fieldset = document.querySelector("fieldset")
 let accueilButton = document.querySelector("#accueil")
+
+//variables globales
+let jsonMusiques = []
+let jsonPlay = []
+let pagePlaylist=false
+let idsPlaylist =''
 
 /*Affichage Playlists*/
 let playlistsContainer = document.querySelector("#playlistsContainer")
@@ -25,7 +30,6 @@ cherchePlaylist()
 
 accueilButton.addEventListener("click",function(){
     pagePlaylist=false
-    console.log(pagePlaylist)
     chercheMusic()
     cherchePlaylist()
 })
@@ -85,15 +89,18 @@ function affichePlaylists(playlists) {
             .then(function (response) {
                 let playlistDatas = response.data[0];
                 pagePlaylist = true
-                console.log(pagePlaylist)
+                idsPlaylist = playlistDatas.musiques
                 afficheInfosPlaylist(playlistDatas)
-
-                axios.get("crud/getmusiquesplaylist.php?id=" + playlistDatas.musiques)
+                chercheMusic()
+                /*
+                axios.get("crud/getmusiquesplaylist.php?id="+ playlistDatas.musiques+"&search=null")
                 .then(function (response) {
                         let musiques = response.data;
                         removeAllChild(musiquesContainer);
                         afficheMusiques(musiques);
                 })
+                */
+
             })
         })
 
@@ -102,6 +109,7 @@ function affichePlaylists(playlists) {
         let playlistLink = create("a", playlistsContainerWrap)
         playlistLink.href = "components/playlist.php?pl=" + playlist.hashlink;
         */
+
         let playlistContainer = create("div", playlistLink, null, "playlistIndex");
 
         //Image
@@ -141,6 +149,7 @@ function afficheInfosPlaylist(pl) {
     create("p", texteInfoContainer, "Playlist créée par " + pl.auteur, "auteurPlaylist");
 }
 
+//Formulaire ajout de musique a playlist
 let addButton = document.querySelector(".formPlaylist button")
 addButton.addEventListener("click", function () {
     var ele = document.getElementsByName('formPlaylist');
@@ -156,4 +165,3 @@ addButton.addEventListener("click", function () {
     }
     playlistForm.style.display = "none"
 })
-
