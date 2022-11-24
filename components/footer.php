@@ -17,7 +17,14 @@
                 <h2></h2>
                 <p></p>
             </div>
-            <img src="<?php echo HOST_IMG . '/footer/noLike.png'; ?>" alt="like" id="like">
+
+            <?php
+            if (isset($_SESSION['id'])) {
+                echo '<button><i class="fa-regular fa-heart" id="like"></i></button>';
+            } else {
+                echo '<button disabled><i class="fa-regular fa-heart" id="likeDisable"></i></button>';
+            } ?>
+
         </div>
         <div id="conteneurTimeBar">
             <div id="timeBar">
