@@ -17,6 +17,11 @@ let accueilButton = document.querySelector("#accueil")
 
 //variables globales
 let jsonMusiques = []
+//initialisation jsonMusiques
+axios.get("crud/getallmusics.php?search=null")
+			.then(function (response) {
+                jsonMusiques.push(response.data)
+            })
 let jsonPlay = []
 let pagePlaylist=false
 let idsPlaylist =''
@@ -30,6 +35,14 @@ cherchePlaylist()
 
 accueilButton.addEventListener("click",function(){
     pagePlaylist=false
+
+    //reinitialisation jsonMusiques
+    axios.get("crud/getallmusics.php?search=null")
+			.then(function (response) {
+                jsonMusiques=[]
+                jsonMusiques.push(response.data)
+            })
+
     chercheMusic()
     cherchePlaylist()
 })
@@ -64,6 +77,7 @@ function afficheMusiques(musiques) {
         })
 
         imageMusique.addEventListener("click", () => {
+            jsonPlay=jsonMusiques
             idMusic = musiqueContainer.getAttribute('id')
             getAudiofromData(0, idMusic)
             count = startMusicNextPrevious(count)
@@ -90,6 +104,14 @@ function affichePlaylists(playlists) {
                 let playlistDatas = response.data[0];
                 pagePlaylist = true
                 idsPlaylist = playlistDatas.musiques
+
+                //Mise a jour jsonMusiques
+                axios.get("crud/getmusiquesplaylist.php?id="+ idsPlaylist +"&search=null")
+		        .then(function (response) {
+                    jsonMusiques=[]
+                    jsonMusiques.push(response.data)
+                })
+
                 afficheInfosPlaylist(playlistDatas)
                 chercheMusic()
                 /*
