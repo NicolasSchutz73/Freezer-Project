@@ -101,7 +101,7 @@ body {
 
 }
 
-#Music #like {
-    width: 20%;
-    margin-left: 30px;
+#Music #likeMusic {
+    margin-left: 40px;
+    cursor: pointer;
 }

@@ -16,6 +16,7 @@ var titre = document.querySelector("#infoMusic h2")
 var imgMusic = document.querySelector("#imgMusic")
 var artiste = document.querySelector("#infoMusic p")
 var imgMusic = document.querySelector("#imgMusic")
+var like = document.querySelector("#likeMusic")
 
 //variable pour les boutons
 var buttonPause = document.querySelector("#buttonPause")
@@ -27,6 +28,7 @@ var buttonRandom = document.querySelector("#buttonRandom")
 //variables secondaire
 var count = 1
 var isRandom = false
+var isLiked = false
 
 
 
@@ -50,7 +52,8 @@ buttonPause.addEventListener("click", () => {
 
 // QUAND l'utilisateur clique sur le bouton random, on mélange notre tableau de musique
 buttonRandom.addEventListener("click", () => {
-    isRandom = true
+    randomButton(isRandom)
+
 })
 
 
@@ -68,12 +71,17 @@ buttonPrevious.addEventListener("click", () => {
 
 // Quand l'utilisateur clique sur le bouton REPETER
 buttonRepeat.addEventListener("click", () => {
-    audio.setAttribute("loop", "")
+    repeatButton()
 })
 
 // Quand l'audio est fini
 audio.addEventListener("ended", () => {
     nextMusic()
+})
+
+
+like.addEventListener("click", () => {
+    likeButton(isLiked);
 })
 
 
@@ -143,6 +151,8 @@ function getAudiofromData(idDonne, idMusique = null) {
         titre.innerHTML = titreAudio
         artiste.innerHTML = artisteAudio
         imgMusic.src = "images/musique/" + image
+
+        like.className = "fa-regular fa-heart"
     })
 
 
@@ -205,7 +215,35 @@ function startMusicNextPrevious(count) {
     return count
 }
 
-//FUNCTION BOUTON RANDOM
+
+//Function bouton répéter 
+function repeatButton() {
+    if (audio.hasAttribute('loop')) {
+        audio.removeAttribute('loop')
+        buttonRepeat.style.color = 'white'
+    }
+    else {
+        audio.setAttribute("loop", "")
+        buttonRepeat.style.color = 'purple'
+    }
+}
+
+// Function Bouton Random 
+function randomButton(etat) {
+    if (etat == false) {
+        etat = true
+        buttonRandom.style.color = "purple"
+    }
+    else {
+        etat = false
+        buttonRandom.style.color = "white"
+    }
+
+    isRandom = etat
+}
+
+
+//FUNCTION MUSIQUE RANDOM
 function randomIdData(idData, taille) {
     nb = getRandomInt(taille)
     while (nb == idData) {
@@ -215,6 +253,19 @@ function randomIdData(idData, taille) {
     return idData
 }
 
+//Function BoutonLike 
+function likeButton(etat) {
+    if (etat == false) {
+        etat = true
+        like.className = "fa-solid fa-heart"
+    }
+    else {
+        etat = false
+        like.className = "fa-regular fa-heart"
+    }
+
+    isLiked = etat
+}
 
 // FUNCTION RANDOM
 function getRandomInt(max) {

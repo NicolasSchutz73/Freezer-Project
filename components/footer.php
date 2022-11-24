@@ -17,7 +17,7 @@
                 <h2></h2>
                 <p></p>
             </div>
-            <img src="<?php echo HOST_IMG . '/footer/noLike.png'; ?>" alt="like" id="like">
+            <i id="likeMusic"></i>
         </div>
         <div id="conteneurTimeBar">
             <div id="timeBar">
