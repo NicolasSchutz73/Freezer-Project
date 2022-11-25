@@ -87,6 +87,8 @@ body {
     width: 10%;
 
     margin-left: 10px;
+
+
 }
 
 #Music>* {
@@ -96,30 +98,10 @@ body {
 
 #Music img {
     width: 50%;
+
 }
 
-<<<<<<< HEAD
 #Music #likeMusic {
     margin-left: 40px;
     cursor: pointer;
-=======
-#Music #like {
-    font-size: 200%;
-    margin-left: 20px;
-    color: white;
-}
-
-#Music #like:hover {
-    cursor: pointer;
-}
-
-#Music button {
-    all: unset;
-}
-
-#Music #likeDisable {
-    font-size: 200%;
-    margin-left: 20px;
-    color: white;
->>>>>>> fd5d475ffb8e20185e73c58d9e21f328f0cff0c8
 }

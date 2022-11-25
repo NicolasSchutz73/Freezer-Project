@@ -17,18 +17,7 @@
                 <h2></h2>
                 <p></p>
             </div>
-<<<<<<< HEAD
             <i id="likeMusic"></i>
-=======
-
-            <?php
-            if (isset($_SESSION['id'])) {
-                echo '<button><i class="fa-regular fa-heart" id="like"></i></button>';
-            } else {
-                echo '<button disabled><i class="fa-regular fa-heart" id="likeDisable"></i></button>';
-            } ?>
-
->>>>>>> fd5d475ffb8e20185e73c58d9e21f328f0cff0c8
         </div>
         <div id="conteneurTimeBar">
             <div id="timeBar">

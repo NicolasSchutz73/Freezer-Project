@@ -1,6 +1,7 @@
 <?php
 
 #Connection a la DB
+#A changer :
 include("dbConnect.php");
 #Selection data
 $recherche = $_GET['search'];
