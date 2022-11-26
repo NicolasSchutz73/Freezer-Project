@@ -10,11 +10,21 @@ function create(tagName, container, text = null, classs = null, id = null) {
     return element
 }
 
-let pagePlaylist=false
 let idMusicForm = document.getElementById("idMusicForm")
 let playlistForm = document.querySelector(".formPlaylist")
 let fieldset = document.querySelector("fieldset")
 let accueilButton = document.querySelector("#accueil")
+
+//variables globales
+let jsonMusiques = []
+//initialisation jsonMusiques
+axios.get("crud/getallmusics.php?search=null")
+			.then(function (response) {
+                jsonMusiques.push(response.data)
+            })
+let jsonPlay = []
+let pagePlaylist=false
+let idsPlaylist =''
 
 /*Affichage Playlists*/
 let playlistsContainer = document.querySelector("#playlistsContainer")
@@ -25,7 +35,14 @@ cherchePlaylist()
 
 accueilButton.addEventListener("click",function(){
     pagePlaylist=false
-    console.log(pagePlaylist)
+
+    //reinitialisation jsonMusiques
+    axios.get("crud/getallmusics.php?search=null")
+			.then(function (response) {
+                jsonMusiques=[]
+                jsonMusiques.push(response.data)
+            })
+
     chercheMusic()
     cherchePlaylist()
 })
@@ -60,8 +77,10 @@ function afficheMusiques(musiques) {
         })
 
         imageMusique.addEventListener("click", () => {
+            jsonPlay = jsonMusiques
+            axios.get("config/save.php?tab="+jsonMusiques)
             idMusic = musiqueContainer.getAttribute('id')
-            getAudiofromData(0, idMusic)
+            getAudiofromData(idMusic-1)
             count = startMusicNextPrevious(count)
             // audio.src = "musiques/" + musique.fichier
             // console.log(audio.src)
@@ -80,20 +99,30 @@ function affichePlaylists(playlists) {
         let playlistLink = create("div", playlistsContainerWrap,null,null,playlist.hashlink)
 
         playlistLink.addEventListener("click", function () {
-
             axios.get("crud/getplaylist.php?pl=" + playlistLink.id)
             .then(function (response) {
                 let playlistDatas = response.data[0];
                 pagePlaylist = true
-                console.log(pagePlaylist)
-                afficheInfosPlaylist(playlistDatas)
+                idsPlaylist = playlistDatas.musiques
 
-                axios.get("crud/getmusiquesplaylist.php?id=" + playlistDatas.musiques)
+                //Mise a jour jsonMusiques
+                axios.get("crud/getmusiquesplaylist.php?id="+ idsPlaylist +"&search=null")
+		        .then(function (response) {
+                    jsonMusiques=[]
+                    jsonMusiques.push(response.data)
+                })
+
+                afficheInfosPlaylist(playlistDatas)
+                chercheMusic()
+                /*
+                axios.get("crud/getmusiquesplaylist.php?id="+ playlistDatas.musiques+"&search=null")
                 .then(function (response) {
                         let musiques = response.data;
                         removeAllChild(musiquesContainer);
                         afficheMusiques(musiques);
                 })
+                */
+
             })
         })
 
@@ -102,6 +131,7 @@ function affichePlaylists(playlists) {
         let playlistLink = create("a", playlistsContainerWrap)
         playlistLink.href = "components/playlist.php?pl=" + playlist.hashlink;
         */
+
         let playlistContainer = create("div", playlistLink, null, "playlistIndex");
 
         //Image
@@ -141,6 +171,7 @@ function afficheInfosPlaylist(pl) {
     create("p", texteInfoContainer, "Playlist créée par " + pl.auteur, "auteurPlaylist");
 }
 
+//Formulaire ajout de musique a playlist
 let addButton = document.querySelector(".formPlaylist button")
 addButton.addEventListener("click", function () {
     var ele = document.getElementsByName('formPlaylist');
@@ -156,4 +187,3 @@ addButton.addEventListener("click", function () {
     }
     playlistForm.style.display = "none"
 })
-

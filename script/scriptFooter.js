@@ -29,7 +29,7 @@ var buttonRandom = document.querySelector("#buttonRandom")
 var count = 1
 var isRandom = false
 var isLiked = false
-
+var idData;
 
 
 
@@ -39,7 +39,7 @@ var isLiked = false
 
 
 
-var idData;
+
 
 
 // Quand l'utilisateur clique sur le bouton pause le bouton devient play
@@ -128,44 +128,25 @@ timeSlider.addEventListener("input", () => {
 ////////////////////////////////////////////////////////////////////////////
 
 
-
-
 //Function récupérer audio, image et artiste
-function getAudiofromData(idDonne, idMusique = null) {
-    axios.get("config/data.php").then(response => {
-        if (idMusique != null) {
-            for (music of response.data) {
-                if (music.idMusic == idMusique) {
-                    idDonne = music.idData
-                    idData = idDonne
-                }
-            }
-        }
+function getAudiofromData(idDonne) {
+    var linkAudio = jsonPlay[0][idDonne].fichier
+    var titreAudio = jsonPlay[0][idDonne].nom_music
+    var artisteAudio = jsonPlay[0][idDonne].nom_artiste
+    var image = jsonPlay[0][idDonne].image
 
-        var linkAudio = response.data[idDonne].musique
-        var titreAudio = response.data[idDonne].titre
-        var artisteAudio = response.data[idDonne].artiste
-        var image = response.data[idDonne].image
+    console.log(idDonne)
+    audio.src = "musiques/" + linkAudio
+    titre.innerHTML = titreAudio
+    artiste.innerHTML = artisteAudio
+    imgMusic.src = "images/musique/" + image
 
-        audio.src = "musiques/" + linkAudio
-        titre.innerHTML = titreAudio
-        artiste.innerHTML = artisteAudio
-        imgMusic.src = "images/musique/" + image
+    like.className = "fa-regular fa-heart"
 
-        like.className = "fa-regular fa-heart"
-    })
-
-
+    idData = idDonne
 }
 
-//Function pour récupérer le nombre de music dans le ficher data.json
-function getNbMusicofData() {
-    tailleMusic = axios.get("config/data.php").then(response => {
-        return response.data.length
-    })
 
-    return tailleMusic
-}
 
 
 //Function bouton PAUSE-PLAY
@@ -182,25 +163,22 @@ function buttonPlayPause(count) {
 
 //Function music Suivante
 function nextMusic() {
-    axios.get("config/data.php").then(response => {
-        let nbMusic = response.data.length
 
-        // Si le bouton random est appuyé alors on lance une musique aléatoire 
-        if (isRandom) {
-            idData = randomIdData(idData, nbMusic)
-            getAudiofromData(idData)
-            audio.setAttribute("autoplay", "")
-            count = startMusicNextPrevious(count)
-        }
-        //Sinon on prend la musique suivante
-        else {
-            if (idData + 1 < nbMusic) { idData++ }
-            getAudiofromData(idData)
-            audio.setAttribute("autoplay", "")
-            count = startMusicNextPrevious(count)
-        }
-    })
-
+    let nbMusic = jsonPlay[0].length
+    // Si le bouton random est appuyé alors on lance une musique aléatoire 
+    if (isRandom) {
+        idData = randomIdData(idData, nbMusic)
+        getAudiofromData(idData)
+        audio.setAttribute("autoplay", "")
+        count = startMusicNextPrevious(count)
+    }
+    //Sinon on prend la musique suivante
+    else {
+        if (idData + 1 < nbMusic) { idData++ }
+        getAudiofromData(idData)
+        audio.setAttribute("autoplay", "")
+        count = startMusicNextPrevious(count)
+    }
 }
 
 //Function qui lance ma musique quand on appuie sur le bouton suivant et précédant
