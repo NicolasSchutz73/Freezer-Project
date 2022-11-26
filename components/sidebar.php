@@ -7,7 +7,7 @@
 
     <div class="menu">
         <div class="menu--item" id="accueil">
-            <a href="#">
+            <a href="javascript:void(0)">
                 <i class="fa-solid fa-house"></i>
                 <span class="menu--item--text">Accueil</span>
             </a>

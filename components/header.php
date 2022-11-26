@@ -62,3 +62,4 @@
         echo '</div>';
     } ?>
 </div>
+<script src="<?php echo HOST_JS . '/scriptHeader.js' ?>"></script>

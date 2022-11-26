@@ -10,10 +10,12 @@ function create(tagName, container, text = null, classs = null, id = null) {
     return element
 }
 
+
 let idMusicForm = document.getElementById("idMusicForm")
 let playlistForm = document.querySelector(".formPlaylist")
 let fieldset = document.querySelector("fieldset")
 let accueilButton = document.querySelector("#accueil")
+var stateObj = { id: "100" };
 
 //variables globales
 let jsonMusiques = []
@@ -35,6 +37,8 @@ cherchePlaylist()
 
 accueilButton.addEventListener("click",function(){
     pagePlaylist=false
+    window.history.replaceState(stateObj,
+        "accueil", "?page=accueil");
 
     //reinitialisation jsonMusiques
     axios.get("crud/getallmusics.php?search=null")
@@ -99,7 +103,14 @@ function affichePlaylists(playlists) {
         let playlistLink = create("div", playlistsContainerWrap,null,null,playlist.hashlink)
 
         playlistLink.addEventListener("click", function () {
-            axios.get("crud/getplaylist.php?pl=" + playlistLink.id)
+            window.history.replaceState(stateObj,
+                        "playlist", "?page=" + playlistLink.id)
+
+            var str = window.location.href
+            var url = new URL(str)
+            var page = url.searchParams.get("page")
+            
+            axios.get("crud/getplaylist.php?pl=" + page)
             .then(function (response) {
                 let playlistDatas = response.data[0];
                 pagePlaylist = true
