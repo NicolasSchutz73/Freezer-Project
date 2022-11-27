@@ -118,6 +118,7 @@ function affichePlaylists(playlists) {
     //Container
     create("p", playlistsContainer, "Liste des playlists :", "label");
     let playlistsContainerWrap = create("div", playlistsContainer, null, "playlistsContainerWrap")
+    removeAllChild(fieldset)
 
     for (playlist of playlists) {
         //Container
