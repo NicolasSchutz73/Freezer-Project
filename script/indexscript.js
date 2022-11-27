@@ -1,3 +1,25 @@
+// FONCTION QUI AFFICHE EN FONCTION DE L'URL LA PAGE PLAYLIST OU L'ACCUEIL
+if(getUrl!="accueil" && getUrl!="suggestion" && getUrl!="liste"){
+    axios.get("crud/getplaylist.php?pl=" + getUrl())
+    .then(function (response) {
+        let playlistDatas = response.data[0];
+        pagePlaylist = true
+        idsPlaylist = playlistDatas.musiques
+
+        //Mise a jour jsonMusiques
+        axios.get("crud/getmusiquesplaylist.php?id="+ idsPlaylist +"&search=null")
+        .then(function (response) {
+            jsonMusiques=[]
+            jsonMusiques.push(response.data)
+        })
+
+        afficheInfosPlaylist(playlistDatas)
+        chercheMusic()
+    })
+}
+
+
+
 function create(tagName, container, text = null, classs = null, id = null) {
     let element = document.createElement(tagName)
     container.appendChild(element)
@@ -9,7 +31,6 @@ function create(tagName, container, text = null, classs = null, id = null) {
         element.id = id
     return element
 }
-
 
 let idMusicForm = document.getElementById("idMusicForm")
 let playlistForm = document.querySelector(".formPlaylist")
@@ -106,11 +127,9 @@ function affichePlaylists(playlists) {
             window.history.replaceState(stateObj,
                         "playlist", "?page=" + playlistLink.id)
 
-            var str = window.location.href
-            var url = new URL(str)
-            var page = url.searchParams.get("page")
+
             
-            axios.get("crud/getplaylist.php?pl=" + page)
+            axios.get("crud/getplaylist.php?pl=" + getUrl())
             .then(function (response) {
                 let playlistDatas = response.data[0];
                 pagePlaylist = true
@@ -198,3 +217,16 @@ addButton.addEventListener("click", function () {
     }
     playlistForm.style.display = "none"
 })
+
+
+
+
+
+//Function pour récupérer l'url courante et son paramètre
+function getUrl(){
+    var str = window.location.href
+    var url = new URL(str)
+    var page = url.searchParams.get("page")
+
+    return page;
+}

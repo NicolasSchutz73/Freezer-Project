@@ -16,7 +16,7 @@ let body = document.querySelector("main")
 var hashlink = document.getElementById("hashlink").value;
 
 //Recup données de la playlist
-axios.get("crud/getplaylist.php?pl=" + hashlink)
+axios.get("crud/getplaylist.php?pl=" + getUrl())
     .then(function (response) {
         let playlist = response.data[0];
         if (typeof (playlist) == "undefined") {
