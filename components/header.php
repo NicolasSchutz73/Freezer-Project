@@ -45,7 +45,7 @@
         echo '<div class="header--buttons--right">';
         echo '<button class="header--button--signUp">';
         echo "<i class='fa-solid fa-user'></i> $pseudo </button>";
-        echo '<button onclick="window.location.href=`/Freezer-Project/crud/logout.php`" class="header--button--login">';
+        echo '<button class="header--button--login" id="disconnect">';
         echo '<i class="fa-solid fa-right-from-bracket"></i> </button>';
         echo '</div>';
     } else {
