@@ -18,12 +18,14 @@ function chercheMusic(recherche = null) {
 			})
 	//page playlist
 	} else {
-		axios.get("crud/getmusiquesplaylist.php?id="+ idsPlaylist +"&search="+recherche)
-		.then(function (response) {
-				let musics = response.data;
-				removeAllChild(musiquesContainer);
-				afficheMusiques(musics);
-		})
+		console.log("crud/getmusiquesplaylist.php?id="+ idsPlaylist +"&search="+recherche)
+	axios.get("crud/getmusiquesplaylist.php?id="+ idsPlaylist +"&search="+recherche)
+	.then(function (response) {
+			console.log(response.data)
+			let musics = response.data;
+			removeAllChild(musiquesContainer);
+			afficheMusiques(musics);
+	})
 	}
 }
 

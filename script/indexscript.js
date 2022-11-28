@@ -3,7 +3,6 @@ if(getUrl!="accueil" && getUrl!="suggestion" && getUrl!="liste"){
     axios.get("crud/getplaylist.php?pl=" + getUrl())
     .then(function (response) {
         let playlistDatas = response.data[0];
-        pagePlaylist = true
         idsPlaylist = playlistDatas.musiques
 
         //Mise a jour jsonMusiques
