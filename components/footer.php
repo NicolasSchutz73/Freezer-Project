@@ -17,7 +17,16 @@
                 <h2></h2>
                 <p></p>
             </div>
+<<<<<<< HEAD
+            <?php
+            if (isset($_SESSION['id'])) {
+                echo '<i id="likeMusic"></i>';
+            } else {
+                echo '<i id="likeMusic" class="disable"></i>';
+            } ?>
+=======
             <i id="likeMusic"></i>
+>>>>>>> ca2ffc3de89f4be7e625a0f018b3155633ad5d98
         </div>
         <div id="conteneurTimeBar">
             <div id="timeBar">

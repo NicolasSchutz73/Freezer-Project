@@ -95,6 +95,16 @@ body {
 }
 
 #Music #likeMusic {
+<<<<<<< HEAD
+    font-size: 150%;
+    margin-left: 20px;
+    color: white;
+    cursor: pointer;
+}
+
+#Music .disable {
+    display: none;
+=======
     margin-left: 40px;
     cursor: pointer;
 }
@@ -105,4 +115,5 @@ body {
 
 #infoMusic p{
     color: #B3B3B3;
+>>>>>>> ca2ffc3de89f4be7e625a0f018b3155633ad5d98
 }

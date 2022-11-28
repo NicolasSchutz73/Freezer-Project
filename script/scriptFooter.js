@@ -141,7 +141,8 @@ function getAudiofromData(idDonne) {
     artiste.innerHTML = artisteAudio
     imgMusic.src = "images/musique/" + image
 
-    like.className = "fa-regular fa-heart"
+    like.classList.add("fa-regular")
+    like.classList.add("fa-heart")
 
     idData = idDonne
 }
@@ -236,6 +237,10 @@ function likeButton(etat) {
     if (etat == false) {
         etat = true
         like.className = "fa-solid fa-heart"
+        axios.get("crud/addMusicLiked.php?idMusic=" +idData).
+        then(function(response){
+            
+        })
     }
     else {
         etat = false
