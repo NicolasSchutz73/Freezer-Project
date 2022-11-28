@@ -53,5 +53,31 @@
             echo 'Se connecter </button>';
         } ?>
     </div>
+
+    echo '<div class="header--buttons">';
+        echo '<button class="header--button previous"> <i class="lni-chevron-left"></i> </button>';
+        echo '<button class="header--button next"> <i class="lni-chevron-right"></i> </button>';
+        echo '</div>';
+
+    echo '<div class="header--buttons--right">';
+        echo '<button class="header--button--signUp">';
+            echo "<i class='fa-solid fa-user'></i> $pseudo </button>";
+        echo '<button onclick="window.location.href=`/Freezer-Project/crud/logout.php`" class="header--button--login">';
+            echo '<i class="fa-solid fa-right-from-bracket"></i> </button>';
+        echo '</div>';
+    } else {
+    echo '<div class="header--buttons">';
+        echo '<button class="header--button previous"> <i class="lni-chevron-left"></i> </button>';
+        echo '<button class="header--button next"> <i class="lni-chevron-right"></i> </button>';
+        echo '</div>';
+
+    echo '<div class="header--buttons--right">';
+        echo '<button onclick="window.location.href=`/Freezer-Project/pages/register.php`" class="header--button--signUp">';
+            echo "S'inscrire </button>";
+        echo '<button onclick="window.location.href=`/Freezer-Project/pages/login.php`" class="header--button--login">';
+            echo 'Se connecter </button>';
+        echo '</div>';
+    } ?>
+
 </div>
 <script src="<?php echo HOST_JS . '/scriptHeader.js' ?>"></script>
