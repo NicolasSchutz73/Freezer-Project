@@ -1,0 +1,47 @@
+[
+    {
+        "idData": 0,
+        "idMusic": "1",
+        "titre": "ChainSaw",
+        "artiste": "Kick Back",
+        "musique": "chainsawOP.mp3",
+        "genre": "anime",
+        "image": "chainsaw.png"
+    },
+    {
+        "idData": 1,
+        "idMusic": "2",
+        "titre": "Die",
+        "artiste": "Gazo",
+        "musique": "GAZO-DIE.mp3",
+        "genre": "rap",
+        "image": "gazo.png"
+    },
+    {
+        "idData": 2,
+        "idMusic": "3",
+        "titre": "Bangarang",
+        "artiste": "Skrillex",
+        "musique": "Bangarang.mp3",
+        "genre": "hard",
+        "image": "bangarang.png"
+    },
+    {
+        "idData": 3,
+        "idMusic": "4",
+        "titre": "Highway to Hell",
+        "artiste": "ACDC",
+        "musique": "Highway to Hell.mp3",
+        "genre": "rock",
+        "image": "acdc.png"
+    },
+    {
+        "idData": 4,
+        "idMusic": "5",
+        "titre": "Star Walking",
+        "artiste": "Lil NasX",
+        "musique": "STARWALKING.mp3",
+        "genre": "pop",
+        "image": "starwalking.png"
+    }
+]
