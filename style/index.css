@@ -186,7 +186,8 @@ body {
     margin-left: 15px;
     color: white;
     font-size: 150%;
-    font-family: Tommy;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
 }
 
 .sidebar .menu .menu--item a {

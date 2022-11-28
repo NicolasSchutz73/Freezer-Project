@@ -32,6 +32,7 @@ function create(tagName, container, text = null, classs = null, id = null) {
     return element
 }
 
+let main = document.querySelector("main")
 let idMusicForm = document.getElementById("idMusicForm")
 let playlistForm = document.querySelector(".formPlaylist")
 let fieldset = document.querySelector("fieldset")
@@ -218,10 +219,6 @@ addButton.addEventListener("click", function () {
     }
     playlistForm.style.display = "none"
 })
-
-
-
-
 
 //Function pour récupérer l'url courante et son paramètre
 function getUrl(){
