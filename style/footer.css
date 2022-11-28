@@ -99,21 +99,6 @@ body {
 }
 
 #Music #likeMusic {
-    font-size: 150%;
-    margin-left: 20px;
-    color: white;
-}
-
-#Music #likeMusic:hover {
+    margin-left: 40px;
     cursor: pointer;
-}
-
-#Music button {
-    all: unset;
-}
-
-#Music #likeDisable {
-    font-size: 150%;
-    margin-left: 20px;
-    color: white;
 }
