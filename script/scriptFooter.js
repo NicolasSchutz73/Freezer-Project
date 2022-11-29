@@ -135,14 +135,27 @@ function getAudiofromData(idDonne) {
     var artisteAudio = jsonPlay[0][idDonne].nom_artiste
     var image = jsonPlay[0][idDonne].image
 
-    console.log(idDonne)
     audio.src = "musiques/" + linkAudio
     titre.innerHTML = titreAudio
     artiste.innerHTML = artisteAudio
     imgMusic.src = "images/musique/" + image
 
-    like.classList.add("fa-regular")
-    like.classList.add("fa-heart")
+    axios.get("crud/musicLiked.php?idMusic=" +idDonne).
+    then(function(response){
+        console.log(response.data)
+        if(response.data != 1){
+            like.classList.remove("fa-solid")
+            like.classList.add("fa-regular")
+            like.classList.add("fa-heart")
+
+
+        }
+        else{
+            like.classList.remove("fa-regular")
+            like.classList.add("fa-solid")
+            like.classList.add("fa-heart")
+        }
+    })
 
     idData = idDonne
 }
@@ -237,9 +250,9 @@ function likeButton(etat) {
     if (etat == false) {
         etat = true
         like.className = "fa-solid fa-heart"
-        axios.get("crud/addMusicLiked.php?idMusic=" +idData).
+        axios.get("crud/musicLiked.php?idMusic=" +idData).
         then(function(response){
-            
+            console.log(response.data)
         })
     }
     else {
