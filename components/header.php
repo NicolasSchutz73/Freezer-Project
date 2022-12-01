@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Freezer Music Player</title>
     <link rel="stylesheet" type="text/css" href="<?php echo HOST_CSS . '/index.css'; ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo HOST_CSS . '/formulaire.css'; ?>">
     <link rel="stylesheet" type="text/css" href="<?php echo HOST_CSS . '/footer.css'; ?>">
     <link rel="icon" type="img/ico" href="<?php echo HOST_IMG . '/index/favicon.ico'; ?>" />
     <script src="https://kit.fontawesome.com/bb4997e1c6.js" crossorigin="anonymous"></script>

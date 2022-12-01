@@ -30,8 +30,6 @@ function create(tagName, container, text = null, classs = null, id = null) {
         element.id = id
     return element
 }
-
-let main = document.querySelector("main")
 let idMusicForm = document.getElementById("idMusicForm")
 let playlistForm = document.querySelector(".formPlaylist")
 let fieldset = document.querySelector("fieldset")
