@@ -17,6 +17,15 @@ if(getUrl!="accueil" && getUrl!="suggestion" && getUrl!="liste"){
     })
 }
 
+//Function pour récupérer l'url courante et son paramètre
+function getUrl(){
+    var str = window.location.href
+    var url = new URL(str)
+    var page = url.searchParams.get("page")
+
+    return page;
+}
+
 
 
 function create(tagName, container, text = null, classs = null, id = null) {
@@ -30,11 +39,14 @@ function create(tagName, container, text = null, classs = null, id = null) {
         element.id = id
     return element
 }
-let idMusicForm = document.getElementById("idMusicForm")
-let playlistForm = document.querySelector(".formPlaylist")
-let fieldset = document.querySelector("fieldset")
+
+
+//Conteneurs
+let playlistsContainer = document.querySelector("#playlistsContainer")
+let musiquesContainer = document.querySelector("#musiquesContainer")
 let accueilButton = document.querySelector("#accueil")
 var stateObj = { id: "100" };
+
 
 //variables globales
 let jsonMusiques = []
@@ -46,10 +58,6 @@ axios.get("crud/getallmusics.php?search=null")
 let jsonPlay = []
 let pagePlaylist=false
 let idsPlaylist =''
-
-/*Affichage Playlists*/
-let playlistsContainer = document.querySelector("#playlistsContainer")
-let musiquesContainer = document.querySelector("#musiquesContainer")
 
 chercheMusic()
 cherchePlaylist()
@@ -69,6 +77,9 @@ accueilButton.addEventListener("click",function(){
     chercheMusic()
     cherchePlaylist()
 })
+
+
+/*------------------------AFFICHE MUSIQUES------------------------------*/
 
 function afficheMusiques(musiques) {
     //Container
@@ -94,9 +105,8 @@ function afficheMusiques(musiques) {
         let button = create("button", musiqueContainer, "+", null, musique.id)
 
         //Bouton d'ajout d'une musique vers une playlist
-        button.addEventListener("click", function () {
-            idMusicForm.value = button.id
-            playlistForm.style.display = "block";
+        button.addEventListener("click", function(){
+            addMusicToPlaylist(button.id)
         })
 
         imageMusique.addEventListener("click", () => {
@@ -112,11 +122,17 @@ function afficheMusiques(musiques) {
     }
 }
 
+
+
+/*------------------------AFFICHE PLAYLIST------------------------------*/
+
+
+
+
 function affichePlaylists(playlists) {
     //Container
     create("p", playlistsContainer, "Liste des playlists :", "label");
     let playlistsContainerWrap = create("div", playlistsContainer, null, "playlistsContainerWrap")
-    removeAllChild(fieldset)
 
     for (playlist of playlists) {
         //Container
@@ -155,12 +171,6 @@ function affichePlaylists(playlists) {
             })
         })
 
-        //Ancienne vesion
-        /*
-        let playlistLink = create("a", playlistsContainerWrap)
-        playlistLink.href = "components/playlist.php?pl=" + playlist.hashlink;
-        */
-
         let playlistContainer = create("div", playlistLink, null, "playlistIndex");
 
         //Image
@@ -173,14 +183,6 @@ function affichePlaylists(playlists) {
         //Nom,Auteur
         create("p", textePlaylist, playlist.nom, "nomPlaylistIndex");
         create("p", textePlaylist, "Par : " + playlist.auteur, "auteurPlaylistIndex");
-
-        //formulaire
-        create("label", fieldset, playlist.nom + " : ")
-        let inputRadio = create("input", fieldset)
-        inputRadio.type = "radio"
-        inputRadio.name = "formPlaylist"
-        inputRadio.value = playlist.id
-        create("br", fieldset)
 
     }
 }
@@ -198,30 +200,4 @@ function afficheInfosPlaylist(pl) {
     //Nom,auteur
     create("p", texteInfoContainer, pl.nom, "nomPlaylist");
     create("p", texteInfoContainer, "Playlist créée par " + pl.auteur, "auteurPlaylist");
-}
-
-//Formulaire ajout de musique a playlist
-let addButton = document.querySelector(".formPlaylist button")
-addButton.addEventListener("click", function () {
-    var ele = document.getElementsByName('formPlaylist');
-    for (i = 0; i < ele.length; i++) {
-        if (ele[i].checked)
-            var idPlaylist = ele[i].value
-    }
-    if (idMusicForm != "none") {
-        axios.get("crud/addmusicpl.php?idpl=" + idPlaylist + "&idmusic=" + idMusicForm.value
-        ).then(function (response) {
-            console.log(response)
-        })
-    }
-    playlistForm.style.display = "none"
-})
-
-//Function pour récupérer l'url courante et son paramètre
-function getUrl(){
-    var str = window.location.href
-    var url = new URL(str)
-    var page = url.searchParams.get("page")
-
-    return page;
 }

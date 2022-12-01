@@ -286,7 +286,7 @@ main {
     justify-content: space-between;
     align-items: center;
     z-index: 1;
-    background-color: rgb(53, 50, 50)
+    background-color: rgb(54 54 54)
 }
 
 .header--buttons--right button {
