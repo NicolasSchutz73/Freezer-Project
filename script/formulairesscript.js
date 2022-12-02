@@ -127,15 +127,53 @@ let buttonConnection = document.querySelector(".header--button--login")
 buttonConnection.addEventListener("click",connection)
 
 function connection(){
-    console.log("connection ...")
     //recup formulaire via id musique
-    axios.get("config/insc.php")
+    axios.get("pages/login.php")
     .then(function (response) {
         //affichage page formulaire
-        console.log(response)
         formulaire.innerHTML = response.data;
         //ouverture formulaire
         openForm()
+
+        
+        //S'inscrire
+        let sinscrire = document.querySelector(".formulaire a")
+        sinscrire.addEventListener("click",function(){
+            closeForm()
+            inscription()
+        })
+
+        //Boutton de confirmation
+        let buttonForm = document.querySelector(".formulaire button")
+        buttonForm.addEventListener("click",function(){
+            //Recupération données input
+            var login = document.querySelector("#login").value
+            var pwd = document.querySelector("#pwd").value
+
+            //Verification des données
+            axios.get("config/checklogin.php?login="+login+"&pwd="+pwd)
+            .then(function (response) {
+                console.log(response.data)
+                let invalidForm = document.querySelector("#invalidform")
+                //nom deja pris
+                if(response.data=="noaccount"){
+                    invalidForm.innerHTML = "Ce compte n'existe pas"
+                //formulaire mal remplis
+                } else if(response.data=="wrongpwd"){
+                    invalidForm.innerHTML = "Mauvais mot de passe"
+                //ok, creation du compte
+
+                } else {
+                    var idCompte = response.data
+                    
+                    //connection
+                    axios.get("config/startsession.php?id="+idCompte)
+                    //actualise la page
+                    //location.reload()
+                }
+            })
+        })
+
     })
 }
 
@@ -186,14 +224,13 @@ function inscription(){
                     axios.get("crud/inscription.php?login="+login+"&pwd="+pwd)
                     .then(function (response) {
                         //id du compte
-                        console.log(response.data)
                         var idCompte = response.data
 
                         //connection
                         axios.get("config/startsession.php?id="+idCompte)
                         //actualise la page
                         location.reload()
-                        
+
                     })
                 }
             })
