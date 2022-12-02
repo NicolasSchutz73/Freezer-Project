@@ -58,7 +58,7 @@
         */
         
         echo '<div class="header--buttons--right">';
-        echo '<button onclick="window.location.href=`/Freezer-Project/pages/register.php`" class="header--button--signUp">';
+        echo '<button class="header--button--signUp">';
         echo "S'inscrire </button>";
         echo '<button class="header--button--login">';
         echo 'Se connecter </button>';

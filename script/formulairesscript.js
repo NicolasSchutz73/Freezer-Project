@@ -59,7 +59,8 @@ function closeForm(){
 }
 
 
-//Ajouter musique vers playliste
+//Ajouter musique vers playlist
+
 function addMusicToPlaylist(idMusic){
     //recup formulaire via id musique
     axios.get("pages/formAddToPlay.php?idmusic="+idMusic)
@@ -112,13 +113,15 @@ function addMusicToPlaylist(idMusic){
                 closeForm()
 
             } else {
-                let errorMessageContainer = document.querySelector(".formulaire div")
-                create("p",errorMessageContainer,"Vous devez choisir une playlist !")
+                let invalidForm = document.querySelector("#invalidform")
+                invalidForm.innerHTML = "Vous devez choisir une playlist !"
             }
 
         })
     })
 }
+
+//Connection 
 
 let buttonConnection = document.querySelector(".header--button--login")
 buttonConnection.addEventListener("click",connection)
@@ -133,5 +136,67 @@ function connection(){
         formulaire.innerHTML = response.data;
         //ouverture formulaire
         openForm()
+    })
+}
+
+//Inscription
+
+let buttonInscription = document.querySelector(".header--button--signUp")
+buttonInscription.addEventListener("click",inscription)
+
+function inscription(){
+    //recup formulaire inscription
+    axios.get("pages/register.php")
+    .then(function (response) {
+
+        //affichage page formulaire
+        formulaire.innerHTML = response.data;
+
+        //ouverture formulaire
+        openForm()
+
+        //Se connecter
+        let seConnecter = document.querySelector(".formulaire a")
+        seConnecter.addEventListener("click",function(){
+            closeForm()
+            connection()
+        })
+        
+        //Boutton de confirmation
+        let buttonForm = document.querySelector(".formulaire button")
+        buttonForm.addEventListener("click",function(){
+            //Recupération données input
+            var login = document.querySelector("#login").value
+            var pwd = document.querySelector("#pwd").value
+            var pwdconfirm = document.querySelector("#pwdconfirm").value
+
+            //Verification des données
+            axios.get("config/checkinscription.php?login="+login+"&pwd="+pwd+"&pwdconfirm="+pwdconfirm)
+            .then(function (response) {
+                let invalidForm = document.querySelector("#invalidform")
+                //nom deja pris
+                if(response.data=="taken"){
+                    invalidForm.innerHTML = "Ce nom est déjà pris !"
+                //formulaire mal remplis
+                } else if(response.data=="nok"){
+                    invalidForm.innerHTML = "Remplissez correctement le formulaire !"
+                //ok, creation du compte
+
+                } else if(response.data=="ok"){
+                    axios.get("crud/inscription.php?login="+login+"&pwd="+pwd)
+                    .then(function (response) {
+                        //id du compte
+                        console.log(response.data)
+                        var idCompte = response.data
+
+                        //connection
+                        axios.get("config/startsession.php?id="+idCompte)
+                        //actualise la page
+                        location.reload()
+                        
+                    })
+                }
+            })
+        })
     })
 }

@@ -6,4 +6,5 @@
 <select name="playlist-select">
     <option value=null>Choississez une playlist</option>
 </select>
+<p id="invalidform"></p>
 <button>Ajouter à la playlist</button>
