@@ -14,7 +14,11 @@ function chercheMusic(recherche = null) {
 			.then(function (response) {
 				let musics = response.data
 				removeAllChild(musiquesContainer);
-				afficheMusiques(musics);
+				if(musics.length==0){
+					rechercheVide(musiquesContainer,"musique")
+				} else {
+					afficheMusiques(musics);
+				}
 			})
 	//page playlist
 	} else {
@@ -34,7 +38,7 @@ function cherchePlaylist(recherche = null) {
 		.then(function (response) {
 
 			let playlists = response.data
-			removeAllChild(playlistsContainer);
+			removeAllChild(document.querySelector(".playlistsContainerWrap"));
 			affichePlaylists(playlists)
 		})
 	}
@@ -45,4 +49,9 @@ function removeAllChild(parent) {
 	while (parent.firstChild) {
 		parent.firstChild.remove()
 	}
+}
+
+function rechercheVide(container,type){
+	let rechercheVideContainer = create("div",container,null,"empty-search")
+	create("p",rechercheVideContainer,"Pas de "+type+" portant ce nom")
 }

@@ -1,4 +1,3 @@
-let main = document.querySelector("main")
 let formBlur = create("div",main,null,"form-blur")
 let formulaireContainer = create("div",formBlur,null,"formulaire-container")
 

@@ -349,7 +349,8 @@ main {
 
 
 .label {
-    padding: 10px;
+    padding: 13px 10px;
+    font-size: 20px;
 }
 
 /*Haut Playlist*/
@@ -507,4 +508,23 @@ main {
 
 .formPlaylist button {
     margin: 20px;
+}
+
+/*Page d'erreur */
+
+.erreur-container {
+    height: 200px;
+    display: flex;
+    justify-content: center;
+}
+
+.erreur-container p{
+    margin: auto;
+    font-size: 25px;
+}
+
+.empty-search {
+    height: 50px;
+    display: flex;
+    justify-content: center;
 }
