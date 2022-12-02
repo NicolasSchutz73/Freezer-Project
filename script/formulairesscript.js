@@ -119,3 +119,19 @@ function addMusicToPlaylist(idMusic){
         })
     })
 }
+
+let buttonConnection = document.querySelector(".header--button--login")
+buttonConnection.addEventListener("click",connection)
+
+function connection(){
+    console.log("connection ...")
+    //recup formulaire via id musique
+    axios.get("config/insc.php")
+    .then(function (response) {
+        //affichage page formulaire
+        console.log(response)
+        formulaire.innerHTML = response.data;
+        //ouverture formulaire
+        openForm()
+    })
+}

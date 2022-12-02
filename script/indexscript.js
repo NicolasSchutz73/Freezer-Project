@@ -1,23 +1,3 @@
-// FONCTION QUI AFFICHE EN FONCTION DE L'URL LA PAGE PLAYLIST OU L'ACCUEIL
-/*
-if(getUrl!="accueil" && getUrl!="suggestion" && getUrl!="liste"){
-    axios.get("crud/getplaylist.php?pl=" + getUrl())
-    .then(function (response) {
-        let playlistDatas = response.data[0];
-        idsPlaylist = playlistDatas.musiques
-
-        //Mise a jour jsonMusiques
-        axios.get("crud/getmusiquesplaylist.php?id="+ idsPlaylist +"&search=null")
-        .then(function (response) {
-            jsonMusiques=[]
-            jsonMusiques.push(response.data)
-        })
-
-        afficheInfosPlaylist(playlistDatas)
-        chercheMusic()
-    })
-}
-*/
 //Fonction create
 function create(tagName, container, text = null, classs = null, id = null) {
     let element = document.createElement(tagName)
@@ -47,16 +27,26 @@ function getUrl(){
     var str = window.location.href
     var url = new URL(str)
     var pg = url.searchParams.get("page")
+    //Si on est pas sur une page, redirige vers l'accueil
+    if(pg==null){
+        window.history.replaceState(stateObj,"accueil","?page=accueil");
+        pg="accueil"
+    }
     return pg;
 }
 
 //fonction qui charge le contenu de la page en fonction de l'url
 function loadPage(url){
+
     //page accueil
     if(url=="accueil"){
-        page="accueil"
-        removeAllChild(main)
+        page=url
         console.log(page)
+
+        //Reset
+        jsonMusiques=[]
+        removeAllChild(main)
+
         //Container playlist
         create("p", main, "Liste des playlists :", "label");
         let playlistsContainer = create("div",main,null,null,"playlistsContainer")
@@ -75,15 +65,51 @@ function loadPage(url){
         cherchePlaylist()
         chercheMusic()
 
+
+
     //page like
     } else if(url=="like") {
         console.log("like")
+
+
+
     //page playlist (12 car longueur du hashlink)
     } else if(url.length==12){
-        console.log("playlist"+url)
+        page="playlist"
+        console.log(page)
+
+        axios.get("crud/getplaylist.php?pl=" + url)
+            .then(function (response) {
+                let playlistDatas = response.data[0];
+                idsPlaylist = playlistDatas.musiques
+
+                //Mise a jour jsonMusiques
+                axios.get("crud/getmusiquesplaylist.php?id="+ idsPlaylist +"&search=null")
+		        .then(function (response) {
+                    jsonMusiques=[]
+                    jsonMusiques.push(response.data)
+                })
+
+                //Reset
+                removeAllChild(main)
+
+                //Container playlist
+                playlistsContainer = create("div",main,null,null,"playlistsContainer")
+
+                //Container musiques
+                create("p", main, "Liste des musiques :", "label");
+                create("div",main,null,null,"musiquesContainer")
+
+                afficheInfosPlaylist(playlistDatas)
+                chercheMusic()
+            })
+
+
     //page non trouvée
     } else {
+        page="error"
         console.log("???")
+
         removeAllChild(main)
         pageErreur()
     }
@@ -100,19 +126,9 @@ function pageErreur(){
 
 //Boutton accueil
 accueilButton.addEventListener("click",function(){
-    pagePlaylist=false
     window.history.replaceState(stateObj,
         "accueil", "?page=accueil");
-
-    //reinitialisation jsonMusiques
-    axios.get("crud/getallmusics.php?search=null")
-			.then(function (response) {
-                jsonMusiques=[]
-                jsonMusiques.push(response.data)
-            })
-
-    chercheMusic()
-    cherchePlaylist()
+    loadPage(getUrl())
 })
 
 
@@ -171,23 +187,7 @@ function affichePlaylists(playlists) {
         playlistLink.addEventListener("click", function () {
             window.history.replaceState(stateObj, "playlist", "?page=" + playlistLink.id)
             loadPage(getUrl())
-            
-            axios.get("crud/getplaylist.php?pl=" + getUrl())
-            .then(function (response) {
-                let playlistDatas = response.data[0];
-                pagePlaylist = true
-                idsPlaylist = playlistDatas.musiques
 
-                //Mise a jour jsonMusiques
-                axios.get("crud/getmusiquesplaylist.php?id="+ idsPlaylist +"&search=null")
-		        .then(function (response) {
-                    jsonMusiques=[]
-                    jsonMusiques.push(response.data)
-                })
-
-                afficheInfosPlaylist(playlistDatas)
-                chercheMusic()
-            })
         })
 
         let playlistContainer = create("div", playlistLink, null, "playlistIndex");

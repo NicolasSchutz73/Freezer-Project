@@ -9,19 +9,19 @@ mot.addEventListener("keyup", () => {
 
 function chercheMusic(recherche = null) {
 	//page index
-	if (!pagePlaylist){
+	if (page=="accueil"){
 		axios.get("crud/getallmusics.php?search=" + recherche)
 			.then(function (response) {
 				let musics = response.data
 				removeAllChild(musiquesContainer);
 				if(musics.length==0){
-					rechercheVide(musiquesContainer,"musique")
+					rechercheVide(musiquesContainer,"musiques")
 				} else {
 					afficheMusiques(musics);
 				}
 			})
 	//page playlist
-	} else {
+	} else if(page=="playlist") {
 	axios.get("crud/getmusiquesplaylist.php?id="+ idsPlaylist +"&search="+recherche)
 	.then(function (response) {
 			let musics = response.data;
@@ -33,7 +33,7 @@ function chercheMusic(recherche = null) {
 
 
 function cherchePlaylist(recherche = null) {
-	if (!pagePlaylist){
+	if (page=="accueil"){
 		axios.get("crud/getallplaylists.php?search=" + recherche)
 		.then(function (response) {
 
