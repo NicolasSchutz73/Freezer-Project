@@ -169,7 +169,7 @@ function connection(){
                     //connection
                     axios.get("config/startsession.php?id="+idCompte)
                     //actualise la page
-                    //location.reload()
+                    location.reload()
                 }
             })
         })
