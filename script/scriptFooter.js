@@ -142,7 +142,6 @@ function getAudiofromData(idDonne) {
 
     axios.get("crud/musicLiked.php?idMusic=" +idDonne).
     then(function(response){
-        console.log(response.data)
         if(response.data != 1){
             like.classList.remove("fa-solid")
             like.classList.add("fa-regular")
@@ -252,7 +251,6 @@ function likeButton(etat) {
         like.className = "fa-solid fa-heart"
         axios.get("crud/musicLiked.php?idMusic=" +idData).
         then(function(response){
-            console.log(response.data)
         })
     }
     else {

@@ -20,7 +20,6 @@ function chercheMusic(recherche = null) {
 	} else {
 	axios.get("crud/getmusiquesplaylist.php?id="+ idsPlaylist +"&search="+recherche)
 	.then(function (response) {
-			console.log(response.data)
 			let musics = response.data;
 			removeAllChild(musiquesContainer);
 			afficheMusiques(musics);

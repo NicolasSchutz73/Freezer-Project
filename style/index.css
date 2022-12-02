@@ -283,7 +283,7 @@ main {
     padding-left: 24px;
     padding-right: 24px;
     display: flex;
-    justify-content: space-between;
+    flex-direction: row-reverse;
     align-items: center;
     z-index: 1;
     background-color: rgb(54 54 54)
@@ -293,13 +293,19 @@ main {
     background-color: rgb(18, 18, 18);
     border: none;
     color: white;
-    padding: 15px 32px;
+    padding: 15px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 12px;
-    border-radius: 20px;
+    border-radius: 3px;
     margin: 5px;
+    font-weight: bold;
+}
+
+.header--buttons--right button:hover {
+    background-color: #3c2346;
+    transition: all 0.2s ease;
 }
 
 .header--buttons--right button:hover {
@@ -355,6 +361,8 @@ main {
 
 .nomPlaylist {
     font-size: 300%;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .imagePlaylist {
@@ -369,6 +377,12 @@ main {
 
 .texteInfoPlaylist {
     padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.texteInfoPlaylist .auteurPlaylist {
+    color:#dfdfdf;
 }
 
 /*Playlist */
@@ -403,7 +417,6 @@ main {
 
 .auteurPlaylistIndex {
     text-decoration: none;
-    color: white;
     padding: 5px;
     color: #B3B3B3;
 

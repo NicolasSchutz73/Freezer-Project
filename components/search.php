@@ -13,7 +13,7 @@
 <body>
    <div class="wrapSearch">
       <div class="search">
-         <input type="text" class="searchTerm" placeholder="Recherche une musique, un genre...">
+         <input type="text" class="searchTerm" placeholder="Recherche une musique, une playlist...">
          <button type="submit" class="searchButton">
             <i class="fa fa-search"></i>
          </button>
