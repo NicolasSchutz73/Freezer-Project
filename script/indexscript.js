@@ -26,22 +26,25 @@ function getUrl() {
     return page;
 }
 
-let buttonAdmin = document.querySelector(".header--button--signUp")
-var testAdmin = false
-
-buttonAdmin.addEventListener("click", function () {
-    testAdmin = true
-    //vide le musique container
-    removeAllChild(musiquesContainer)
-    //vide le playlist container
-    removeAllChild(playlistsContainer)
-    //vide le user container
-    removeAllChild(usersContainer)
-    //affiche les musiques
-    afficheMusiques(jsonMusiques[0])
-    //affiche les users
-    afficheUsers(jsonUsers[0])
-})
+testAdmin = false
+// si document.querySelector(".header--button--signUp") existe
+if (document.querySelector(".header--button--Admin")) {
+    let buttonAdmin = document.querySelector(".header--button--Admin")
+    buttonAdmin.addEventListener("click", function () {
+        //passe testAdmin a true
+        testAdmin = true
+        //vide le musique container
+        removeAllChild(musiquesContainer)
+        //vide le playlist container
+        removeAllChild(playlistsContainer)
+        //vide le user container
+        removeAllChild(usersContainer)
+        //affiche les musiques
+        afficheMusiques(jsonMusiques[0])
+        //affiche les users
+        afficheUsers(jsonUsers[0])
+    })
+}
 
 
 function create(tagName, container, text = null, classs = null, id = null) {
@@ -238,13 +241,13 @@ function afficheInfosPlaylist(pl) {
 
 /*------------------------AFFICHE USERS------------------------------*/
 
+
 //récupère info utilisateur
 let jsonUsers = []
 //initialisation jsonUsers
 axios.get("crud/getallusers.php")
     .then(function (response) {
         jsonUsers.push(response.data)
-        console.log(jsonUsers)
     })
 
 //affiche users
@@ -253,23 +256,36 @@ function afficheUsers(users) {
     create("p", usersContainer, "Liste des utilisateurs :", "label");
 
     for (user of users) {
-        //Container
-        let userContainer = create("div", usersContainer, null, "user", user.id);
+        if (user.id != 1000) {
+            //Container
+            let userContainer = create("div", usersContainer, null, "user", user.id);
 
-        //Texte
-        let texteUser = create("div", userContainer, null, "texteUser");
+            //Texte
+            let texteUser = create("div", userContainer, null, "texteUser");
 
-        //id,login,mail
-        create("p", texteUser, user.id, "idUser");
-        create("p", texteUser, user.login, "loginUser");
-        create("span", texteUser, user.email, "emailUser");
+            //id,login,mail
+            create("p", texteUser, "Login : " + user.login, "loginUser");
+            create("span", texteUser, "Email : " + user.email, "emailUser");
+            create("p", texteUser, "ID : " + user.id, "idUser");
 
-        //Bouton de suppression d'une musique si admin
-        if (testAdmin) {
-            let buttonDeleteUser = create("button", userContainer, "-", "buttonDelete", user.id)
-            buttonDeleteUser.addEventListener("click", function () {
-                deleteUser(buttonDeleteUser.id)
-            })
+            //Bouton de suppression d'une musique si admin
+            if (testAdmin) {
+                let buttonDeleteUser = create("button", userContainer, "-", "buttonDelete", user.id)
+                buttonDeleteUser.addEventListener("click", function () {
+                    deleteUser(buttonDeleteUser.id)
+                })
+            }
         }
     }
+}
+
+
+/*------------------------DELETE USERS------------------------------*/
+
+function deleteUser(id) {
+    axios.get("crud/deleteUser.php?id=" + id).then(function (response) {
+        let users = response.data;
+        removeAllChild(usersContainer);
+        afficheUsers(users);
+    })
 }

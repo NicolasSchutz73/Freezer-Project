@@ -347,6 +347,12 @@ main {
     padding-bottom: 80px;
 }
 
+#userContainer {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 80px;
+}
+
 
 .label {
     padding: 10px;
@@ -382,7 +388,7 @@ main {
 }
 
 .texteInfoPlaylist .auteurPlaylist {
-    color:#dfdfdf;
+    color: #dfdfdf;
 }
 
 /*Playlist */
@@ -479,6 +485,52 @@ main {
 }
 
 .musique button:hover {
+    background-color: #5d366d;
+    transition: all 0.5s ease;
+}
+
+/*Users*/
+
+.user {
+    display: flex;
+    height: 100px;
+}
+
+.user:hover {
+    background-color: #2b2b2b;
+    transition: all 0.5s ease;
+}
+
+.texteUser {
+    flex: auto;
+    padding: 5px;
+}
+
+.texteUser .loginUser {
+    font-size: 140%;
+    display: auto;
+}
+
+.texteUser .idUser {
+    color: #B3B3B3;
+}
+
+.texteUser .emailUser {
+    color: #B3B3B3;
+}
+
+.user button {
+    height: 30px;
+    width: 30px;
+    border: 0px;
+    border-radius: 25%;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #353232;
+    color: white;
+}
+
+.user button:hover {
     background-color: #5d366d;
     transition: all 0.5s ease;
 }
