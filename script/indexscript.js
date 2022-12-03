@@ -11,7 +11,7 @@ function create(tagName, container, text = null, classs = null, id = null) {
     return element
 }
 
-
+//Renvoie l'id de la session, null si pas connecté
 function getIdSession(){
     var user=document.getElementsByClassName("header--button--user")
     if (user[0]==undefined){
@@ -24,7 +24,6 @@ function getIdSession(){
 
 //Conteneurs
 let main = document.querySelector("main")
-let accueilButton = document.querySelector("#accueil")
 var stateObj = { id: "100" };
 
 //variables globales
@@ -47,7 +46,14 @@ function getUrl(){
     return pg;
 }
 
-//fonction qui charge le contenu de la page en fonction de l'url
+
+
+
+/*------------------------LOAD PAGE------------------------------*/
+//en fonction de l'url
+
+
+
 function loadPage(url){
 
     //page accueil
@@ -83,8 +89,20 @@ function loadPage(url){
 
     //page like
     } else if(url=="like") {
-        console.log("like")
+        page=url
+        removeAllChild(main)
         createFormulairePopup()
+
+        //Si pas connecté
+        if(idSession==null){
+            pageErreur()
+
+        } else {
+            //page like
+            console.log("like")
+
+
+        }
 
 
     //page playlist (12 car longueur du hashlink)
@@ -133,6 +151,9 @@ function loadPage(url){
     }
 }
 
+
+
+
 //initialisation page
 loadPage(getUrl())
 
@@ -142,14 +163,22 @@ function pageErreur(){
     create("p",erreurContainer,"Oups ! La page que vous cherchez n'a pas été trouvée :/")
 }
 
+
+
+
+/*------------------------BOUTONS FORMULAIRE ET SIDE BAR------------------------------*/
+
+
+
+
 //Boutton accueil
-accueilButton.addEventListener("click",function(){
+document.querySelector("#accueil").addEventListener("click",function(){
     window.history.replaceState(stateObj,
         "accueil", "?page=accueil");
     loadPage(getUrl())
 })
 
-//Bouttons formulaires
+//PAS CONNECTE
 if(idSession==null){
     //login
     document.querySelector(".header--button--login").addEventListener("click",connection)
@@ -176,6 +205,32 @@ if(idSession==null){
     document.querySelector("#likeplaylist").addEventListener("click",function(){
         openPopup("Vous devez être connecté voir vos likés")
     })
+
+//CONNECTE
+} else {
+    /*
+    //login
+    document.querySelector(".header--button--login").addEventListener("click",connection)
+    */
+
+    //suggestion
+    document.querySelector("#suggestion").addEventListener("click",suggestion)
+    
+    //Ecoutées récemment
+    document.querySelector("#recent").addEventListener("click",function(){
+        openPopup("Historique")
+    })
+    
+    //Formulaire playlist
+    document.querySelector("#formplaylist").addEventListener("click",createplaylist)
+    
+    //Likes
+    document.querySelector("#likeplaylist").addEventListener("click",function(){
+        window.history.replaceState(stateObj,
+            "like", "?page=like");
+        loadPage(getUrl())
+    })
+
 }
 
 

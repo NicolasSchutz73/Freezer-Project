@@ -26,7 +26,11 @@ function chercheMusic(recherche = null) {
 	.then(function (response) {
 			let musics = response.data;
 			removeAllChild(musiquesContainer);
-			afficheMusiques(musics);
+			if(musics.length==0){
+				rechercheVide(musiquesContainer,"musiques")
+			} else {
+				afficheMusiques(musics);
+			}
 	})
 	}
 }

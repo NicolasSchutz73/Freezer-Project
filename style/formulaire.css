@@ -59,14 +59,14 @@
     font-weight: bold;
 }
 
-.formulaire a{
-    color:#9156a8;
-}
-
 .formulaire button:hover {
     background-color:#3c2346;
     cursor: pointer;
     transition: all 0.2s ease;
+}
+
+.formulaire a{
+    color:#9156a8;
 }
 
 .formulaire input[type="text" i] {
@@ -130,6 +130,28 @@
     visibility: visible;
 }
 
+.formulaire input[type="submit" i] {
+    display: block;
+    width: 15vh;
+    height: 5vh;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+    background-color: #5d366d;
+    border: solid 1px black;
+    color: white;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+.formulaire input[type="submit" i]:hover {
+    background-color:#3c2346;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/*POPUP*/
+
 .popup {
     background-color:#3c2346;
     border-radius: 5px;
@@ -163,3 +185,4 @@
     opacity: 0;
     transition: visibility 0s 0.2s, opacity 0.2s linear;
 }
+

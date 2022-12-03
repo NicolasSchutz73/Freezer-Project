@@ -206,7 +206,7 @@ function inscription(){
                     invalidForm.innerHTML = "Ce nom est déjà pris !"
                 //formulaire mal remplis
                 } else if(response.data=="nok"){
-                    invalidForm.innerHTML = "Remplissez correctement le formulaire !"
+                    invalidForm.innerHTML = "Remplissez correctement le formulaire"
                 //ok, creation du compte
 
                 } else if(response.data=="ok"){
@@ -224,5 +224,55 @@ function inscription(){
                 }
             })
         })
+    })
+}
+
+
+//Suggestion
+function suggestion(){
+    //recup formulaire via id musique
+    axios.get("pages/suggestion.php")
+    .then(function (response) {
+        //affichage page formulaire
+        document.querySelector(".formulaire").innerHTML = response.data;
+        //ouverture formulaire
+        openForm()
+
+        //Boutton de confirmation
+        let buttonForm = document.querySelector(".formulaire button")
+        buttonForm.addEventListener("click",function(){
+            //Recupération données input
+            var musique = document.querySelector("#musicname").value
+            var artiste = document.querySelector("#artist").value
+            var comment = document.querySelector("#comment").value
+
+            //Verification des données
+            axios.get("crud/createSuggestion.php?iduser="+idSession+"&musique="+musique+"&artiste="+artiste+"&commentaire="+comment)
+            .then(function (response) {
+                console.log(response.data)
+                let invalidForm = document.querySelector("#invalidform")
+                if(response.data=="OK"){
+                    openPopup("Votre suggestion a été soumise aux administrateurs !")
+                    closeForm()
+                } else {
+                    invalidForm.innerHTML = "Remplissez correctement le formulaire"
+                }
+            })
+            
+        })
+
+    })
+}
+
+//creation playlist
+function createplaylist(){
+    //recup formulaire via id musique
+    axios.get("pages/nouvellePlaylist.php")
+    .then(function (response) {
+        //affichage page formulaire
+        document.querySelector(".formulaire").innerHTML = response.data;
+        //ouverture formulaire
+        openForm()
+
     })
 }
