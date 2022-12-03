@@ -57,7 +57,7 @@ if ($resultat && $dif != True) {
     // $resultat = mysqli_query($mysqli, $request);
 
     $_SESSION['id'] = $id;
-    $request = "INSERT INTO `likedtitle` (`id`, `musiques`) VALUES ('$id', NULL)";
+    $request = "INSERT INTO `playlists` (`id`, `musiques`) VALUES ('$id', NULL)";
     $resultat = mysqli_query($mysqli, $request);
     include("../crud/getmusicLiked.php");
     header("Location: ../index.php");

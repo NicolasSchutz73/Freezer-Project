@@ -3,7 +3,7 @@
 $idSession = $_SESSION['id'];
 
 #Selection data
-$sql = "SELECT musiques FROM likedtitle WHERE id=$idSession";
+$sql = "SELECT musiques FROM utilisateurs WHERE id=$idSession";
 $result = mysqli_query($mysqli, $sql);
 
 #Resultats vers JS
