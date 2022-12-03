@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Freezer Music Player</title>
     <link rel="stylesheet" type="text/css" href="<?php echo HOST_CSS . '/index.css'; ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo HOST_CSS . '/formulaire.css'; ?>">
     <link rel="stylesheet" type="text/css" href="<?php echo HOST_CSS . '/footer.css'; ?>">
     <link rel="icon" type="img/ico" href="<?php echo HOST_IMG . '/index/favicon.ico'; ?>" />
     <script src="https://kit.fontawesome.com/bb4997e1c6.js" crossorigin="anonymous"></script>
@@ -36,12 +37,12 @@
 
         // Variable de SESSION 
         $_SESSION["pseudo"] = $pseudo;
-
+/*
         echo '<div class="header--buttons">';
         echo '<button class="header--button previous"> <i class="lni-chevron-left"></i> </button>';
         echo '<button class="header--button next"> <i class="lni-chevron-right"></i> </button>';
         echo '</div>';
-
+*/
         echo '<div class="header--buttons--right">';
         echo '<button class="header--button--signUp">';
         echo "<i class='fa-solid fa-user'></i> $pseudo </button>";
@@ -49,11 +50,13 @@
         echo '<i class="fa-solid fa-right-from-bracket"></i> </button>';
         echo '</div>';
     } else {
+        /*
         echo '<div class="header--buttons">';
         echo '<button class="header--button previous"> <i class="lni-chevron-left"></i> </button>';
         echo '<button class="header--button next"> <i class="lni-chevron-right"></i> </button>';
         echo '</div>';
-
+        */
+        
         echo '<div class="header--buttons--right">';
         echo '<button onclick="window.location.href=`/Freezer-Project/pages/register.php`" class="header--button--signUp">';
         echo "S'inscrire </button>";

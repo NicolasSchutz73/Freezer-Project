@@ -145,7 +145,6 @@ function getAudiofromData(idDonne) {
 
     axios.get("crud/musicLiked.php?idMusic=" +idDonne).
     then(function(response){
-        console.log(response.data)
         if(response.data != 1){
             if(isLiked == true){
                 like.classList.remove("fa-solid")
