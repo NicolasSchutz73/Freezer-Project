@@ -11,7 +11,7 @@ $idMusicLiked = $_GET['idMusic'] + 1;
 
 
 #Selection data
-$sql = "SELECT musiques FROM likedtitle WHERE id=$idSession";
+$sql = "SELECT musiques FROM utilisateurs WHERE id=$idSession";
 $result = mysqli_query($mysqli, $sql);
 
 #Resultats vers JS
@@ -25,13 +25,13 @@ $musiques = $emparray[0]['musiques'];
 
     if ($musiques == '') {
         //Pas de musiques dans la playlist 
-        $sql = "UPDATE `likedtitle` SET `musiques` = '$idMusicLiked' WHERE `id` = '$idSession'";
+        $sql = "UPDATE `utilisateurs` SET `musiques` = '$idMusicLiked' WHERE `id` = '$idSession'";
         $result = mysqli_query($mysqli, $sql);
         $sql = "UPDATE `playlists` SET `musiques` = '$idMusicLiked' WHERE `id` = '4'";
         $result = mysqli_query($mysqli, $sql);
     } else {
         //Au moins une musique
-        $sql="UPDATE `likedtitle` SET `musiques` = '$musiques" . ',' . "$idMusicLiked' WHERE `likedtitle`.`id` = $idSession";
+        $sql="UPDATE `utilisateurs` SET `musiques` = '$musiques" . ',' . "$idMusicLiked' WHERE `utilisateurs`.`id` = $idSession";
         $result = mysqli_query($mysqli, $sql);
         $sql = "UPDATE `playlists` SET `musiques` = '$musiques" . ',' . "$idMusicLiked' WHERE `id` = '4'";
         $result = mysqli_query($mysqli, $sql);

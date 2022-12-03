@@ -11,7 +11,7 @@ $idMusicLiked = $_GET['idMusic'] + 1;
 
 
 #Selection data
-$sql = "SELECT musiques FROM likedtitle WHERE id=$idSession";
+$sql = "SELECT musiques FROM utilisateurs WHERE id=$idSession";
 $result = mysqli_query($mysqli, $sql);
 
 #Resultats vers JS
@@ -22,9 +22,9 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 # Supprimer musique likée dans base de donnée
 
-$newTab = str_replace(",".$idMusicLiked, '',$emparray[0]);
-$sql="UPDATE `likedtitle` SET `musiques` = '$newTab' WHERE `likedtitle`.`id` = $idSession";
+$newTab = str_replace($idMusicLiked.",", '',$emparray[0]);
+$sql="UPDATE `utilisateurs` SET `musiques` = '$newTab' WHERE `utilisateurs`.`id` = $idSession";
 $result = mysqli_query($mysqli, $sql);
-$sql="UPDATE `playlists` SET `musiques` = '$newTab' WHERE `id` = '4' ";
+$sql="UPDATE `utilisateurs` SET `musiques` = '$newTab' WHERE `id` = '4' ";
 
 

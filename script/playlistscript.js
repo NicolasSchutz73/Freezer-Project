@@ -27,7 +27,15 @@ axios.get("crud/getplaylist.php?pl=" + getUrl())
             //Infos Playlist
             afficheInfos(playlist);
 
+            if(playlist.id=='4'){
+                axios.get("crud/getmusiquesplaylist.php?id=" + playlist.musiques)
+                .then(function (response) {
+                    let musiques = response.data;
+                    afficheMusiques(musiques);
+                })
+            }
             
+            else{
             //Musiques de la playlist
             if (playlist.musiques != "") {
                 axios.get("crud/getmusiquesplaylist.php?id=" + playlist.musiques)
@@ -38,6 +46,7 @@ axios.get("crud/getplaylist.php?pl=" + getUrl())
             } else {
                 let message = create("p", body, "Cette playlist ne contient pas de musiques !");
             }
+        }
         }
     })
 
