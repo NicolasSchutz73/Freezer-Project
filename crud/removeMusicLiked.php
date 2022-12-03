@@ -20,28 +20,11 @@ while ($row = mysqli_fetch_assoc($result)) {
     $emparray[] = $row['musiques'];
 }
 
+# Supprimer musique likée dans base de donnée
 
-$res = rechercheMusiquedansTableau($emparray[0],$idMusicLiked);
-echo($res);
-
-
-    
-    
-function rechercheMusiquedansTableau($tab, $musique){
-    $yest = false;
-    for($i = 0; $i <= strlen($tab)-1; $i ++){
-        if($tab[$i]== $musique){
-            $yest = true;
-            
-        }
-        
-    }
-    return $yest;
-}
+$newTab = str_replace(",".$idMusicLiked, '',$emparray[0]);
+$sql="UPDATE `likedtitle` SET `musiques` = '$newTab' WHERE `likedtitle`.`id` = $idSession";
+$result = mysqli_query($mysqli, $sql);
+$sql="UPDATE `playlists` SET `musiques` = '$newTab' WHERE `id` = '4' ";
 
 
-
-#Fermeture connection
-mysqli_close($mysqli);
-
-?>

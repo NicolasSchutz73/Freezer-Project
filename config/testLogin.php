@@ -32,13 +32,13 @@ $resultat->close();
 
 
 if ($nbLignes == 0) {
-    header("Location: login.php");
+    header("Location: testLogin.php");
 } else if ($nbLignes == 1) {
     session_start();
     // $request = "UPDATE `utilisateurs` set statut= 'connected'  WHERE id= $id";
     // $resultat = mysqli_query($mysqli, $request);
 
     $_SESSION['id'] = $id;
-
+    include("../crud/getMusicLiked.php");
     header("Location: ../index.php");
 }
