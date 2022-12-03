@@ -1,61 +1,55 @@
-let formBlur = create("div",main,null,"form-blur")
-let formulaireContainer = create("div",formBlur,null,"formulaire-container")
+//creattion formulaire
+function createFormulairePopup(){
+    
+    let formBlur = create("div",main,null,"form-blur")
+    let formulaireContainer = create("div",formBlur,null,"formulaire-container")
 
-//croix
-let crossContain = create("div",formulaireContainer,null,"cross-form-contain")
-let crossForm = create("p",crossContain,"✖","cross")
-crossForm.addEventListener("click",closeForm)
-//Conteneur
-let formulaire = create("div",formulaireContainer,null,"formulaire")
+    //croix
+    let crossContain = create("div",formulaireContainer,null,"cross-form-contain")
+    let crossForm = create("p",crossContain,"✖","cross")
+    crossForm.addEventListener("click",closeForm)
+    //Conteneur
+    create("div",formulaireContainer,null,"formulaire")
 
-//Titre
-/*
-create("h1",formulaire,'Titre Formulaire')
+    //Popup
+    let popupContainer = create("div",main,null,"popup-container")
+    popupContainer.classList.add("hidden")
+    let popup = create("div",popupContainer,null,"popup")
 
-//contenu
-let elementsFormulaire = create("div",formulaire,null,"elementsFormulaire")
-create("p",elementsFormulaire,"Nom d'utilisateur :");
-let inputText = create("input",elementsFormulaire)
-inputText.type = "text";
-create('p',elementsFormulaire,"Mot de passe :")
-let mdp = create("input",elementsFormulaire,null,null,"mdp")
-mdp.type = "password";
-*/
+    //Croix
+    let crossPopup = create("p",popup,"✖","cross")
+    crossPopup.addEventListener("click",closePopup)
 
-//Popup
-let popupContainer = create("div",main,null,"popup-container")
-popupContainer.classList.add("hidden")
-let popup = create("div",popupContainer,null,"popup")
-
-//Croix
-let crossPopup = create("p",popup,"✖","cross")
-crossPopup.addEventListener("click",closePopup)
-
-//Message
-let popupMessage = create("p",popup,"Texte popup bla bla bla")
+    //Message
+    create("p",popup,null,"popup-message")
+}
 
 //Fermer Popup
 function closePopup(){
+    let popupContainer = document.querySelector(".popup-container")
     popupContainer.classList.toggle("visible")
     popupContainer.classList.toggle("hidden")
 }
 
 //ouvrir Popup
 function openPopup(message){
-    popupMessage.innerHTML = message;
-    popupContainer.classList.toggle("hidden")
-    popupContainer.classList.toggle("visible")
+    document.querySelector(".popup-message").innerHTML = message;
+    let popupContainer = document.querySelector(".popup-container")
+    if(popupContainer.classList[1]=='hidden'){
+        popupContainer.classList.toggle("hidden")
+        popupContainer.classList.toggle("visible")
+    }
 }
 
 //ouvrir formulaire
 function openForm(){
-    formBlur.style.display = "flex";
+    document.querySelector(".form-blur").style.display = "flex";
 }
 
 //fermer formulaire
 function closeForm(){
-    removeAllChild(formulaire)
-    formBlur.style.display="none"
+    removeAllChild(document.querySelector(".formulaire"))
+    document.querySelector(".form-blur").style.display="none"
 }
 
 
@@ -66,7 +60,8 @@ function addMusicToPlaylist(idMusic){
     axios.get("pages/formAddToPlay.php?idmusic="+idMusic)
     .then(function (response) {
         //affichage page formulaire
-        formulaire.innerHTML = response.data;
+        
+        document.querySelector(".formulaire").innerHTML = response.data;
         //ouverture formulaire
         openForm()
 
@@ -123,15 +118,12 @@ function addMusicToPlaylist(idMusic){
 
 //Connection 
 
-let buttonConnection = document.querySelector(".header--button--login")
-buttonConnection.addEventListener("click",connection)
-
 function connection(){
     //recup formulaire via id musique
     axios.get("pages/login.php")
     .then(function (response) {
         //affichage page formulaire
-        formulaire.innerHTML = response.data;
+        document.querySelector(".formulaire").innerHTML = response.data;
         //ouverture formulaire
         openForm()
 
@@ -179,16 +171,13 @@ function connection(){
 
 //Inscription
 
-let buttonInscription = document.querySelector(".header--button--signUp")
-buttonInscription.addEventListener("click",inscription)
-
 function inscription(){
     //recup formulaire inscription
     axios.get("pages/register.php")
     .then(function (response) {
 
         //affichage page formulaire
-        formulaire.innerHTML = response.data;
+        document.querySelector(".formulaire").innerHTML = response.data;
 
         //ouverture formulaire
         openForm()

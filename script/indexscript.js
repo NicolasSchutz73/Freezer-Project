@@ -11,12 +11,24 @@ function create(tagName, container, text = null, classs = null, id = null) {
     return element
 }
 
+
+function getIdSession(){
+    var user=document.getElementsByClassName("header--button--user")
+    if (user[0]==undefined){
+        var idSession=null
+    } else {
+        var idSession=user[0].id
+    }
+    return idSession
+}
+
 //Conteneurs
 let main = document.querySelector("main")
 let accueilButton = document.querySelector("#accueil")
 var stateObj = { id: "100" };
 
 //variables globales
+let idSession = getIdSession()
 let jsonMusiques = []
 let jsonPlay = []
 let page=""
@@ -55,6 +67,8 @@ function loadPage(url){
         //Container musique
         create("p", main, "Liste des musiques :", "label");
         create("div",main,null,null,"musiquesContainer")
+
+        createFormulairePopup()
         
         //initialisation jsonMusiques
         axios.get("crud/getallmusics.php?search=null")
@@ -70,7 +84,7 @@ function loadPage(url){
     //page like
     } else if(url=="like") {
         console.log("like")
-
+        createFormulairePopup()
 
 
     //page playlist (12 car longueur du hashlink)
@@ -99,10 +113,12 @@ function loadPage(url){
                 //Container musiques
                 create("p", main, "Liste des musiques :", "label");
                 create("div",main,null,null,"musiquesContainer")
+                createFormulairePopup()
 
                 afficheInfosPlaylist(playlistDatas)
                 chercheMusic()
             })
+
 
 
     //page non trouvée
@@ -111,6 +127,8 @@ function loadPage(url){
         console.log("???")
 
         removeAllChild(main)
+
+        createFormulairePopup()
         pageErreur()
     }
 }
@@ -130,6 +148,35 @@ accueilButton.addEventListener("click",function(){
         "accueil", "?page=accueil");
     loadPage(getUrl())
 })
+
+//Bouttons formulaires
+if(idSession==null){
+    //login
+    document.querySelector(".header--button--login").addEventListener("click",connection)
+
+    //sign up
+    document.querySelector(".header--button--signUp").addEventListener("click",inscription)
+
+    //suggestion
+    document.querySelector("#suggestion").addEventListener("click",function(){
+        openPopup("Vous devez être connecté pour suggérer des musiques")
+    })
+
+    //Ecoutées récemment
+    document.querySelector("#recent").addEventListener("click",function(){
+        openPopup("Vous devez être connecté pour voir votre historique")
+    })
+
+    //Formulaire playlist
+    document.querySelector("#formplaylist").addEventListener("click",function(){
+        openPopup("Vous devez être connecté pour créer une playlist")
+    })
+
+    //Likes
+    document.querySelector("#likeplaylist").addEventListener("click",function(){
+        openPopup("Vous devez être connecté voir vos likés")
+    })
+}
 
 
 /*------------------------AFFICHE MUSIQUES------------------------------*/
