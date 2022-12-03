@@ -27,6 +27,7 @@ axios.get("crud/getplaylist.php?pl=" + getUrl())
             //Infos Playlist
             afficheInfos(playlist);
 
+            
             //Musiques de la playlist
             if (playlist.musiques != "") {
                 axios.get("crud/getmusiquesplaylist.php?id=" + playlist.musiques)

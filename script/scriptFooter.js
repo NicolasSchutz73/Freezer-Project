@@ -97,7 +97,6 @@ volumeSlider.addEventListener("change", function () {
 //BARRE CONTROLE TEMPS AUDIO //
 audio.addEventListener("timeupdate", function () {
     let posBarre = audio.currentTime / audio.duration
-    // ControlTimeAudio.style.width = posBarre * 100 + '%'
     timeSlider.value = posBarre * 100
     // AFFICHAGE DU TEMPS DE L AUDIO // 
     affichageTimeAudio.innerHTML = convertSecond(audio.currentTime)
@@ -139,21 +138,30 @@ function getAudiofromData(idDonne) {
     titre.innerHTML = titreAudio
     artiste.innerHTML = artisteAudio
     imgMusic.src = "images/musique/" + image
+    like.classList.add("fa-regular")
+    like.classList.add("fa-heart")
+
+
 
     axios.get("crud/musicLiked.php?idMusic=" +idDonne).
     then(function(response){
         console.log(response.data)
         if(response.data != 1){
-            like.classList.remove("fa-solid")
-            like.classList.add("fa-regular")
-            like.classList.add("fa-heart")
-
-
+            if(isLiked == true){
+                like.classList.remove("fa-solid")
+                like.classList.add("fa-regular")
+                like.classList.add("fa-heart")
+                isLiked = false;
+            }
         }
         else{
-            like.classList.remove("fa-regular")
-            like.classList.add("fa-solid")
-            like.classList.add("fa-heart")
+            if(isLiked == false){
+                like.classList.remove("fa-regular")
+                like.classList.add("fa-solid")
+                like.classList.add("fa-heart")
+                isLiked = true;
+            }
+
         }
     })
 
@@ -250,14 +258,12 @@ function likeButton(etat) {
     if (etat == false) {
         etat = true
         like.className = "fa-solid fa-heart"
-        axios.get("crud/musicLiked.php?idMusic=" +idData).
-        then(function(response){
-            console.log(response.data)
-        })
+        axios.get("crud/addMusicLiked.php?idMusic=" +idData)
     }
     else {
         etat = false
         like.className = "fa-regular fa-heart"
+        axios.get("crud/removeMusicLiked.php?idMusic=" +idData)
     }
 
     isLiked = etat
