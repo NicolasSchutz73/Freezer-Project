@@ -13,13 +13,13 @@
             </a>
         </div>
         <div class="menu--item">
-            <a href="#">
+            <a href="javascript:void(0">
                 <i class="fa-solid fa-upload"></i>
                 <span class="menu--item--text">Suggestion</span>
             </a>
         </div>
         <div class="menu--item">
-            <a href="#">
+            <a href="javascript:void(0">
                 <i class="fa-solid fa-list"></i>
                 <span class="menu--item--text">Liste musique</span>
             </a>
@@ -37,9 +37,9 @@
             </a>
         </div>
         <div class="menu--item">
-            <a href="#">
+            <a href="javascript:void(0">
                 <i class="fa-solid fa-heart"></i>
-                <span class="menu--item--text">Titre likés</span>
+                <span id= "titreLike" class="menu--item--text">Titre likés</span>
             </a>
         </div>
     </div>

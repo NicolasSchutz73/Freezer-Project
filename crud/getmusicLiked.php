@@ -1,5 +1,7 @@
 <?php
+include('dbConnect.php');
 
+session_start();
 $idSession = $_SESSION['id'];
 
 #Selection data
@@ -11,10 +13,6 @@ $emparray = array();
 while ($row = mysqli_fetch_assoc($result)) {
     $emparray[] = $row;
 }
-$musiques = $emparray[0]['musiques'];
-
-$sql="UPDATE `playlists` SET `musiques` = '$musiques' WHERE id='4'";
-$result = mysqli_query($mysqli, $sql);
-
+echo json_encode($emparray);
 
 mysqli_close($mysqli);

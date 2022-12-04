@@ -1,22 +1,3 @@
-// FONCTION QUI AFFICHE EN FONCTION DE L'URL LA PAGE PLAYLIST OU L'ACCUEIL
-if (getUrl != "accueil" && getUrl != "suggestion" && getUrl != "liste") {
-    axios.get("crud/getplaylist.php?pl=" + getUrl())
-        .then(function (response) {
-            let playlistDatas = response.data[0];
-            idsPlaylist = playlistDatas.musiques
-
-            //Mise a jour jsonMusiques
-            axios.get("crud/getmusiquesplaylist.php?id=" + idsPlaylist + "&search=null")
-                .then(function (response) {
-                    jsonMusiques = []
-                    jsonMusiques.push(response.data)
-                })
-
-            afficheInfosPlaylist(playlistDatas)
-            chercheMusic()
-        })
-}
-
 //Function pour récupérer l'url courante et son paramètre
 function getUrl() {
     var str = window.location.href
@@ -26,22 +7,58 @@ function getUrl() {
     return page;
 }
 
+<<<<<<< Updated upstream
 let buttonAdmin = document.querySelector(".header--button--signUp")
 var testAdmin = false
 
 buttonAdmin.addEventListener("click", function () {
     testAdmin = true
+=======
+testAdmin = false
+
+document.querySelector("#titreLike").addEventListener("click",()=>{
+    //Changement d'url
+    window.history.replaceState(stateObj,
+        "like", "?page=like");
+
+>>>>>>> Stashed changes
     //vide le musique container
     removeAllChild(musiquesContainer)
     //vide le playlist container
     removeAllChild(playlistsContainer)
     //vide le user container
     removeAllChild(usersContainer)
+<<<<<<< Updated upstream
     //affiche les musiques
     afficheMusiques(jsonMusiques[0])
     //affiche les users
     afficheUsers(jsonUsers[0])
 })
+=======
+    //affiche titre liké
+    afficheTitreliké()
+    
+})
+
+// si document.querySelector(".header--button--signUp") existe
+if (document.querySelector(".header--button--Admin")) {
+    let buttonAdmin = document.querySelector(".header--button--Admin")
+    buttonAdmin.addEventListener("click", function () {
+        //passe testAdmin a true
+        testAdmin = true
+        //vide le musique container
+        removeAllChild(musiquesContainer)
+        //vide le playlist container
+        removeAllChild(playlistsContainer)
+        //vide le user container
+        removeAllChild(usersContainer)
+        //affiche les musiques
+        afficheMusiques(jsonMusiques[0])
+        //affiche les users
+        afficheUsers(jsonUsers[0])
+    })
+}
+>>>>>>> Stashed changes
 
 
 function create(tagName, container, text = null, classs = null, id = null) {
@@ -59,10 +76,13 @@ function create(tagName, container, text = null, classs = null, id = null) {
 
 //Conteneurs
 let playlistsContainer = document.querySelector("#playlistsContainer")
+let body = document.querySelector("main")
 let musiquesContainer = document.querySelector("#musiquesContainer")
 let usersContainer = document.querySelector("#usersContainer")
 let accueilButton = document.querySelector("#accueil")
 var stateObj = { id: "100" };
+
+
 
 
 //variables globales
@@ -79,7 +99,7 @@ let idsPlaylist = ''
 chercheMusic()
 cherchePlaylist()
 
-accueilButton.addEventListener("click", function () {
+accueilButton.addEventListener("click", ()=> {
     pagePlaylist = false
     window.history.replaceState(stateObj,
         "accueil", "?page=accueil");
@@ -144,7 +164,7 @@ function afficheMusiques(musiques) {
         }
 
         imageMusique.addEventListener("click", () => {
-            jsonPlay = jsonMusiques
+            jsonPlay = jsonMusiques 
             axios.get("config/save.php?tab=" + jsonMusiques)
             idMusic = musiqueContainer.getAttribute('id')
             getAudiofromData(idMusic - 1)
@@ -264,6 +284,7 @@ function afficheUsers(users) {
         create("p", texteUser, user.login, "loginUser");
         create("span", texteUser, user.email, "emailUser");
 
+<<<<<<< Updated upstream
         //Bouton de suppression d'une musique si admin
         if (testAdmin) {
             let buttonDeleteUser = create("button", userContainer, "-", "buttonDelete", user.id)
@@ -273,3 +294,46 @@ function afficheUsers(users) {
         }
     }
 }
+=======
+function deleteUser(id) {
+    axios.get("crud/deleteUser.php?id=" + id).then(function (response) {
+        let users = response.data;
+        removeAllChild(usersContainer);
+        afficheUsers(users);
+    })
+}
+
+/*------------------------AFFICHE TITRE LIKE------------------------------*/
+
+function afficheTitreliké(){
+    axios.get("crud/getMusicLiked.php").then(function (response){
+        let infosPlaylistContainer = create("div", playlistsContainer, null, "infosPlaylist");
+        //Image
+        let imagePlaylist = create("div", infosPlaylistContainer, null, "imagePlaylist");
+        let image = create("img", imagePlaylist);
+        image.src = "images/playlist/titreLiked.png";
+        //Texte
+        let texteInfoContainer = create("div", infosPlaylistContainer, null, "texteInfoPlaylist");
+        //Nom,auteur
+        create("p", texteInfoContainer, "Titre likés", "nomPlaylist");
+        create("p", texteInfoContainer, "Les musiques que vous aimez ", "auteurPlaylist");
+        
+        let idmusiques = response.data[0].musiques
+        
+        if(idmusiques !== "NULL" && idmusiques !== "" && idmusiques !== undefined){
+            axios.get("crud/getmusiquesplaylist.php?id=" + idmusiques + "&search=null").then(function(response) {
+                jsonMusiques = []
+                jsonMusiques.push(response.data)
+                let musiques = response.data;
+                afficheMusiques(musiques);
+            })
+        }
+        else{
+
+            let message = create("p", musiquesContainer, "Cette playlist ne contient pas de musiques !");
+        }
+        
+
+    })
+}
+>>>>>>> Stashed changes

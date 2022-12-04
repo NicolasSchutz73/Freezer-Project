@@ -67,11 +67,12 @@ function afficheInfos(pl) {
 }
 
 
-function afficheMusiques(musiques) {
+function afficheMusiques(musiques, nbMusiqueLiked=0) {
     //Container
     let musiquesContainer = create("div", body, null, "musiquesPlaylist");
-    create("p", musiquesContainer, "Liste des musiques :", "label");
-
+    if(nbMusiqueLiked === 0 ){
+        create("p", musiquesContainer, "Liste des musiques :", "label");
+    }
     for (musique of musiques) {
         //Container
         let musiqueContainer = create("div", musiquesContainer, null, "musique", musique.id);

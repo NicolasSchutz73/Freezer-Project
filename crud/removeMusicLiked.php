@@ -7,7 +7,7 @@ include("dbConnect.php");
 #Récupération variable session et id musique
 session_start();
 $idSession = $_SESSION['id'];
-$idMusicLiked = $_GET['idMusic'] + 1;
+$idMusicLiked = $_GET['idMusic'];
 
 
 #Selection data
@@ -34,8 +34,6 @@ unset($musiques[array_search($idMusicLiked, $musiques)]);
 $newtab =implode(",",$musiques);
 
 $sql="UPDATE `utilisateurs` SET `musiques` = '$newtab' WHERE `utilisateurs`.`id` = $idSession";
-$result = mysqli_query($mysqli, $sql);
-$sql="UPDATE `playlists` SET `musiques` = '$newtab' WHERE `id` = '4' ";
 $result = mysqli_query($mysqli, $sql);
 
 #Fermeture connection
