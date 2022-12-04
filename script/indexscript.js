@@ -157,6 +157,22 @@ function afficheMusiques(musiques) {
     }
 }
 
+/*------------------------DELETE MUSIQUE------------------------------*/
+
+function deleteMusic(id) {
+    axios.get("crud/deletemusic.php?id=" + id)
+        .then(function () {
+            //reinitialisation jsonMusiques
+            axios.get("crud/getallmusics.php?search=null")
+                .then(function (response) {
+                    jsonMusiques = []
+                    jsonMusiques.push(response.data)
+                    removeAllChild(musiquesContainer)
+                    afficheMusiques(jsonMusiques[0])
+                })
+        })
+}
+
 
 
 
@@ -283,9 +299,15 @@ function afficheUsers(users) {
 /*------------------------DELETE USERS------------------------------*/
 
 function deleteUser(id) {
-    axios.get("crud/deleteUser.php?id=" + id).then(function (response) {
-        let users = response.data;
-        removeAllChild(usersContainer);
-        afficheUsers(users);
-    })
+    axios.get("crud/deleteUser.php?id=" + id)
+        .then(function () {
+            //reinitialisation jsonUsers
+            axios.get("crud/getallusers.php")
+                .then(function (response) {
+                    jsonUsers = []
+                    jsonUsers.push(response.data)
+                    removeAllChild(usersContainer)
+                    afficheUsers(jsonUsers[0])
+                })
+        })
 }
