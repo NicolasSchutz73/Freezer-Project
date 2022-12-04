@@ -110,6 +110,7 @@ accueilButton.addEventListener("click", function () {
     }
 
     removeAllChild(usersContainer)
+    removeAllChild(suggestionsContainer)
 })
 
 
