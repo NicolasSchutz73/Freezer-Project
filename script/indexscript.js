@@ -7,13 +7,11 @@ function getUrl() {
     return page;
 }
 
-<<<<<<< Updated upstream
 let buttonAdmin = document.querySelector(".header--button--signUp")
 var testAdmin = false
 
 buttonAdmin.addEventListener("click", function () {
     testAdmin = true
-=======
 testAdmin = false
 
 document.querySelector("#titreLike").addEventListener("click",()=>{
@@ -21,20 +19,17 @@ document.querySelector("#titreLike").addEventListener("click",()=>{
     window.history.replaceState(stateObj,
         "like", "?page=like");
 
->>>>>>> Stashed changes
     //vide le musique container
     removeAllChild(musiquesContainer)
     //vide le playlist container
     removeAllChild(playlistsContainer)
     //vide le user container
     removeAllChild(usersContainer)
-<<<<<<< Updated upstream
     //affiche les musiques
     afficheMusiques(jsonMusiques[0])
     //affiche les users
     afficheUsers(jsonUsers[0])
 })
-=======
     //affiche titre liké
     afficheTitreliké()
     
@@ -58,7 +53,6 @@ if (document.querySelector(".header--button--Admin")) {
         afficheUsers(jsonUsers[0])
     })
 }
->>>>>>> Stashed changes
 
 
 function create(tagName, container, text = null, classs = null, id = null) {
@@ -284,7 +278,6 @@ function afficheUsers(users) {
         create("p", texteUser, user.login, "loginUser");
         create("span", texteUser, user.email, "emailUser");
 
-<<<<<<< Updated upstream
         //Bouton de suppression d'une musique si admin
         if (testAdmin) {
             let buttonDeleteUser = create("button", userContainer, "-", "buttonDelete", user.id)
@@ -294,7 +287,6 @@ function afficheUsers(users) {
         }
     }
 }
-=======
 function deleteUser(id) {
     axios.get("crud/deleteUser.php?id=" + id).then(function (response) {
         let users = response.data;
@@ -336,4 +328,3 @@ function afficheTitreliké(){
 
     })
 }
->>>>>>> Stashed changes
