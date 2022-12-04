@@ -42,7 +42,7 @@ if (document.querySelector(".header--button--Admin")) {
         //vide le suggestion container
         removeAllChild(suggestionsContainer)
         //affiche les musiques
-        afficheMusiques(jsonMusiques[0])
+        afficheMusiques(jsonAllMusique[0])
         //affiche les users
         afficheUsers(jsonUsers[0])
         //affiche les suggestions
@@ -83,6 +83,14 @@ axios.get("crud/getallmusics.php?search=null")
 let jsonPlay = []
 let pagePlaylist = false
 let idsPlaylist = ''
+
+//récupère toutes les musiques pour l'admin 
+let jsonAllMusique = []
+//initialisation jsonAllMusique
+axios.get("crud/getallmusics.php?search=null")
+    .then(function (response) {
+        jsonAllMusique.push(response.data)
+    })
 
 chercheMusic()
 cherchePlaylist()
@@ -173,8 +181,10 @@ function deleteMusic(id) {
                 .then(function (response) {
                     jsonMusiques = []
                     jsonMusiques.push(response.data)
+                    jsonAllMusique = []
+                    jsonAllMusique.push(response.data)
                     removeAllChild(musiquesContainer)
-                    afficheMusiques(jsonMusiques[0])
+                    afficheMusiques(jsonAllMusique[0])
                 })
         })
 }
