@@ -3,6 +3,9 @@
     <div id="usersContainer">
     </div>
 
+    <div id="suggestionsContainer">
+    </div>
+
     <div id="playlistsContainer">
     </div>
 

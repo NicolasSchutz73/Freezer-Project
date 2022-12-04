@@ -39,10 +39,14 @@ if (document.querySelector(".header--button--Admin")) {
         removeAllChild(playlistsContainer)
         //vide le user container
         removeAllChild(usersContainer)
+        //vide le suggestion container
+        removeAllChild(suggestionsContainer)
         //affiche les musiques
         afficheMusiques(jsonMusiques[0])
         //affiche les users
         afficheUsers(jsonUsers[0])
+        //affiche les suggestions
+        afficheSuggestions(jsonSuggestions[0])
     })
 }
 
@@ -64,6 +68,7 @@ function create(tagName, container, text = null, classs = null, id = null) {
 let playlistsContainer = document.querySelector("#playlistsContainer")
 let musiquesContainer = document.querySelector("#musiquesContainer")
 let usersContainer = document.querySelector("#usersContainer")
+let suggestionsContainer = document.querySelector("#suggestionsContainer")
 let accueilButton = document.querySelector("#accueil")
 var stateObj = { id: "100" };
 
@@ -112,7 +117,7 @@ accueilButton.addEventListener("click", function () {
 
 function afficheMusiques(musiques) {
     //Container
-    create("p", musiquesContainer, "Liste des musiques :", "label");
+    create("p", musiquesContainer, "Musiques", "label");
 
     for (musique of musiques) {
         //Container
@@ -183,7 +188,7 @@ function deleteMusic(id) {
 
 function affichePlaylists(playlists) {
     //Container
-    create("p", playlistsContainer, "Liste des playlists :", "label");
+    create("p", playlistsContainer, "Playlists", "label");
     let playlistsContainerWrap = create("div", playlistsContainer, null, "playlistsContainerWrap")
 
     for (playlist of playlists) {
@@ -269,7 +274,7 @@ axios.get("crud/getallusers.php")
 //affiche users
 function afficheUsers(users) {
     //Container
-    create("p", usersContainer, "Liste des utilisateurs :", "label");
+    create("p", usersContainer, "Utilisateurs", "labelUser");
 
     for (user of users) {
         if (user.id != 1000) {
@@ -308,6 +313,67 @@ function deleteUser(id) {
                     jsonUsers.push(response.data)
                     removeAllChild(usersContainer)
                     afficheUsers(jsonUsers[0])
+                })
+        })
+}
+
+/*------------------------AFFICHE SUGGESTIONS------------------------------*/
+
+//récupère info suggestion
+let jsonSuggestions = []
+//initialisation jsonSuggestions
+axios.get("crud/getsuggestion.php")
+    .then(function (response) {
+        jsonSuggestions.push(response.data)
+    })
+
+//affiche suggestions
+function afficheSuggestions(suggestions) {
+    //Container
+    create("p", suggestionsContainer, "Suggestions", "labelSuggestion");
+
+    for (suggestion of suggestions) {
+        //Container
+        let suggestionContainer = create("div", suggestionsContainer, null, "suggestion", suggestion.id);
+
+        //Texte
+        let texteSuggestion = create("div", suggestionContainer, null, "texteSuggestion");
+
+        //musique, artiste, utilisateur
+        create("p", texteSuggestion, "Musique : " + suggestion.musique, "musiqueSuggestion");
+        create("p", texteSuggestion, "Artiste : " + suggestion.artiste, "artisteSuggestion");
+        if (suggestion.commentaire != null) {
+            create("p", texteSuggestion, "Commentaire : " + suggestion.commentaire, "commentaireSuggestion");
+        }
+        create("p", texteSuggestion, "Proposée par : " + suggestion.utilisateur, "utilisateurSuggestion");
+
+        //Bouton d'ajout
+        let buttonAddSuggestion = create("button", suggestionContainer, "+", "buttonAdd", suggestion.id)
+        buttonAddSuggestion.addEventListener("click", function () {
+            addSuggestion(buttonAddSuggestion.id)
+        })
+
+        //Bouton de suppression
+        let buttonDeleteSuggestion = create("button", suggestionContainer, "-", "buttonDelete", suggestion.id)
+        buttonDeleteSuggestion.addEventListener("click", function () {
+            deleteSuggestion(buttonDeleteSuggestion.id)
+        })
+
+    }
+}
+
+/*------------------------DELETE SUGGESTIONS------------------------------*/
+
+function deleteSuggestion(id) {
+    axios.get("crud/deleteSuggestion.php?id=" + id)
+        .then(function () {
+            //reinitialisation jsonSuggestions
+            axios.get("crud/getsuggestion.php")
+                .then(function (response) {
+                    jsonSuggestions = []
+                    jsonSuggestions.push(response.data)
+                    removeAllChild(suggestionsContainer)
+                    afficheSuggestions(jsonSuggestions[0])
                 })
         })
 }
