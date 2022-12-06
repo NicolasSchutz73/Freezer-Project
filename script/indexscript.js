@@ -11,13 +11,80 @@ function create(tagName, container, text = null, classs = null, id = null) {
     return element
 }
 
-//Renvoie l'id de la session, null si pas connecté
+let testAdmin = false;
+/*
+let buttonAdmin = document.querySelector(".header--button--signUp")
+var testAdmin = false
+
+buttonAdmin.addEventListener("click", function () {
+    testAdmin = true
+testAdmin = false
+
+
+document.querySelector("#titreLike").addEventListener("click",()=>{
+    //Changement d'url
+    window.history.replaceState(stateObj,
+        "like", "?page=like");
+
+    //vide le musique container
+    removeAllChild(musiquesContainer)
+    //vide le playlist container
+    removeAllChild(playlistsContainer)
+    //vide le user container
+    removeAllChild(usersContainer)
+    //affiche les musiques
+    afficheMusiques(jsonMusiques[0])
+    //affiche les users
+    afficheUsers(jsonUsers[0])
+})
+    //affiche titre liké
+    afficheTitreliké()
+    
+})
+*/
+
+// si document.querySelector(".header--button--signUp") existe
+if (document.querySelector(".header--button--Admin")) {
+    let buttonAdmin = document.querySelector(".header--button--Admin")
+    buttonAdmin.addEventListener("click", function () {
+        //passe testAdmin a true
+        testAdmin = true
+        //vide le musique container
+        removeAllChild(musiquesContainer)
+        //vide le playlist container
+        removeAllChild(playlistsContainer)
+        //vide le user container
+        removeAllChild(usersContainer)
+        //affiche les musiques
+        afficheMusiques(jsonMusiques[0])
+        //affiche les users
+        afficheUsers(jsonUsers[0])
+    })
+}
+
+
+
+/*
+    //retirer le bouton delete
+    testAdmin = false
+    buttonDelete = document.querySelector(".buttonDelete")
+    if (buttonDelete) {
+        buttonDelete.remove()
+    }
+
+    removeAllChild(usersContainer)
+*/
+
+//Renvoie l'id de la session, null si pas connecté, met a jour testadmin
 function getIdSession(){
     var user=document.getElementsByClassName("header--button--user")
     if (user[0]==undefined){
         var idSession=null
     } else {
         var idSession=user[0].id
+        if(idSession==1000){
+            testAdmin=true;
+        }
     }
     return idSession
 }
@@ -100,6 +167,10 @@ function loadPage(url){
         } else {
             //page like
             console.log("like")
+            playlistsContainer = create("div",main,null,null,"playlistsContainer")
+            create("p", main, "Liste des musiques :", "label");
+            musiquesContainer = create("div",main,null,null,"musiquesContainer")
+            afficheTitreliké()
 
 
         }
@@ -258,20 +329,29 @@ function afficheMusiques(musiques) {
         let button = create("button", musiqueContainer, "+", null, musique.id)
 
         //Bouton d'ajout d'une musique vers une playlist
-        button.addEventListener("click", function(){
+        button.addEventListener("click", function () {
             addMusicToPlaylist(button.id)
         })
 
+        //Bouton de suppression d'une musique si admin
+        if (testAdmin) {
+            let buttonDelete = create("button", musiqueContainer, "-", "buttonDelete", musique.id)
+            buttonDelete.addEventListener("click", function () {
+                deleteMusic(buttonDelete.id)
+            })
+        }
+
         imageMusique.addEventListener("click", () => {
-            jsonPlay = jsonMusiques
-            axios.get("config/save.php?tab="+jsonMusiques)
+            jsonPlay = jsonMusiques 
+            axios.get("config/save.php?tab=" + jsonMusiques)
             idMusic = musiqueContainer.getAttribute('id')
-            getAudiofromData(idMusic-1)
+            getAudiofromData(idMusic - 1)
             count = startMusicNextPrevious(count)
         })
 
     }
 }
+
 
 
 
@@ -284,7 +364,7 @@ function affichePlaylists(playlists) {
     let playlistsContainerWrap = document.querySelector(".playlistsContainerWrap")
     for (playlist of playlists) {
         //Container
-        let playlistLink = create("div", playlistsContainerWrap,null,null,playlist.hashlink)
+        let playlistLink = create("div", playlistsContainerWrap, null, null, playlist.hashlink)
 
         playlistLink.addEventListener("click", function () {
             window.history.replaceState(stateObj, "playlist", "?page=" + playlistLink.id)
@@ -321,4 +401,84 @@ function afficheInfosPlaylist(pl) {
     //Nom,auteur
     create("p", texteInfoContainer, pl.nom, "nomPlaylist");
     create("p", texteInfoContainer, "Playlist créée par " + pl.auteur, "auteurPlaylist");
+}
+
+
+/*------------------------AFFICHE USERS------------------------------*/
+
+//récupère info utilisateur
+let jsonUsers = []
+//initialisation jsonUsers
+axios.get("crud/getallusers.php")
+    .then(function (response) {
+        jsonUsers.push(response.data)
+        console.log(jsonUsers)
+    })
+
+//affiche users
+function afficheUsers(users) {
+    //Container
+    create("p", usersContainer, "Liste des utilisateurs :", "label");
+
+    for (user of users) {
+        //Container
+        let userContainer = create("div", usersContainer, null, "user", user.id);
+
+        //Texte
+        let texteUser = create("div", userContainer, null, "texteUser");
+
+        //id,login,mail
+        create("p", texteUser, user.id, "idUser");
+        create("p", texteUser, user.login, "loginUser");
+        create("span", texteUser, user.email, "emailUser");
+
+        //Bouton de suppression d'une musique si admin
+        if (testAdmin) {
+            let buttonDeleteUser = create("button", userContainer, "-", "buttonDelete", user.id)
+            buttonDeleteUser.addEventListener("click", function () {
+                deleteUser(buttonDeleteUser.id)
+            })
+        }
+    }
+}
+function deleteUser(id) {
+    axios.get("crud/deleteUser.php?id=" + id).then(function (response) {
+        let users = response.data;
+        removeAllChild(usersContainer);
+        afficheUsers(users);
+    })
+}
+
+/*------------------------AFFICHE TITRE LIKE------------------------------*/
+
+function afficheTitreliké(){
+    axios.get("crud/getMusicLiked.php").then(function (response){
+        let infosPlaylistContainer = create("div", playlistsContainer, null, "infosPlaylist");
+        //Image
+        let imagePlaylist = create("div", infosPlaylistContainer, null, "imagePlaylist");
+        let image = create("img", imagePlaylist);
+        image.src = "images/playlist/titreLiked.png";
+        //Texte
+        let texteInfoContainer = create("div", infosPlaylistContainer, null, "texteInfoPlaylist");
+        //Nom,auteur
+        create("p", texteInfoContainer, "Titre likés", "nomPlaylist");
+        create("p", texteInfoContainer, "Les musiques que vous aimez ", "auteurPlaylist");
+        
+        let idmusiques = response.data[0].musiques
+        
+        if(idmusiques !== "NULL" && idmusiques !== "" && idmusiques !== undefined){
+            axios.get("crud/getmusiquesplaylist.php?id=" + idmusiques + "&search=null").then(function(response) {
+                jsonMusiques = []
+                jsonMusiques.push(response.data)
+                let musiques = response.data;
+                afficheMusiques(musiques);
+            })
+        }
+        else{
+
+            create("p", musiquesContainer, "Cette playlist ne contient pas de musiques !");
+        }
+        
+
+    })
 }

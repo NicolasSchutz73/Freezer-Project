@@ -39,7 +39,7 @@
         <div class="menu--item" id="likeplaylist">
             <a href="javascript:void(0)">
                 <i class="fa-solid fa-heart"></i>
-                <span class="menu--item--text">Titre likés</span>
+                <span id= "titreLike" class="menu--item--text">Titre likés</span>
             </a>
         </div>
     </div>

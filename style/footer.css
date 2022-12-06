@@ -55,24 +55,71 @@ body {
     right: 2%;
 }
 
+#barAudio #volume #volumeSlider[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #54117b;
+}
+
 
 #barAudio #conteneurTimeBar {
     display: flex;
     align-items: center;
     justify-content: center;
+
 }
 
 #barAudio #timeBar {
+ /* décalage de 50% de sa propre taille */
     width: 45%;
     min-width: 20vh;
     display: flex;
     align-items: center;
+    
     color: white;
 }
 
 #barAudio #timeBar input {
     width: 100%;
+    cursor: pointer;
+
+    
 }
+
+
+#barAudio #timeBar input[type="range"]{
+    -webkit-appearance: none;
+    background: rgb(26, 26, 26);
+    outline: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 1);
+  }
+  #barAudio #timeBar input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #54117b;
+    cursor: pointer;
+    border: 4px solid rgb(164, 139, 139);
+    box-shadow: -407px 0 0 400px #54117b;
+  }
+
+  #barAudio #timeBar input[type="range"]:active::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgb(164, 139, 139);
+    cursor: pointer;
+    border: 4px solid #54117b;
+    box-shadow: -407px 0 0 400px #7c1fb3;
+  }
+  
+  
 
 #Music {
     display: flex;

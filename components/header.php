@@ -37,7 +37,7 @@
 
         // Variable de SESSION 
         $_SESSION["pseudo"] = $pseudo;
-        /*
+/*
         echo '<div class="header--buttons">';
         echo '<button class="header--button previous"> <i class="lni-chevron-left"></i> </button>';
         echo '<button class="header--button next"> <i class="lni-chevron-right"></i> </button>';

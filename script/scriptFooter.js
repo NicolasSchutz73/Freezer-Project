@@ -26,6 +26,7 @@ var buttonRepeat = document.querySelector("#buttonRepeat")
 var buttonRandom = document.querySelector("#buttonRandom")
 
 //variables secondaire
+var pub = 0
 var count = 1
 var isRandom = false
 var isLiked = false
@@ -65,7 +66,7 @@ buttonNext.addEventListener("click", () => {
 // QUAND l'utilisateur clique sur le bouton précédant
 buttonPrevious.addEventListener("click", () => {
     if (idData > 0) { idData-- }
-    getAudiofromData(idData)
+    getAudiofromData(idData,true)
     count = startMusicNextPrevious(count)
 })
 
@@ -97,7 +98,6 @@ volumeSlider.addEventListener("change", function () {
 //BARRE CONTROLE TEMPS AUDIO //
 audio.addEventListener("timeupdate", function () {
     let posBarre = audio.currentTime / audio.duration
-    // ControlTimeAudio.style.width = posBarre * 100 + '%'
     timeSlider.value = posBarre * 100
     // AFFICHAGE DU TEMPS DE L AUDIO // 
     affichageTimeAudio.innerHTML = convertSecond(audio.currentTime)
@@ -123,40 +123,64 @@ timeSlider.addEventListener("input", () => {
 
 
 
+//////////////////////////////////////////////////////////////////////////////
+////////////////////////     FUNCTIONS        ///////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
-///////////////////////     FUNCTIONS        ///////////////////////////////
-////////////////////////////////////////////////////////////////////////////
 
-
+    
 //Function récupérer audio, image et artiste
-function getAudiofromData(idDonne) {
-    var linkAudio = jsonPlay[0][idDonne].fichier
-    var titreAudio = jsonPlay[0][idDonne].nom_music
-    var artisteAudio = jsonPlay[0][idDonne].nom_artiste
-    var image = jsonPlay[0][idDonne].image
+function getAudiofromData(idDonne,previousnext=false) {
+
+    if(previousnext===false){
+        for(let i = 0; i < jsonPlay[0].length; i ++){
+            if(jsonPlay[0][i].id == idDonne + 1){
+                var linkAudio = jsonPlay[0][i].fichier
+                var titreAudio = jsonPlay[0][i].nom_music
+                var artisteAudio = jsonPlay[0][i].nom_artiste
+                var image = jsonPlay[0][i].image
+                idData = i
+            }
+        }
+    }
+    else{
+        var linkAudio = jsonPlay[0][idDonne].fichier
+        var titreAudio = jsonPlay[0][idDonne].nom_music
+        var artisteAudio = jsonPlay[0][idDonne].nom_artiste
+        var image = jsonPlay[0][idDonne].image
+        idData = idDonne
+    }
 
     audio.src = "musiques/" + linkAudio
     titre.innerHTML = titreAudio
     artiste.innerHTML = artisteAudio
     imgMusic.src = "images/musique/" + image
+    like.classList.add("fa-regular")
+    like.classList.add("fa-heart")
+
+
 
     axios.get("crud/musicLiked.php?idMusic=" +idDonne).
     then(function(response){
         if(response.data != 1){
-            like.classList.remove("fa-solid")
-            like.classList.add("fa-regular")
-            like.classList.add("fa-heart")
-
-
+            if(isLiked == true){
+                like.classList.remove("fa-solid")
+                like.classList.add("fa-regular")
+                like.classList.add("fa-heart")
+                isLiked = false;
+            }
         }
         else{
-            like.classList.remove("fa-regular")
-            like.classList.add("fa-solid")
-            like.classList.add("fa-heart")
+            if(isLiked == false){
+                like.classList.remove("fa-regular")
+                like.classList.add("fa-solid")
+                like.classList.add("fa-heart")
+                isLiked = true;
+            }
+
         }
     })
 
-    idData = idDonne
+    
 }
 
 
@@ -181,14 +205,14 @@ function nextMusic() {
     // Si le bouton random est appuyé alors on lance une musique aléatoire 
     if (isRandom) {
         idData = randomIdData(idData, nbMusic)
-        getAudiofromData(idData)
+        getAudiofromData(idData,true)
         audio.setAttribute("autoplay", "")
         count = startMusicNextPrevious(count)
     }
     //Sinon on prend la musique suivante
     else {
         if (idData + 1 < nbMusic) { idData++ }
-        getAudiofromData(idData)
+        getAudiofromData(idData,true)
         audio.setAttribute("autoplay", "")
         count = startMusicNextPrevious(count)
     }
@@ -196,6 +220,7 @@ function nextMusic() {
 
 //Function qui lance ma musique quand on appuie sur le bouton suivant et précédant
 function startMusicNextPrevious(count) {
+    pub ++;
     audio.setAttribute("autoplay", "")
     buttonPause.classList = "fa-solid fa-pause"
 
@@ -249,13 +274,26 @@ function likeButton(etat) {
     if (etat == false) {
         etat = true
         like.className = "fa-solid fa-heart"
-        axios.get("crud/musicLiked.php?idMusic=" +idData).
-        then(function(response){
-        })
+        axios.get("crud/addMusicLiked.php?idMusic=" +idData)
+        if(getUrl() === 'like'){
+            idMusicAdd = idData+1
+            axios.get("crud/getmusiquesplaylist.php?id=" + idMusicAdd + "&search=null").then(function(response) {
+                let musiques = response.data;
+                afficheMusiques(musiques);
+            })
+        }
     }
     else {
         etat = false
         like.className = "fa-regular fa-heart"
+        axios.get("crud/removeMusicLiked.php?idMusic="+ jsonPlay[0][idData].id)
+        if(getUrl() === 'like'){    
+            idMusicDelete = document.getElementById(jsonMusiques[0][idData].id)
+            idMusicDelete.remove()
+            if((jsonMusiques[0].length == 1)){
+                let message = create("p", body, "Cette playlist ne contient pas de musiques !");
+            }
+        }
     }
 
     isLiked = etat
