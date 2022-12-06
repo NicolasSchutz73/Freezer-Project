@@ -1,5 +1,5 @@
 <!-- FOOTER -->
-<footer>
+<footer class="">
     <audio src="#">Musique</audio>
     <div id="barAudio">
         <div id="conteneurButtonAudio">
@@ -17,7 +17,6 @@
                 <h2></h2>
                 <p></p>
             </div>
-
             <?php
             if (isset($_SESSION['id'])) {
                 echo '<i id="likeMusic"></i>';
@@ -35,6 +34,10 @@
         <div id="volume">
             <img src="<?php echo HOST_IMG . '/footer/volume.png'; ?>" alt="icon volume" id="iconVolume">
             <input type="range" id="volumeSlider" min="0" max="100" value="50" step="1">
+        </div>
+
+        <div id="iconFullScreen">
+            <i class="fa-sharp fa-solid fa-expand" id="fullScreenButton"></i>
         </div>
     </div>
 </footer>

@@ -7,7 +7,7 @@ include("dbConnect.php");
 #Récupération variable session et id musique
 session_start();
 $idSession = $_SESSION['id'];
-$idMusicLiked = $_GET['idMusic'] + 1;
+$idMusicLiked = $_GET['idMusic'];
 
 
 #Selection data

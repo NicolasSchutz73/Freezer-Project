@@ -2,6 +2,8 @@
 ///////////////////////     VARIABLES       ///////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 
+//variable conteneur 
+var footer = document.querySelector('footer')
 
 //variable pour l'audio
 var audio = document.querySelector("audio");
@@ -24,6 +26,8 @@ var buttonNext = document.querySelector("#buttonNext")
 var buttonPrevious = document.querySelector("#buttonPrevious")
 var buttonRepeat = document.querySelector("#buttonRepeat")
 var buttonRandom = document.querySelector("#buttonRandom")
+var buttonFullScreen = document.querySelector("#fullScreenButton")
+
 
 //variables secondaire
 var pub = 0
@@ -92,6 +96,12 @@ var volumeSlider = document.querySelector("#volumeSlider");
 
 volumeSlider.addEventListener("change", function () {
     audio.volume = volumeSlider.value / 100
+})
+
+
+// FULL SCREEN 
+buttonFullScreen.addEventListener("click",() =>{
+    afficheFullScreen();
 })
 
 
@@ -274,14 +284,18 @@ function likeButton(etat) {
     if (etat == false) {
         etat = true
         like.className = "fa-solid fa-heart"
-        axios.get("crud/addMusicLiked.php?idMusic=" +idData)
-        if(getUrl() === 'like'){
-            idMusicAdd = idData+1
-            axios.get("crud/getmusiquesplaylist.php?id=" + idMusicAdd + "&search=null").then(function(response) {
-                let musiques = response.data;
-                afficheMusiques(musiques);
-            })
-        }
+        axios.get("crud/addMusicLiked.php?idMusic=" +jsonPlay[0][idData].id)
+        setTimeout(()=>{
+            if(getUrl() === 'like'){    
+                     //vide le musique container
+                    removeAllChild(musiquesContainer)
+                    //vide le playlist container
+                    removeAllChild(playlistsContainer)
+                    //vide le user container
+                    removeAllChild(usersContainer)
+                    //affiche titre liké
+                    afficheTitrelike()
+                }},100)
     }
     else {
         etat = false
@@ -295,9 +309,30 @@ function likeButton(etat) {
             }
         }
     }
+    /* ??
+        setTimeout(()=>{
+        if(getUrl() === 'like'){    
+                 //vide le musique container
+                removeAllChild(musiquesContainer)
+                //vide le playlist container
+                removeAllChild(playlistsContainer)
+                //vide le user container
+                removeAllChild(usersContainer)
+                //affiche titre liké
+                afficheTitrelike()
+            }},100)
 
+        }
+*/
     isLiked = etat
 }
+
+function afficheFullScreen(){
+    footer.classList.toggle("containerFullScreen")
+}
+
+
+
 
 // FUNCTION RANDOM
 function getRandomInt(max) {
