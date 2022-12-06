@@ -244,7 +244,7 @@ body {
     bottom: 50%;
     display: flex;
     flex-direction: row;
-
+    z-index: 1;
 }
 
 .containerFullScreen #volumeSlider{
@@ -254,14 +254,17 @@ body {
 }
 
 
+.containerFullScreen #iconFullScreen{
+    width:100%;
+    position:relative;
+    top:-51%;
+  }
 .containerFullScreen #iconFullScreen #fullScreenButton{
-    position: relative;
-    right: 1150px;
-    top: -100px;
-    color: white;
-    font-size: 30px;
-    
-}
+      position: relative;
+      left:25px;
+      font-size: 30px;
+      
+  }
 
 .containerFullScreen #likeMusic{
     position: relative;
