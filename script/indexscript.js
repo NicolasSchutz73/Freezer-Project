@@ -10,10 +10,8 @@ function getUrl() {
 let buttonAdmin = document.querySelector(".header--button--signUp")
 var testAdmin = false
 
-buttonAdmin.addEventListener("click", function () {
-    testAdmin = true
-testAdmin = false
 
+console.log(document.querySelector("#titreLike"))
 document.querySelector("#titreLike").addEventListener("click",()=>{
     //Changement d'url
     window.history.replaceState(stateObj,
@@ -25,15 +23,12 @@ document.querySelector("#titreLike").addEventListener("click",()=>{
     removeAllChild(playlistsContainer)
     //vide le user container
     removeAllChild(usersContainer)
-    //affiche les musiques
-    afficheMusiques(jsonMusiques[0])
-    //affiche les users
-    afficheUsers(jsonUsers[0])
-})
     //affiche titre liké
-    afficheTitreliké()
-    
+    afficheTitrelike()
 })
+
+    
+
 
 // si document.querySelector(".header--button--signUp") existe
 if (document.querySelector(".header--button--Admin")) {
@@ -297,7 +292,7 @@ function deleteUser(id) {
 
 /*------------------------AFFICHE TITRE LIKE------------------------------*/
 
-function afficheTitreliké(){
+function afficheTitrelike(){
     axios.get("crud/getMusicLiked.php").then(function (response){
         let infosPlaylistContainer = create("div", playlistsContainer, null, "infosPlaylist");
         //Image
@@ -323,6 +318,7 @@ function afficheTitreliké(){
         else{
 
             let message = create("p", musiquesContainer, "Cette playlist ne contient pas de musiques !");
+            
         }
         
 

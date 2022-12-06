@@ -7,7 +7,6 @@ body {
     color: black;
 }
 
-
 #barAudio {
     height: 80px;
     width: 100%;
@@ -119,7 +118,19 @@ body {
     box-shadow: -407px 0 0 400px #7c1fb3;
   }
   
-  
+  #iconFullScreen {
+    position: absolute;
+    top: 20%;
+    right: 1%;
+    color: white;
+  }
+
+  #iconFullScreen i{
+    font-size: calc(10px + 1.0vw);
+    cursor: pointer;
+  }
+
+
 
 #Music {
     display: flex;
@@ -160,4 +171,100 @@ body {
 
 #infoMusic p{
     color: #B3B3B3;
+}
+
+
+
+
+
+/*FULL SCREEN */
+
+.containerFullScreen #barAudio{
+    overflow-x: hidden;
+    overflow-y: scroll;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.98);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.containerFullScreen #conteneurButtonAudio{
+    position: relative;
+    top: 30%;
+    z-index: 5;
+}
+
+.containerFullScreen #conteneurButtonAudio #buttonAudio i{
+    font-size: 20px;
+    margin-right: 20px;
+}
+
+
+.containerFullScreen #Music{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top:50%;
+    margin-left:-1%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+}
+
+.containerFullScreen #imgMusic{
+    min-width:100px;
+    width: 250px;
+    height: 250px;
+
+}
+
+.containerFullScreen #infoMusic{
+    margin-top: 10px;
+    margin-bottom: 50px;
+}
+
+
+.containerFullScreen #conteneurTimeBar{
+    position: relative;
+    top: 35%;
+}
+
+.containerFullScreen #conteneurTimeBar #timeBar{
+    width: 900px;
+}
+
+
+.containerFullScreen #volume{
+    position: relative;
+    bottom: 50%;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.containerFullScreen #volumeSlider{
+    margin-left: 10px;
+    min-width: 100px;
+    
+}
+
+
+.containerFullScreen #iconFullScreen #fullScreenButton{
+    position: relative;
+    right: 1150px;
+    top: -100px;
+    color: white;
+    font-size: 30px;
+    
+}
+
+.containerFullScreen #likeMusic{
+    position: relative;
+    top: -30px;
+    right: 10px;
 }

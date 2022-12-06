@@ -7,7 +7,7 @@ include("dbConnect.php");
 #Récupération variable session et id musique
 session_start();
 $idSession = $_SESSION['id'];
-$idMusicLiked = $_GET['idMusic'] + 1;
+$idMusicLiked = $_GET['idMusic'];
 
 
 #Selection data
@@ -30,11 +30,8 @@ $musiques = $emparray[0]['musiques'];
     } else {
         //Au moins une musique
         $sql="UPDATE `utilisateurs` SET `musiques` = '$musiques" . ',' . "$idMusicLiked' WHERE `utilisateurs`.`id` = $idSession";
-<<<<<<< Updated upstream
         $result = mysqli_query($mysqli, $sql);
         $sql = "UPDATE `playlists` SET `musiques` = '$musiques" . ',' . "$idMusicLiked' WHERE `id` = '4'";
-=======
->>>>>>> Stashed changes
         $result = mysqli_query($mysqli, $sql);
 
     }

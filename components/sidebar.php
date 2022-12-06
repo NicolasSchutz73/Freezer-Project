@@ -19,7 +19,7 @@
             </a>
         </div>
         <div class="menu--item">
-            <a href="javascript:void(0">
+            <a href="javascript:void(0)">
                 <i class="fa-solid fa-list"></i>
                 <span class="menu--item--text">Liste musique</span>
             </a>
@@ -37,7 +37,7 @@
             </a>
         </div>
         <div class="menu--item">
-            <a href="javascript:void(0">
+            <a href="javascript:void(0)">
                 <i class="fa-solid fa-heart"></i>
                 <span id= "titreLike" class="menu--item--text">Titre likés</span>
             </a>
