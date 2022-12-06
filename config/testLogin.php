@@ -39,6 +39,5 @@ if ($nbLignes == 0) {
     // $resultat = mysqli_query($mysqli, $request);
 
     $_SESSION['id'] = $id;
-    include("../crud/getMusicLiked.php");
     header("Location: ../index.php");
 }

@@ -1,72 +1,67 @@
-let main = document.querySelector("main")
-let formBlur = create("div",main,null,"form-blur")
-let formulaireContainer = create("div",formBlur,null,"formulaire-container")
+//creattion formulaire
+function createFormulairePopup(){
+    
+    let formBlur = create("div",main,null,"form-blur")
+    let formulaireContainer = create("div",formBlur,null,"formulaire-container")
 
-//croix
-let crossContain = create("div",formulaireContainer,null,"cross-form-contain")
-let crossForm = create("p",crossContain,"✖","cross")
-crossForm.addEventListener("click",closeForm)
-//Conteneur
-let formulaire = create("div",formulaireContainer,null,"formulaire")
+    //croix
+    let crossContain = create("div",formulaireContainer,null,"cross-form-contain")
+    let crossForm = create("p",crossContain,"✖","cross")
+    crossForm.addEventListener("click",closeForm)
+    //Conteneur
+    create("div",formulaireContainer,null,"formulaire")
 
-//Titre
-/*
-create("h1",formulaire,'Titre Formulaire')
+    //Popup
+    let popupContainer = create("div",main,null,"popup-container")
+    popupContainer.classList.add("hidden")
+    let popup = create("div",popupContainer,null,"popup")
 
-//contenu
-let elementsFormulaire = create("div",formulaire,null,"elementsFormulaire")
-create("p",elementsFormulaire,"Nom d'utilisateur :");
-let inputText = create("input",elementsFormulaire)
-inputText.type = "text";
-create('p',elementsFormulaire,"Mot de passe :")
-let mdp = create("input",elementsFormulaire,null,null,"mdp")
-mdp.type = "password";
-*/
+    //Croix
+    let crossPopup = create("p",popup,"✖","cross")
+    crossPopup.addEventListener("click",closePopup)
 
-//Popup
-let popupContainer = create("div",main,null,"popup-container")
-popupContainer.classList.add("hidden")
-let popup = create("div",popupContainer,null,"popup")
-
-//Croix
-let crossPopup = create("p",popup,"✖","cross")
-crossPopup.addEventListener("click",closePopup)
-
-//Message
-let popupMessage = create("p",popup,"Texte popup bla bla bla")
+    //Message
+    create("p",popup,null,"popup-message")
+}
 
 //Fermer Popup
 function closePopup(){
+    let popupContainer = document.querySelector(".popup-container")
     popupContainer.classList.toggle("visible")
     popupContainer.classList.toggle("hidden")
 }
 
 //ouvrir Popup
 function openPopup(message){
-    popupMessage.innerHTML = message;
-    popupContainer.classList.toggle("hidden")
-    popupContainer.classList.toggle("visible")
+    document.querySelector(".popup-message").innerHTML = message;
+    let popupContainer = document.querySelector(".popup-container")
+    if(popupContainer.classList[1]=='hidden'){
+        popupContainer.classList.toggle("hidden")
+        popupContainer.classList.toggle("visible")
+    }
 }
 
 //ouvrir formulaire
 function openForm(){
-    formBlur.style.display = "flex";
+    document.querySelector(".form-blur").style.display = "flex";
 }
 
 //fermer formulaire
 function closeForm(){
-    removeAllChild(formulaire)
-    formBlur.style.display="none"
+    removeAllChild(document.querySelector(".formulaire"))
+    document.querySelector(".form-blur").style.display="none"
 }
 
 
-//Ajouter musique vers playliste
+//Ajouter musique vers playlist
+
 function addMusicToPlaylist(idMusic){
     //recup formulaire via id musique
     axios.get("pages/formAddToPlay.php?idmusic="+idMusic)
     .then(function (response) {
         //affichage page formulaire
-        formulaire.innerHTML = response.data;
+        
+        document.querySelector(".formulaire").innerHTML = response.data;
         //ouverture formulaire
         openForm()
 
@@ -113,10 +108,201 @@ function addMusicToPlaylist(idMusic){
                 closeForm()
 
             } else {
-                let errorMessageContainer = document.querySelector(".formulaire div")
-                create("p",errorMessageContainer,"Vous devez choisir une playlist !")
+                let invalidForm = document.querySelector("#invalidform")
+                invalidForm.innerHTML = "Vous devez choisir une playlist !"
             }
 
         })
+    })
+}
+
+/* FORMULAIRE D'AJOUT DE MUSIQUE */
+
+function addSuggestion(suggestionID) {
+    //récupération du formulaire via id suggestion
+    axios.get("pages/formAddMusic.php?idSuggestion=" + suggestionID)
+        .then(function (response) {
+            //affichage page formulaire
+            formulaire.innerHTML = response.data;
+            //ouverture formulaire
+            openForm()
+        })
+
+    //Bouton de confirmation
+    let buttonForm = document.querySelector(".formulaire button")
+    buttonForm.addEventListener("click", function () {
+
+        //ajout
+        axios.get("crud/addMusicDB.php")
+            .then(function (response) {
+                if (response.statusText != "OK") {
+                    openPopup("Une erreur est survenue")
+                } else {
+                    openPopup("La musique a été ajoutée à la base de donnée !")
+                }
+            })
+        closeForm()
+
+    })
+}
+
+//Connection 
+
+function connection(){
+    //recup formulaire via id musique
+    axios.get("pages/login.php")
+    .then(function (response) {
+        //affichage page formulaire
+        document.querySelector(".formulaire").innerHTML = response.data;
+        //ouverture formulaire
+        openForm()
+
+        
+        //S'inscrire
+        let sinscrire = document.querySelector(".formulaire a")
+        sinscrire.addEventListener("click",function(){
+            closeForm()
+            inscription()
+        })
+
+        //Boutton de confirmation
+        let buttonForm = document.querySelector(".formulaire button")
+        buttonForm.addEventListener("click",function(){
+            //Recupération données input
+            var login = document.querySelector("#login").value
+            var pwd = document.querySelector("#pwd").value
+
+            //Verification des données
+            axios.get("config/checklogin.php?login="+login+"&pwd="+pwd)
+            .then(function (response) {
+                console.log(response.data)
+                let invalidForm = document.querySelector("#invalidform")
+                //nom deja pris
+                if(response.data=="noaccount"){
+                    invalidForm.innerHTML = "Ce compte n'existe pas"
+                //formulaire mal remplis
+                } else if(response.data=="wrongpwd"){
+                    invalidForm.innerHTML = "Mauvais mot de passe"
+                //ok, creation du compte
+
+                } else {
+                    var idCompte = response.data
+                    
+                    //connection
+                    axios.get("config/startsession.php?id="+idCompte)
+                    //actualise la page
+                    location.reload()
+                }
+            })
+        })
+
+    })
+}
+
+//Inscription
+
+function inscription(){
+    //recup formulaire inscription
+    axios.get("pages/register.php")
+    .then(function (response) {
+
+        //affichage page formulaire
+        document.querySelector(".formulaire").innerHTML = response.data;
+
+        //ouverture formulaire
+        openForm()
+
+        //Se connecter
+        let seConnecter = document.querySelector(".formulaire a")
+        seConnecter.addEventListener("click",function(){
+            closeForm()
+            connection()
+        })
+        
+        //Boutton de confirmation
+        let buttonForm = document.querySelector(".formulaire button")
+        buttonForm.addEventListener("click",function(){
+            //Recupération données input
+            var login = document.querySelector("#login").value
+            var pwd = document.querySelector("#pwd").value
+            var pwdconfirm = document.querySelector("#pwdconfirm").value
+
+            //Verification des données
+            axios.get("config/checkinscription.php?login="+login+"&pwd="+pwd+"&pwdconfirm="+pwdconfirm)
+            .then(function (response) {
+                let invalidForm = document.querySelector("#invalidform")
+                //nom deja pris
+                if(response.data=="taken"){
+                    invalidForm.innerHTML = "Ce nom est déjà pris !"
+                //formulaire mal remplis
+                } else if(response.data=="nok"){
+                    invalidForm.innerHTML = "Remplissez correctement le formulaire"
+                //ok, creation du compte
+
+                } else if(response.data=="ok"){
+                    axios.get("crud/inscription.php?login="+login+"&pwd="+pwd)
+                    .then(function (response) {
+                        //id du compte
+                        var idCompte = response.data
+
+                        //connection
+                        axios.get("config/startsession.php?id="+idCompte)
+                        //actualise la page
+                        location.reload()
+
+                    })
+                }
+            })
+        })
+    })
+}
+
+
+//Suggestion
+function suggestion(){
+    //recup formulaire via id musique
+    axios.get("pages/suggestion.php")
+    .then(function (response) {
+        //affichage page formulaire
+        document.querySelector(".formulaire").innerHTML = response.data;
+        //ouverture formulaire
+        openForm()
+
+        //Boutton de confirmation
+        let buttonForm = document.querySelector(".formulaire button")
+        buttonForm.addEventListener("click",function(){
+            //Recupération données input
+            var musique = document.querySelector("#musicname").value
+            var artiste = document.querySelector("#artist").value
+            var comment = document.querySelector("#comment").value
+
+            //Verification des données
+            axios.get("crud/createSuggestion.php?iduser="+idSession+"&musique="+musique+"&artiste="+artiste+"&commentaire="+comment)
+            .then(function (response) {
+                console.log(response.data)
+                let invalidForm = document.querySelector("#invalidform")
+                if(response.data=="OK"){
+                    openPopup("Votre suggestion a été soumise aux administrateurs !")
+                    closeForm()
+                } else {
+                    invalidForm.innerHTML = "Remplissez correctement le formulaire"
+                }
+            })
+            
+        })
+
+    })
+}
+
+//creation playlist
+function createplaylist(){
+    //recup formulaire via id musique
+    axios.get("pages/nouvellePlaylist.php")
+    .then(function (response) {
+        //affichage page formulaire
+        document.querySelector(".formulaire").innerHTML = response.data;
+        //ouverture formulaire
+        openForm()
+
     })
 }

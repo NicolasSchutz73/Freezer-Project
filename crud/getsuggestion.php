@@ -1,11 +1,12 @@
 <?php
-include('dbConnect.php');
 
-session_start();
-$idSession = $_SESSION['id'];
+#Connection a la DB
 
+include("dbConnect.php");
 #Selection data
-$sql = "SELECT musiques FROM utilisateurs WHERE id=$idSession";
+
+$sql = "select * from suggestions";
+
 $result = mysqli_query($mysqli, $sql);
 
 #Resultats vers JS
@@ -15,4 +16,5 @@ while ($row = mysqli_fetch_assoc($result)) {
 }
 echo json_encode($emparray);
 
+#Fermeture connection
 mysqli_close($mysqli);

@@ -9,33 +9,45 @@ mot.addEventListener("keyup", () => {
 
 function chercheMusic(recherche = null) {
 	//page index
-	if (!pagePlaylist){
+	if (page=="accueil"){
 		axios.get("crud/getallmusics.php?search=" + recherche)
 			.then(function (response) {
 				let musics = response.data
 				removeAllChild(musiquesContainer);
-				afficheMusiques(musics);
+				if(musics.length==0){
+					rechercheVide(musiquesContainer,"musiques")
+				} else {
+					afficheMusiques(musics);
+				}
 			})
 	//page playlist
-	} else {
+	} else if(page=="playlist") {
 	axios.get("crud/getmusiquesplaylist.php?id="+ idsPlaylist +"&search="+recherche)
 	.then(function (response) {
 			let musics = response.data;
 			removeAllChild(musiquesContainer);
-			afficheMusiques(musics);
+			if(musics.length==0){
+				rechercheVide(musiquesContainer,"musiques")
+			} else {
+				afficheMusiques(musics);
+			}
 	})
 	}
 }
 
 
 function cherchePlaylist(recherche = null) {
-	if (!pagePlaylist){
+	if (page=="accueil"){
 		axios.get("crud/getallplaylists.php?search=" + recherche)
 		.then(function (response) {
 
 			let playlists = response.data
-			removeAllChild(playlistsContainer);
-			affichePlaylists(playlists)
+			removeAllChild(document.querySelector(".playlistsContainerWrap"));
+			if(playlists.length==0){
+				rechercheVide(document.querySelector(".playlistsContainerWrap"),"playlist")
+			} else {
+				affichePlaylists(playlists)
+			}
 		})
 	}
 }
@@ -45,4 +57,9 @@ function removeAllChild(parent) {
 	while (parent.firstChild) {
 		parent.firstChild.remove()
 	}
+}
+
+function rechercheVide(container,type){
+	let rechercheVideContainer = create("div",container,null,"empty-search")
+	create("p",rechercheVideContainer,"Pas de "+type+" portant ce nom")
 }

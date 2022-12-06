@@ -27,14 +27,11 @@ $musiques = $emparray[0]['musiques'];
         //Pas de musiques dans la playlist 
         $sql = "UPDATE `utilisateurs` SET `musiques` = '$idMusicLiked' WHERE `id` = '$idSession'";
         $result = mysqli_query($mysqli, $sql);
-        $sql = "UPDATE `playlists` SET `musiques` = '$idMusicLiked' WHERE `id` = '4'";
-        $result = mysqli_query($mysqli, $sql);
     } else {
         //Au moins une musique
-        $sql="UPDATE `utilisateurs` SET `musiques` = '$musiques" . ',' . "$idMusicLiked" . ',' . "' WHERE `utilisateurs`.`id` = $idSession";
+        $sql="UPDATE `utilisateurs` SET `musiques` = '$musiques" . ',' . "$idMusicLiked' WHERE `utilisateurs`.`id` = $idSession";
         $result = mysqli_query($mysqli, $sql);
-        $sql = "UPDATE `playlists` SET `musiques` = '$musiques" . ',' . "$idMusicLiked" . ',' . "$idMusicLiked" . ',' . "' WHERE `id` = '4'";
-        $result = mysqli_query($mysqli, $sql);
+
     }
 
     echo($sql);
