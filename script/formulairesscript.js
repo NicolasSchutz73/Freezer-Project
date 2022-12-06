@@ -116,6 +116,36 @@ function addMusicToPlaylist(idMusic){
     })
 }
 
+/* FORMULAIRE D'AJOUT DE MUSIQUE */
+
+function addSuggestion(suggestionID) {
+    //récupération du formulaire via id suggestion
+    axios.get("pages/formAddMusic.php?idSuggestion=" + suggestionID)
+        .then(function (response) {
+            //affichage page formulaire
+            formulaire.innerHTML = response.data;
+            //ouverture formulaire
+            openForm()
+        })
+
+    //Bouton de confirmation
+    let buttonForm = document.querySelector(".formulaire button")
+    buttonForm.addEventListener("click", function () {
+
+        //ajout
+        axios.get("crud/addMusicDB.php")
+            .then(function (response) {
+                if (response.statusText != "OK") {
+                    openPopup("Une erreur est survenue")
+                } else {
+                    openPopup("La musique a été ajoutée à la base de donnée !")
+                }
+            })
+        closeForm()
+
+    })
+}
+
 //Connection 
 
 function connection(){

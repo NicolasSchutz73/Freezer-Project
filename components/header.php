@@ -50,13 +50,7 @@
         echo '<i class="fa-solid fa-right-from-bracket"></i> </button>';
         echo '</div>';
     } else {
-        /*
-        echo '<div class="header--buttons">';
-        echo '<button class="header--button previous"> <i class="lni-chevron-left"></i> </button>';
-        echo '<button class="header--button next"> <i class="lni-chevron-right"></i> </button>';
-        echo '</div>';
-        */
-        
+
         echo '<div class="header--buttons--right">';
         echo '<button class="header--button--signUp">';
         echo "S'inscrire </button>";
