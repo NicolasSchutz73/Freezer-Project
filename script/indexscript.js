@@ -11,27 +11,6 @@ function create(tagName, container, text = null, classs = null, id = null) {
     return element
 }
 
-/*
-// si document.querySelector(".header--button--signUp") existe
-if (document.querySelector(".header--button--Admin")) {
-    let buttonAdmin = document.querySelector(".header--button--Admin")
-    buttonAdmin.addEventListener("click", function () {
-        //passe testAdmin a true
-        testAdmin = true
-        //vide le musique container
-        removeAllChild(musiquesContainer)
-        //vide le playlist container
-        removeAllChild(playlistsContainer)
-        //vide le user container
-        removeAllChild(usersContainer)
-        //affiche les musiques
-        afficheMusiques(jsonMusiques[0])
-        //affiche les users
-        afficheUsers(jsonUsers[0])
-    })
-}
-*/
-
 
 //Conteneurs
 let main = document.querySelector("main")
@@ -44,13 +23,6 @@ let jsonMusiques = []
 let jsonPlay = []
 let page=""
 let idsPlaylist =''
-
-let jsonAllMusique = []
-//initialisation jsonAllMusique
-axios.get("crud/getallmusics.php?search=null")
-    .then(function (response) {
-        jsonAllMusique.push(response.data)
-    })
 
 //Function pour récupérer l'url courante et son paramètre
 function getUrl(){
@@ -78,20 +50,6 @@ function getIdSession(){
     }
     return idSession
 }
-
-/*
-//récupère toutes les musiques pour l'admin 
-let jsonAllMusique = []
-//initialisation jsonAllMusique
-axios.get("crud/getallmusics.php?search=null")
-    .then(function (response) {
-        jsonAllMusique.push(response.data)
-    })
-
-chercheMusic()
-cherchePlaylist()
-*/
-
 
 
 /*------------------------LOAD PAGE------------------------------*/
@@ -199,15 +157,39 @@ function loadPage(url){
         if(testAdmin){
 
             //AFFICHE PAGE ADMIN
+
+            //containers
             create("div",main,null,null,"usersContainer")
             create("div",main,null,null,"suggestionsContainer")
             create("div",main,null,null,"playlistsContainer")
             create("div",main,null,null,"musiquesContainer")
 
             //affiche les musiques
-            afficheMusiques(jsonAllMusiques[0])
-            //affiche les users
-            afficheUsers(jsonUsers[0])
+            let jsonAllMusiques = []
+            //initialisation jsonAllMusique
+            axios.get("crud/getallmusics.php?search=null")
+                .then(function (response) {
+                    jsonAllMusiques=response.data;
+                    afficheMusiques(jsonAllMusiques)
+                })
+
+            //récupère info utilisateur
+            let jsonUsers = []
+            //initialisation jsonUsers
+            axios.get("crud/getallusers.php")
+                .then(function (response) {
+                    jsonUsers=response.data
+                    afficheUsers(jsonUsers)
+                })
+
+            //récupère info suggestion
+            let jsonSuggestions = []
+            //initialisation jsonSuggestions
+            axios.get("crud/getsuggestion.php")
+                .then(function (response) {
+                    jsonSuggestions.push(response.data)
+                    afficheSuggestions(response.data)
+                })
 
         } else {
 
@@ -290,6 +272,13 @@ if(idSession==null){
     //login
     document.querySelector(".header--button--login").addEventListener("click",connection)
     */
+   if(testAdmin){
+    document.querySelector(".header--button--user").addEventListener("click",function(){
+        window.history.replaceState(stateObj,
+            "accueil", "?page=admin");
+        loadPage(getUrl())
+    })
+   }
 
     //suggestion
     document.querySelector("#suggestion").addEventListener("click",suggestion)
@@ -372,7 +361,7 @@ function deleteMusic(id) {
                     jsonAllMusique = []
                     jsonAllMusique.push(response.data)
                     removeAllChild(musiquesContainer)
-                    afficheMusiques(jsonAllMusique[0])
+                    afficheMusiques(jsonAllMusiques[0])
                 })
         })
 }
@@ -430,15 +419,6 @@ function afficheInfosPlaylist(pl) {
 
 
 /*------------------------AFFICHE USERS------------------------------*/
-
-
-//récupère info utilisateur
-let jsonUsers = []
-//initialisation jsonUsers
-axios.get("crud/getallusers.php")
-    .then(function (response) {
-        jsonUsers.push(response.data)
-    })
 
 //affiche users
 function afficheUsers(users) {
@@ -522,13 +502,6 @@ function deleteUser(id) {
 
 /*------------------------AFFICHE SUGGESTIONS------------------------------*/
 
-//récupère info suggestion
-let jsonSuggestions = []
-//initialisation jsonSuggestions
-axios.get("crud/getsuggestion.php")
-    .then(function (response) {
-        jsonSuggestions.push(response.data)
-    })
 
 //affiche suggestions
 function afficheSuggestions(suggestions) {
