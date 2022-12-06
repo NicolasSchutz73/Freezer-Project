@@ -1,0 +1,157 @@
+.form-blur {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(2px);
+    z-index: 2;
+}
+
+.formulaire-container{
+    width: 50vh;
+    height: 60vh;
+    background-color: rgb(54 54 54);
+    border-radius: 3px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.formulaire-container .cross-form-contain{
+    display: flex;
+    margin: 1vh;
+    flex-direction: row-reverse;
+}
+
+.cross{
+    color:white;
+}
+
+.cross:hover{
+    color: rgb(176, 176, 176);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.formulaire {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 2;
+    margin-bottom: 5vh;
+}
+
+.formulaire button {
+    display: block;
+    width: 15vh;
+    height: 5vh;
+    margin-left: auto;
+    margin-right: auto;
+
+    background-color: #5d366d;
+    border: solid 1px black;
+    color: white;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+.formulaire button:hover {
+    background-color:#3c2346;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.formulaire input[type="text" i] {
+    background-color: #8d8b8b;
+    border: solid 1px #484848;
+    border-radius: 3px;
+    color: white;
+    padding: 7px;
+    font-weight: bold;
+    
+}
+
+.formulaire input[type="password" i] {
+    background-color: #8d8b8b;
+    border: solid 1px #484848;
+    border-radius: 3px;
+    color: white;
+    padding: 7px;
+    font-weight: bold;
+    
+}
+
+.formulaire h1 {
+    font-size: 3vh;
+}
+
+.formulaire p {
+    margin: 1.5vh;
+}
+
+.formulaire img {
+    object-fit: cover;
+    width: 200px;
+    height: 200px;
+}
+
+.formulaire select{
+    margin-left : 10vh;
+    margin-right: 10vh;
+    padding: 10px;
+    background-color: #7a7a7a;
+    border: solid 1px #484848;
+    border-radius: 3px;
+    color: white;
+    font-weight: bold;
+}
+
+.popup-container {
+    position: absolute;
+    bottom: 80px;
+    left: 0;
+    height:60px;
+    width:100%;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    visibility: visible;
+}
+
+.popup {
+    background-color:#3c2346;
+    border-radius: 5px;
+    height: auto;
+    width: 50%;
+    margin: 5px;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.popup .cross{
+    height: 2vh;
+    font-size: 2vh;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 1vh;
+    margin-left: 1vh;
+}
+.popup p {
+    margin: auto;
+}
+
+.visible {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s linear;
+}
+
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 0.2s, opacity 0.2s linear;
+}
