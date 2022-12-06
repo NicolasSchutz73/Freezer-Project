@@ -1,5 +1,5 @@
 <!-- FOOTER -->
-<footer class="">
+<footer class="containerFullScreen">
     <audio src="#">Musique</audio>
     <div id="barAudio">
         <div id="conteneurButtonAudio">
