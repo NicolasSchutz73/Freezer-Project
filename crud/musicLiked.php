@@ -20,12 +20,8 @@ while ($row = mysqli_fetch_assoc($result)) {
     $emparray[] = $row['musiques'];
 }
 
-
 $res = rechercheMusiquedansTableau($emparray[0],$idMusicLiked);
 echo($res);
-
-
-    
     
 function rechercheMusiquedansTableau($tab, $musique){
     $yest = false;

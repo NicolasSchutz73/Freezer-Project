@@ -11,38 +11,7 @@ function create(tagName, container, text = null, classs = null, id = null) {
     return element
 }
 
-let testAdmin = false;
 /*
-let buttonAdmin = document.querySelector(".header--button--signUp")
-var testAdmin = false
-
-buttonAdmin.addEventListener("click", function () {
-    testAdmin = true
-testAdmin = false
-
-
-document.querySelector("#titreLike").addEventListener("click",()=>{
-    //Changement d'url
-    window.history.replaceState(stateObj,
-        "like", "?page=like");
-
-    //vide le musique container
-    removeAllChild(musiquesContainer)
-    //vide le playlist container
-    removeAllChild(playlistsContainer)
-    //vide le user container
-    removeAllChild(usersContainer)
-    //affiche les musiques
-    afficheMusiques(jsonMusiques[0])
-    //affiche les users
-    afficheUsers(jsonUsers[0])
-})
-    //affiche titre liké
-    afficheTitreliké()
-    
-})
-*/
-
 // si document.querySelector(".header--button--signUp") existe
 if (document.querySelector(".header--button--Admin")) {
     let buttonAdmin = document.querySelector(".header--button--Admin")
@@ -61,18 +30,6 @@ if (document.querySelector(".header--button--Admin")) {
         afficheUsers(jsonUsers[0])
     })
 }
-
-
-
-/*
-    //retirer le bouton delete
-    testAdmin = false
-    buttonDelete = document.querySelector(".buttonDelete")
-    if (buttonDelete) {
-        buttonDelete.remove()
-    }
-
-    removeAllChild(usersContainer)
 */
 
 //Renvoie l'id de la session, null si pas connecté, met a jour testadmin
@@ -99,6 +56,7 @@ let jsonMusiques = []
 let jsonPlay = []
 let page=""
 let idsPlaylist =''
+let testAdmin = false;
 
 //Function pour récupérer l'url courante et son paramètre
 function getUrl(){
@@ -165,6 +123,7 @@ function loadPage(url){
             pageErreur()
 
         } else {
+
             //page like
             console.log("like")
             playlistsContainer = create("div",main,null,null,"playlistsContainer")
@@ -211,6 +170,23 @@ function loadPage(url){
 
 
     //page non trouvée
+    } else if(url=="admin"){
+        page=url
+        removeAllChild(main)
+        createFormulairePopup()
+
+        if(testAdmin){
+            console.log("admin !")
+
+            //AFFICHE PAGE ADMIN
+
+        } else {
+
+            //PAGE ERREUR
+            pageErreur()
+
+        }
+
     } else {
         page="error"
         console.log("???")
@@ -221,9 +197,6 @@ function loadPage(url){
         pageErreur()
     }
 }
-
-
-
 
 //initialisation page
 loadPage(getUrl())

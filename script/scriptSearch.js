@@ -43,7 +43,11 @@ function cherchePlaylist(recherche = null) {
 
 			let playlists = response.data
 			removeAllChild(document.querySelector(".playlistsContainerWrap"));
-			affichePlaylists(playlists)
+			if(playlists.length==0){
+				rechercheVide(document.querySelector(".playlistsContainerWrap"),"playlist")
+			} else {
+				affichePlaylists(playlists)
+			}
 		})
 	}
 }
