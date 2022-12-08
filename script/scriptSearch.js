@@ -8,6 +8,7 @@ mot.addEventListener("keyup", () => {
 //Function chercher musique et playlist dans base de données 
 
 function chercheMusic(recherche = null) {
+	let musiquesContainer = document.querySelector("#musiquesContainer")
 	//page index
 	if (page=="accueil"){
 		axios.get("crud/getallmusics.php?search=" + recherche)

@@ -212,6 +212,7 @@ function loadPage(url) {
 
 //initialisation page
 loadPage(getUrl())
+loadPlaylistsSide()
 
 //page erreur
 function pageErreur() {
@@ -370,7 +371,29 @@ function deleteMusic(id) {
                 })
         })
 }
+/*------------------------AFFICHE PLAYLISTS SIDEBAR------------------------------*/
 
+function loadPlaylistsSide(){
+    if (idSession!=null){
+        //containers
+        let menuExtra = document.querySelector(".menu-extra")
+        let playlistsSideContainer = create("div",menuExtra,null,".playlists-user-sidebar")
+        axios.get("crud/getPlaylistsUser.php?idUser="+idSession).then(function(response){
+            var playlists = response.data
+            console.log(response.data)
+            for(playlist of playlists ){
+                let playlistContainer = create("div",playlistsSideContainer,null,"menu--item",playlist.hashlink)
+                let link = create("a",playlistContainer)
+                link.href = "javascript:void(0)"
+                let i = create("i",link)
+                let img = create("img",i,null,"playlist-sidebar-img")
+                img.src = "images/playlist/"+playlist.image
+                create("span",link,playlist.nom,"menu--item--text")
+
+            }
+        })
+    }
+}
 
 
 
