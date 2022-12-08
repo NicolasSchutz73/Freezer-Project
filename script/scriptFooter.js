@@ -284,7 +284,12 @@ function likeButton(etat) {
     if (etat == false) {
         etat = true
         like.className = "fa-solid fa-heart"
-        axios.get("crud/addMusicLiked.php?idMusic=" +jsonPlay[0][idData].id)
+        axios.get("crud/addMusicLiked.php?idMusic=" +jsonPlay[0][idData].id).then(function (response) {
+            if(getUrl()==='like'){
+                loadPage('like')
+            }
+        })
+        /*
         setTimeout(()=>{
             if(getUrl() === 'like'){    
                      //vide le musique container
@@ -296,18 +301,31 @@ function likeButton(etat) {
                     //affiche titre liké
                     afficheTitrelike()
                 }},100)
+                */
     }
     else {
         etat = false
         like.className = "fa-regular fa-heart"
         axios.get("crud/removeMusicLiked.php?idMusic="+ jsonPlay[0][idData].id)
+        .then(function (response) {
+            if(getUrl()==='like'){
+                idMusicDelete = document.getElementById(jsonMusiques[0][idData].id)
+                idMusicDelete.remove()
+                loadPage('like')
+                if((jsonMusiques[0].length == 1)){
+                    create("p", body, "Cette playlist ne contient pas de musiques !");
+                }
+            }
+        })
+            /*
         if(getUrl() === 'like'){    
             idMusicDelete = document.getElementById(jsonMusiques[0][idData].id)
             idMusicDelete.remove()
             if((jsonMusiques[0].length == 1)){
-                let message = create("p", body, "Cette playlist ne contient pas de musiques !");
+                create("p", body, "Cette playlist ne contient pas de musiques !");
             }
         }
+        */
     }
     /* ??
         setTimeout(()=>{
