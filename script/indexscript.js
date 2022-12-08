@@ -383,6 +383,11 @@ function loadPlaylistsSide(){
             console.log(response.data)
             for(playlist of playlists ){
                 let playlistContainer = create("div",playlistsSideContainer,null,"menu--item",playlist.hashlink)
+                playlistContainer.addEventListener("click",function(){
+                    window.history.replaceState(stateObj,
+                        "accueil", "?page="+playlistContainer.id);
+                    loadPage(getUrl())
+                })
                 let link = create("a",playlistContainer)
                 link.href = "javascript:void(0)"
                 let i = create("i",link)
