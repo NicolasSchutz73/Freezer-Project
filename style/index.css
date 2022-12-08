@@ -544,10 +544,10 @@ main {
 
 /*Suggestions*/
 
-.suggestions {
+#suggestionsContainer {
     display: flex;
     flex-direction: column;
-    padding-bottom: 80px;
+    padding-bottom: 30px;
 }
 
 .suggestionsContainer {
@@ -643,7 +643,7 @@ main {
     justify-content: center;
 }
 
-.erreur-container p{
+.erreur-container p {
     margin: auto;
     font-size: 25px;
 }
