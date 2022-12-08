@@ -328,12 +328,13 @@ function afficheMusiques(musiques) {
         create("p", texteMusique, musique.nom_artiste, "auteurMusique");
         create("span", texteMusique, musique.genre, "genreMusique");
 
-        let button = create("button", musiqueContainer, "+", null, musique.id)
-
         //Bouton d'ajout d'une musique vers une playlist
-        button.addEventListener("click", function () {
-            addMusicToPlaylist(button.id)
-        })
+        if(idSession!=null){
+            let button = create("button", musiqueContainer, "+", null, musique.id)
+            button.addEventListener("click", function () {
+                addMusicToPlaylist(button.id)
+            })
+        }
 
         //Bouton de suppression d'une musique si admin
         if (testAdmin) {
@@ -380,7 +381,6 @@ function loadPlaylistsSide(){
         let playlistsSideContainer = create("div",menuExtra,null,".playlists-user-sidebar")
         axios.get("crud/getPlaylistsUser.php?idUser="+idSession).then(function(response){
             var playlists = response.data
-            console.log(response.data)
             for(playlist of playlists ){
                 let playlistContainer = create("div",playlistsSideContainer,null,"menu--item",playlist.hashlink)
                 playlistContainer.addEventListener("click",function(){

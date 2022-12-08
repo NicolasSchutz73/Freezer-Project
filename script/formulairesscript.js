@@ -81,15 +81,16 @@ function addMusicToPlaylist(idMusic){
         let select = document.querySelector("select")
 
         //recup playlists
-        axios.get("crud/getallplaylists.php?search=null")
-        .then(function (response) {
-            for(playlist of response.data){
-                //options du formulaire
+        axios.get("crud/getPlaylistsUser.php?idUser="+idSession)
+        .then(function(response){
+            var playlists = response.data
+            for(playlist of playlists ){
+                //options formulaire
                 let option = create("option",select,playlist.nom)
                 option.value = playlist.id
             }
         })
-
+        
         //Boutton de confirmation
         let buttonForm = document.querySelector(".formulaire button")
         buttonForm.addEventListener("click",function(){
