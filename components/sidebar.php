@@ -20,8 +20,14 @@
         </div>
         <div class="menu--item" id="recent">
             <a href="javascript:void(0)">
-                <i class="fa-solid fa-list"></i>
-                <span class="menu--item--text">Ecoutées recemment</span>
+                <i class="fa fa-clock-o"></i>
+                <span class="menu--item--text">Ecoutées récemment</span>
+            </a>
+        </div>
+        <div class="menu--item" id="recommandations">
+            <a href="javascript:void(0)">
+                <i class="fa fa-star"></i>
+                <span class="menu--item--text">Recommandations</span>
             </a>
         </div>
     </div>
