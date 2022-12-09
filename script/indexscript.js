@@ -103,7 +103,6 @@ function loadPage(url) {
         } else {
 
             //page like
-            console.log("like")
             playlistsContainer = create("div", main, null, null, "playlistsContainer")
             create("p", main, "Liste des musiques :", "label");
             musiquesContainer = create("div", main, null, null, "musiquesContainer")
@@ -190,7 +189,8 @@ function loadPage(url) {
                     jsonSuggestions.push(response.data)
                     afficheSuggestions(response.data)
                 })
-
+        
+                
         } else {
 
             //PAGE ERREUR
@@ -198,8 +198,25 @@ function loadPage(url) {
 
         }
 
-        //page non trouvée
-    } else {
+       
+    } 
+    else if (url == "recent"){
+        page = url
+        removeAllChild(main)
+        let historicContainer = create("div", main, null, null, "historicContainer")
+        create("p", main, "Liste des musiques :", "label");
+        let musiquesContainer = create("div", main, null, null, "musiquesContainer")
+        let infosHistoricContainer = create("div", historicContainer, null, "infosHistoric");   
+        //Texte
+        let texteHistoricContainer = create("div", infosHistoricContainer, null, "texteInfoHistoric");
+        //Nom,auteur
+        create("p", texteHistoricContainer, "Historique", "nomPlaylist");
+        create("p", texteHistoricContainer, "Les musiques que vous avez écouté ", "auteurHistoric");
+        listenrecently()
+    }
+
+    //page non trouvée
+    else {
         page = "error"
         console.log("???")
 
@@ -290,8 +307,11 @@ if (idSession == null) {
 
     //Ecoutées récemment
     document.querySelector("#recent").addEventListener("click", function () {
-        openPopup("Historique")
-    })
+        if (getUrl() != "recent") {
+            window.history.replaceState(stateObj,
+                "accueil", "?page=recent");
+        loadPage(getUrl())
+    }})
 
     //Formulaire playlist
     document.querySelector("#formplaylist").addEventListener("click", createplaylist)
@@ -300,7 +320,7 @@ if (idSession == null) {
     document.querySelector("#likeplaylist").addEventListener("click", function () {
         if (getUrl() != "like") {
             window.history.replaceState(stateObj,
-                "like", "?page=like");
+                "accueil", "?page=like");
             loadPage(getUrl())
         }
     })
@@ -309,12 +329,21 @@ if (idSession == null) {
 
 /*------------------------AFFICHE MUSIQUES------------------------------*/
 
-function afficheMusiques(musiques) {
+function afficheMusiques(musiques) 
+{
     let musiquesContainer = document.querySelector("#musiquesContainer")
+    let numDate = 0;
     for (musique of musiques) {
-        //Container
-        let musiqueContainer = create("div", musiquesContainer, null, "musique", musique.id);
-
+       
+        if(getUrl()=="recent"){
+            axios.get("crud/getDate.php").then(function(response){
+                let resp = response.data[numDate]  
+                let textDate = create("div", musiqueContainer,resp, "textDate")
+                numDate++
+            })
+        }
+        let musiqueContainer = create("div", musiquesContainer, null, "musique", musique.id);        
+        
         //Musique
         let imageMusique = create("div", musiqueContainer, null, "imageMusique");
         let image = create("img", imageMusique);
@@ -329,7 +358,7 @@ function afficheMusiques(musiques) {
         create("span", texteMusique, musique.genre, "genreMusique");
 
         //Bouton d'ajout d'une musique vers une playlist
-        if(idSession!=null){
+        if (idSession != null) {
             let button = create("button", musiqueContainer, "+", null, musique.id)
             button.addEventListener("click", function () {
                 addMusicToPlaylist(button.id)
@@ -346,8 +375,17 @@ function afficheMusiques(musiques) {
 
         imageMusique.addEventListener("click", () => {
             jsonPlay = jsonMusiques
-            axios.get("config/save.php?tab=" + jsonMusiques)
             idMusic = musiqueContainer.getAttribute('id')
+            /*Récuperer la date courante */
+            var now = new Date();
+            var annee = now.getFullYear();
+            var mois  = now.getMonth() + 1;
+            var jour  = now.getDate();
+            var heure = now.getHours();
+            var minute = now.getMinutes();
+            var seconde = now.getSeconds();
+
+            axios.get("crud/addHistoric.php?idMusic=" + idMusic+"&date=Ecouté le "+jour+"/"+mois+"/"+annee+" à " +heure+" : "+minute+" : "+seconde+" secondes ")
             getAudiofromData(idMusic - 1)
             count = startMusicNextPrevious(count)
         })
@@ -374,26 +412,26 @@ function deleteMusic(id) {
 }
 /*------------------------AFFICHE PLAYLISTS SIDEBAR------------------------------*/
 
-function loadPlaylistsSide(){
-    if (idSession!=null){
+function loadPlaylistsSide() {
+    if (idSession != null) {
         //containers
         let menuExtra = document.querySelector(".menu-extra")
-        let playlistsSideContainer = create("div",menuExtra,null,".playlists-user-sidebar")
-        axios.get("crud/getPlaylistsUser.php?idUser="+idSession).then(function(response){
+        let playlistsSideContainer = create("div", menuExtra, null, ".playlists-user-sidebar")
+        axios.get("crud/getPlaylistsUser.php?idUser=" + idSession).then(function (response) {
             var playlists = response.data
-            for(playlist of playlists ){
-                let playlistContainer = create("div",playlistsSideContainer,null,"menu--item",playlist.hashlink)
-                playlistContainer.addEventListener("click",function(){
+            for (playlist of playlists) {
+                let playlistContainer = create("div", playlistsSideContainer, null, "menu--item", playlist.hashlink)
+                playlistContainer.addEventListener("click", function () {
                     window.history.replaceState(stateObj,
-                        "accueil", "?page="+playlistContainer.id);
+                        "accueil", "?page=" + playlistContainer.id);
                     loadPage(getUrl())
                 })
-                let link = create("a",playlistContainer)
+                let link = create("a", playlistContainer)
                 link.href = "javascript:void(0)"
-                let i = create("i",link)
-                let img = create("img",i,null,"playlist-sidebar-img")
-                img.src = "images/playlist/"+playlist.image
-                create("span",link,playlist.nom,"menu--item--text")
+                let i = create("i", link)
+                let img = create("img", i, null, "playlist-sidebar-img")
+                img.src = "images/playlist/" + playlist.image
+                create("span", link, playlist.nom, "menu--item--text")
 
             }
         })
@@ -585,4 +623,25 @@ function deleteSuggestion(id) {
                     afficheSuggestions(jsonSuggestions[0])
                 })
         })
+}
+
+/*------------------------ECOUTE RECEMMENT------------------------------*/
+function listenrecently() {
+    axios.get("crud/getHistoric.php").then(function (response) {
+        let resp = response.data    
+        let idmusiques = resp.split('').reverse().join(''); // reverse la chaine du caractère pour avoir les plus récents en premier de la liste.
+
+        if (idmusiques !== "NULL" && idmusiques !== "" && idmusiques !== undefined) {
+            axios.get("crud/getmusiquesplaylist.php?id=" + idmusiques + "&search=null").then(function (response) {
+                jsonMusiques = []
+                jsonMusiques.push(response.data)
+                let musiques = response.data;
+                afficheMusiques(musiques);
+            })
+        }
+        else {
+            create("p", historicContainer, "Vous n'avez encore écouté aucune musique ! Depechez vous de rejoindre notre catalogue !");
+        }
+
+    })
 }

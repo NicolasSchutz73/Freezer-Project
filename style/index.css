@@ -660,3 +660,18 @@ main {
     display: flex;
     justify-content: center;
 }
+
+
+/*Historique*/
+.infosHistoric {
+    display: flex;
+    background: linear-gradient(#520635, rgb(18, 18, 18));
+    justify-content: center;
+    height: 25vh;
+    margin-bottom: 30px;
+}
+
+.auteurHistoric{
+    font-size: 13px;
+    margin-left: 12px;
+}

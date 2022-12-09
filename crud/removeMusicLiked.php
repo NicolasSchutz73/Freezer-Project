@@ -34,6 +34,8 @@ $newtab =implode(",",$musiques);
 $sql="UPDATE `utilisateurs` SET `musiques` = '$newtab' WHERE `utilisateurs`.`id` = $idSession";
 $result = mysqli_query($mysqli, $sql);
 
+
+
 #Fermeture connection
 mysqli_close($mysqli);
 
