@@ -453,6 +453,79 @@ main {
     color: #dfdfdf;
 }
 
+/*affichage*/
+
+#dataContainer {
+    color: white;
+    padding-bottom: 80px;
+}
+
+.label {
+    padding: 10px;
+}
+
+/*Haut Playlist*/
+
+.infosPlaylist {
+    display: flex;
+    background: linear-gradient(grey, #1c1c1c);
+}
+
+.nomPlaylist {
+    font-size: 300%;
+}
+
+.imagePlaylist {
+    width: 220px;
+}
+
+.imagePlaylist img {
+    width: 220px;
+}
+
+.texteInfoPlaylist {
+    padding-left: 20px;
+}
+
+/*Musique*/
+
+.musiquesPlaylist {
+    display: flex;
+    flex-direction: column;
+}
+
+.musique {
+    display: flex;
+    height: 100px;
+}
+
+.musique:hover {
+    background-color: grey;
+    transition: all 0.5s ease;
+}
+
+.texteMusique {
+    flex: auto;
+    padding-left: 5px;
+}
+
+.texteMusique .nomMusique {
+    font-size: 140%;
+    display: auto;
+}
+
+.imageMusique {
+    width: 100px;
+}
+
+.imageMusique img {
+    width: 100px;
+}
+
+.dureeMusique {
+    padding-right: 20px;
+}
+
 /*Playlist */
 
 .playlistIndex:hover {
