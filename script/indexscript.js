@@ -540,6 +540,10 @@ function afficheUsers(users) {
             //Container
             let userContainer = create("div", usersContainer, null, "user", user.id);
 
+            let imageUser = create("div", userContainer, null, "imageMusique");
+            let image = create("img", imageUser);
+            image.src = "images/user/" + user.images;
+
             //Texte
             let texteUser = create("div", userContainer, null, "texteUser");
 
