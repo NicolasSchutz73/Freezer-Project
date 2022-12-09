@@ -337,6 +337,7 @@ main {
 /* search bar */
 .wrap {
     position: fixed;
+    
     top: 0;
     font-size: 150%;
 }
