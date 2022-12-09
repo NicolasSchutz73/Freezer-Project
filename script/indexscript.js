@@ -283,7 +283,7 @@ if (idSession == null) {
 
     //Likes
     document.querySelector("#likeplaylist").addEventListener("click", function () {
-        openPopup("Vous devez être connecté voir vos likés")
+        openPopup("Vous devez être connecté voir vos like")
     })
 
     //CONNECTE
@@ -334,14 +334,6 @@ function afficheMusiques(musiques)
     let musiquesContainer = document.querySelector("#musiquesContainer")
     let numDate = 0;
     for (musique of musiques) {
-       
-        if(getUrl()=="recent"){
-            axios.get("crud/getDate.php").then(function(response){
-                let resp = response.data[numDate]  
-                let textDate = create("div", musiqueContainer,resp, "textDate")
-                numDate++
-            })
-        }
         let musiqueContainer = create("div", musiquesContainer, null, "musique", musique.id);        
         
         //Musique
@@ -356,7 +348,13 @@ function afficheMusiques(musiques)
         create("p", texteMusique, musique.nom_music, "nomMusique");
         create("p", texteMusique, musique.nom_artiste, "auteurMusique");
         create("span", texteMusique, musique.genre, "genreMusique");
-
+        if(getUrl()=="recent"){
+            axios.get("crud/getDate.php").then(function(response){
+                let resp = response.data[numDate]  
+                let textDate = create("div", texteMusique,resp, "textDate") 
+                numDate++
+            })
+        }
         //Bouton d'ajout d'une musique vers une playlist
         if (idSession != null) {
             let button = create("button", musiqueContainer, "+", null, musique.id)
@@ -546,7 +544,6 @@ function afficheTitreliké() {
             })
         }
         else {
-
             create("p", musiquesContainer, "Cette playlist ne contient pas de musiques !");
         }
 
@@ -640,8 +637,23 @@ function listenrecently() {
             })
         }
         else {
-            create("p", historicContainer, "Vous n'avez encore écouté aucune musique ! Depechez vous de rejoindre notre catalogue !");
+            let containeur = document.querySelector("#musiquesContainer")
+            create("p", containeur, "Vous n'avez encore écouté aucune musique ! Depechez vous de rejoindre notre catalogue !");
         }
 
     })
+}
+
+
+/*------------------- DATE -------------------------*/
+function date(){
+    /*Récuperer la date courante */
+    let now = new Date();
+    let annee = now.getFullYear();
+    let mois  = now.getMonth() + 1;
+    let jour  = now.getDate();
+    let heure = now.getHours();
+    let minute = now.getMinutes();
+    let seconde = now.getSeconds();
+    
 }

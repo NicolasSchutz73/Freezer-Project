@@ -7,7 +7,6 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <link rel="stylesheet" type="text/css" href="<?php echo HOST_CSS . '/styleSearch.css'; ?>">
    <script src="https://kit.fontawesome.com/bb4997e1c6.js" crossorigin="anonymous"></script>
-   <title>search bar</title>
 </head>
 
 <body>
