@@ -263,7 +263,7 @@ body {
     opacity: 1;
 }
 
-.sidebar .playlist-sidebar-img{
+.sidebar .playlist-sidebar-img {
     opacity: 1;
     object-fit: cover;
     height: 25px;
@@ -384,9 +384,7 @@ main {
 
 
 /* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
-
-}
+@media only screen and (max-width: 600px) {}
 
 ::-webkit-scrollbar {
     width: 16px;
@@ -798,7 +796,22 @@ main {
     margin-bottom: 30px;
 }
 
-.auteurHistoric{
+.auteurHistoric {
     font-size: 13px;
     margin-left: 12px;
+}
+
+/*Recommandations*/
+.infosRecommandation {
+    display: flex;
+    background: linear-gradient(#520635, rgb(18, 18, 18));
+    justify-content: center;
+    height: 25vh;
+    margin-bottom: 30px;
+    margin-left: -40px;
+}
+
+.auteurRecommandation {
+    font-size: 13px;
+    margin-left: 40px;
 }

@@ -217,7 +217,16 @@ function loadPage(url) {
     else if (url == "recommandations") {
         page = url
         removeAllChild(main)
-        create("div", main, null, null, "musiquesContainer")
+        let recommandationContainer = create("div", main, null, null, "recommandationContainer")
+        let musiqueContainer = create("div", main, null, null, "musiquesContainer")
+        create("p", musiqueContainer, "Liste des recommandations :", "label");
+        let infosRecommandationContainer = create("div", recommandationContainer, null, "infosRecommandation");
+        //Texte
+        let texteRecommandationContainer = create("div", infosRecommandationContainer, null, "texteInfoRecommandation");
+        //Nom,auteur
+        create("p", texteRecommandationContainer, "Recommandations", "nomPlaylist");
+        create("p", texteRecommandationContainer, "Les musiques que vous nous recommandons ! ", "auteurRecommandation");
+
 
         //affiche les musiques
         let jsonR = []
