@@ -19,7 +19,4 @@
       </div>
    </div>
 
-</body>
 <script src="<?php echo HOST_JS . '/scriptSearch.js' ?>"></script>
-
-</html>

@@ -189,8 +189,8 @@ function loadPage(url) {
                     jsonSuggestions.push(response.data)
                     afficheSuggestions(response.data)
                 })
-        
-                
+
+
         } else {
 
             //PAGE ERREUR
@@ -198,21 +198,47 @@ function loadPage(url) {
 
         }
 
-       
-    } 
-    else if (url == "recent"){
+
+    }
+    else if (url == "recent") {
         page = url
         removeAllChild(main)
+        createFormulairePopup()
         let historicContainer = create("div", main, null, null, "historicContainer")
         create("p", main, "Liste des musiques :", "label");
         let musiquesContainer = create("div", main, null, null, "musiquesContainer")
-        let infosHistoricContainer = create("div", historicContainer, null, "infosHistoric");   
+        let infosHistoricContainer = create("div", historicContainer, null, "infosHistoric");
         //Texte
         let texteHistoricContainer = create("div", infosHistoricContainer, null, "texteInfoHistoric");
         //Nom,auteur
         create("p", texteHistoricContainer, "Historique", "nomPlaylist");
         create("p", texteHistoricContainer, "Les musiques que vous avez écouté ", "auteurHistoric");
         listenrecently()
+    }
+    else if (url == "recommandations") {
+        page = url
+        removeAllChild(main)
+        createFormulairePopup()
+        let recommandationContainer = create("div", main, null, null, "recommandationContainer")
+        let musiqueContainer = create("div", main, null, null, "musiquesContainer")
+        create("p", musiqueContainer, "Liste des recommandations :", "label");
+        let infosRecommandationContainer = create("div", recommandationContainer, null, "infosRecommandation");
+        //Texte
+        let texteRecommandationContainer = create("div", infosRecommandationContainer, null, "texteInfoRecommandation");
+        //Nom,auteur
+        create("p", texteRecommandationContainer, "Recommandations", "nomPlaylist");
+        create("p", texteRecommandationContainer, "Les musiques que vous nous recommandons ! ", "auteurRecommandation");
+
+
+        //affiche les musiques
+        let jsonR = []
+        //initialisation jsonAllMusique
+        axios.get("crud/recommandation.php")
+            .then(function (response) {
+                jsonR = response.data
+                afficheMusiques(jsonR)
+            })
+
     }
 
     //page non trouvée
@@ -310,8 +336,9 @@ if (idSession == null) {
         if (getUrl() != "recent") {
             window.history.replaceState(stateObj,
                 "accueil", "?page=recent");
-        loadPage(getUrl())
-    }})
+            loadPage(getUrl())
+        }
+    })
 
     //Formulaire playlist
     document.querySelector("#formplaylist").addEventListener("click", createplaylist)
@@ -324,18 +351,35 @@ if (idSession == null) {
             loadPage(getUrl())
         }
     })
+
+    //Recommandations
+    document.querySelector("#recommandations").addEventListener("click", function () {
+        if (getUrl() != "recommandations") {
+            window.history.replaceState(stateObj,
+                "accueil", "?page=recommandations");
+            loadPage(getUrl())
+        }
+    })
 }
 
 
 /*------------------------AFFICHE MUSIQUES------------------------------*/
 
-function afficheMusiques(musiques) 
-{
+function afficheMusiques(musiques) {
     let musiquesContainer = document.querySelector("#musiquesContainer")
     let numDate = 0;
     for (musique of musiques) {
         let musiqueContainer = create("div", musiquesContainer, null, "musique", musique.id);        
         
+
+        if (getUrl() == "recent") {
+            axios.get("crud/getDate.php").then(function (response) {
+                let resp = response.data[numDate]
+                let textDate = create("div", musiqueContainer, resp, "textDate")
+                numDate++
+            })
+        }
+
         //Musique
         let imageMusique = create("div", musiqueContainer, null, "imageMusique");
         let image = create("img", imageMusique);
@@ -364,7 +408,7 @@ function afficheMusiques(musiques)
         }
 
         //Bouton de suppression d'une musique si admin
-        if (testAdmin) {
+        if (testAdmin && getUrl() == "admin") {
             let buttonDelete = create("button", musiqueContainer, "-", "buttonDelete", musique.id)
             buttonDelete.addEventListener("click", function () {
                 deleteMusic(buttonDelete.id)
@@ -377,13 +421,13 @@ function afficheMusiques(musiques)
             /*Récuperer la date courante */
             var now = new Date();
             var annee = now.getFullYear();
-            var mois  = now.getMonth() + 1;
-            var jour  = now.getDate();
+            var mois = now.getMonth() + 1;
+            var jour = now.getDate();
             var heure = now.getHours();
             var minute = now.getMinutes();
             var seconde = now.getSeconds();
 
-            axios.get("crud/addHistoric.php?idMusic=" + idMusic+"&date=Ecouté le "+jour+"/"+mois+"/"+annee+" à " +heure+" : "+minute+" : "+seconde+" secondes ")
+            axios.get("crud/addHistoric.php?idMusic=" + idMusic + "&date=Ecouté le " + jour + "/" + mois + "/" + annee + " à " + heure + " : " + minute + " : " + seconde + " secondes ")
             getAudiofromData(idMusic - 1)
             count = startMusicNextPrevious(count)
         })
@@ -625,7 +669,7 @@ function deleteSuggestion(id) {
 /*------------------------ECOUTE RECEMMENT------------------------------*/
 function listenrecently() {
     axios.get("crud/getHistoric.php").then(function (response) {
-        let resp = response.data    
+        let resp = response.data
         let idmusiques = resp.split('').reverse().join(''); // reverse la chaine du caractère pour avoir les plus récents en premier de la liste.
 
         if (idmusiques !== "NULL" && idmusiques !== "" && idmusiques !== undefined) {

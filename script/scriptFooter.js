@@ -312,9 +312,6 @@ function likeButton(etat) {
                 idMusicDelete = document.getElementById(jsonMusiques[0][idData].id)
                 idMusicDelete.remove()
                 loadPage('like')
-                if((jsonMusiques[0].length == 1)){
-                    create("p", body, "Cette playlist ne contient pas de musiques !");
-                }
             }
         })
             /*

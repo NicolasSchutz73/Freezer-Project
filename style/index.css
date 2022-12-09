@@ -263,7 +263,7 @@ body {
     opacity: 1;
 }
 
-.sidebar .playlist-sidebar-img{
+.sidebar .playlist-sidebar-img {
     opacity: 1;
     object-fit: cover;
     height: 25px;
@@ -334,6 +334,58 @@ main {
     margin-right: 10px;
 }
 
+/* search bar */
+.wrap {
+    position: fixed;
+    top: 0;
+    font-size: 150%;
+}
+
+.search {
+    width: 100%;
+    display: flex;
+}
+
+.searchTerm {
+    background-color: #dddddd;
+    width: 100%;
+    height: 36px;
+    border: 2px solid black;
+    border-right: none;
+    padding: 5px;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    color: #9DBFAF;
+}
+
+.searchTerm:focus {
+    color: black;
+}
+
+.searchButton {
+    width: 40px;
+    height: 36px;
+    border: 1px solid black;
+    background: black;
+    text-align: center;
+    color: #fff;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+/*Resize the wrap to see the search bar change!*/
+.wrapSearch {
+    width: 30%;
+    position: fixed;
+    left: 40%;
+    /*transform: (-50%, 50%);*/
+}
+
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {}
+
 ::-webkit-scrollbar {
     width: 16px;
 }
@@ -397,6 +449,79 @@ main {
 
 .texteInfoPlaylist .auteurPlaylist {
     color: #dfdfdf;
+}
+
+/*affichage*/
+
+#dataContainer {
+    color: white;
+    padding-bottom: 80px;
+}
+
+.label {
+    padding: 10px;
+}
+
+/*Haut Playlist*/
+
+.infosPlaylist {
+    display: flex;
+    background: linear-gradient(grey, #1c1c1c);
+}
+
+.nomPlaylist {
+    font-size: 300%;
+}
+
+.imagePlaylist {
+    width: 220px;
+}
+
+.imagePlaylist img {
+    width: 220px;
+}
+
+.texteInfoPlaylist {
+    padding-left: 20px;
+}
+
+/*Musique*/
+
+.musiquesPlaylist {
+    display: flex;
+    flex-direction: column;
+}
+
+.musique {
+    display: flex;
+    height: 100px;
+}
+
+.musique:hover {
+    background-color: grey;
+    transition: all 0.5s ease;
+}
+
+.texteMusique {
+    flex: auto;
+    padding-left: 5px;
+}
+
+.texteMusique .nomMusique {
+    font-size: 140%;
+    display: auto;
+}
+
+.imageMusique {
+    width: 100px;
+}
+
+.imageMusique img {
+    width: 100px;
+}
+
+.dureeMusique {
+    padding-right: 20px;
 }
 
 /*Playlist */
@@ -671,7 +796,7 @@ main {
     margin-bottom: 30px;
 }
 
-.auteurHistoric{
+.auteurHistoric {
     font-size: 13px;
     margin-left: 12px;
 }
@@ -679,5 +804,18 @@ main {
 .textDate{
     margin-top: 20px;
     color:#353232;
-    
+}    
+/*Recommandations*/
+.infosRecommandation {
+    display: flex;
+    background: linear-gradient(#520635, rgb(18, 18, 18));
+    justify-content: center;
+    height: 25vh;
+    margin-bottom: 30px;
+    margin-left: -40px;
+}
+
+.auteurRecommandation {
+    font-size: 13px;
+    margin-left: 40px;
 }
