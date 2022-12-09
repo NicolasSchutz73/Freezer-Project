@@ -203,6 +203,7 @@ function loadPage(url) {
     else if (url == "recent") {
         page = url
         removeAllChild(main)
+        createFormulairePopup()
         let historicContainer = create("div", main, null, null, "historicContainer")
         create("p", main, "Liste des musiques :", "label");
         let musiquesContainer = create("div", main, null, null, "musiquesContainer")
@@ -217,6 +218,7 @@ function loadPage(url) {
     else if (url == "recommandations") {
         page = url
         removeAllChild(main)
+        createFormulairePopup()
         let recommandationContainer = create("div", main, null, null, "recommandationContainer")
         let musiqueContainer = create("div", main, null, null, "musiquesContainer")
         create("p", musiqueContainer, "Liste des recommandations :", "label");
