@@ -366,7 +366,7 @@ function afficheMusiques(musiques)
         }
 
         //Bouton de suppression d'une musique si admin
-        if (testAdmin) {
+        if (testAdmin && getUrl()=="admin") {
             let buttonDelete = create("button", musiqueContainer, "-", "buttonDelete", musique.id)
             buttonDelete.addEventListener("click", function () {
                 deleteMusic(buttonDelete.id)
