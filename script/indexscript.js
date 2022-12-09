@@ -312,6 +312,11 @@ if (idSession == null) {
         openPopup("Vous devez être connecté voir vos like")
     })
 
+    //Recommandations
+    document.querySelector("#recommandations").addEventListener("click", function () {
+        openPopup("Vous devez être connecté pour voir vos recommandations")
+    })
+
     //CONNECTE
 } else {
     /*
@@ -369,8 +374,8 @@ function afficheMusiques(musiques) {
     let musiquesContainer = document.querySelector("#musiquesContainer")
     let numDate = 0;
     for (musique of musiques) {
-        let musiqueContainer = create("div", musiquesContainer, null, "musique", musique.id);        
-        
+        let musiqueContainer = create("div", musiquesContainer, null, "musique", musique.id);
+
 
         //Musique
         let imageMusique = create("div", musiqueContainer, null, "imageMusique");
@@ -384,10 +389,10 @@ function afficheMusiques(musiques) {
         create("p", texteMusique, musique.nom_music, "nomMusique");
         create("p", texteMusique, musique.nom_artiste, "auteurMusique");
         create("span", texteMusique, musique.genre, "genreMusique");
-        if(getUrl()=="recent"){
-            axios.get("crud/getDate.php").then(function(response){
-                let resp = response.data[numDate]  
-                let textDate = create("div", texteMusique,resp, "textDate") 
+        if (getUrl() == "recent") {
+            axios.get("crud/getDate.php").then(function (response) {
+                let resp = response.data[numDate]
+                let textDate = create("div", texteMusique, resp, "textDate")
                 numDate++
             })
         }
@@ -682,14 +687,14 @@ function listenrecently() {
 
 
 /*------------------- DATE -------------------------*/
-function date(){
+function date() {
     /*Récuperer la date courante */
     let now = new Date();
     let annee = now.getFullYear();
-    let mois  = now.getMonth() + 1;
-    let jour  = now.getDate();
+    let mois = now.getMonth() + 1;
+    let jour = now.getDate();
     let heure = now.getHours();
     let minute = now.getMinutes();
     let seconde = now.getSeconds();
-    
+
 }
