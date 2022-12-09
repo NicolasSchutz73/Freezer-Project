@@ -372,14 +372,6 @@ function afficheMusiques(musiques) {
         let musiqueContainer = create("div", musiquesContainer, null, "musique", musique.id);        
         
 
-        if (getUrl() == "recent") {
-            axios.get("crud/getDate.php").then(function (response) {
-                let resp = response.data[numDate]
-                let textDate = create("div", musiqueContainer, resp, "textDate")
-                numDate++
-            })
-        }
-
         //Musique
         let imageMusique = create("div", musiqueContainer, null, "imageMusique");
         let image = create("img", imageMusique);
