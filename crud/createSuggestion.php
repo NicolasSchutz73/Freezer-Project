@@ -8,7 +8,7 @@ $commentaire = $_GET["commentaire"];
 #Connection a la DB
 include("dbConnect.php");
 
-if ($musique != "" and $artiste != "") {
+if($musique!="" and $artiste!=""){
 
     //recup nom d'utilisateur
     $sql = "SELECT login FROM `utilisateurs` WHERE id=$iduser";
@@ -19,21 +19,13 @@ if ($musique != "" and $artiste != "") {
     }
     $login = $emparray[0]['login'];
 
-    //recup image de l'utilisateur 
-    $sql = "SELECT images FROM `utilisateurs` WHERE id=$iduser";
-    $result = mysqli_query($mysqli, $sql);
-    $emparray = array();
-    while ($row = mysqli_fetch_assoc($result)) {
-        $emparray[] = $row;
-    }
-    $image = $emparray[0]['images'];
-
     //Insertion suggestion
-    $sql = "INSERT INTO `suggestions`(`utilisateur`, `musique`, `artiste`, `commentaire`,`image_user`) VALUES ('$login','$musique','$artiste','$commentaire','$image')";
+    $sql = "INSERT INTO `suggestions`(`utilisateur`, `musique`, `artiste`, `commentaire`) VALUES ('$login','$musique','$artiste','$commentaire')";
     $result = mysqli_query($mysqli, $sql);
-    echo ("OK");
+    echo("OK");
 } else {
-    echo ("NOK");
+    echo("NOK");
 }
 
 mysqli_close($mysqli);
+?>
