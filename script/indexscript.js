@@ -164,6 +164,7 @@ function loadPage(url) {
             create("div", main, null, null, "usersContainer")
             create("div", main, null, null, "suggestionsContainer")
             create("div", main, null, null, "playlistsContainer")
+            create("p", main, "Liste des musiques :", "label");
             create("div", main, null, null, "musiquesContainer")
 
             //affiche les musiques
@@ -559,14 +560,20 @@ function afficheInfosPlaylist(pl) {
 
 //affiche users
 function afficheUsers(users) {
+    let infosAdmin = create("div", usersContainer, null, "infosAdmin");
+    //Texte
+    let texteAdmin = create("div", infosAdmin, null, "texteInfoAdmin");
+    //Nom,auteur
+    create("p", texteAdmin, "Administrateur", "nomAdmin");
     //Container
-    create("p", usersContainer, "Utilisateurs", "labelUser");
+    create("p", usersContainer, "Liste des utilisateurs :", "label");
 
     for (user of users) {
         if (user.id != 1000) {
             //Container
             let userContainer = create("div", usersContainer, null, "user", user.id);
 
+            //Image
             let imageUser = create("div", userContainer, null, "imageMusique");
             let image = create("img", imageUser);
             image.src = "images/user/" + user.images;
@@ -576,7 +583,6 @@ function afficheUsers(users) {
 
             //id,login,mail
             create("p", texteUser, "Login : " + user.login, "loginUser");
-            create("span", texteUser, "Email : " + user.email, "emailUser");
             create("p", texteUser, "ID : " + user.id, "idUser");
 
             //Bouton de suppression d'une musique si admin
@@ -646,11 +652,16 @@ function deleteUser(id) {
 //affiche suggestions
 function afficheSuggestions(suggestions) {
     //Container
-    create("p", suggestionsContainer, "Suggestions", "labelSuggestion");
+    create("p", suggestionsContainer, "Liste des suggestions :", "label");
 
     for (suggestion of suggestions) {
         //Container
         let suggestionContainer = create("div", suggestionsContainer, null, "suggestion", suggestion.id);
+
+        //Image
+        let imageUser = create("div", suggestionContainer, null, "imageMusique");
+        let image = create("img", imageUser);
+        image.src = "images/user/" + suggestion.image_user;
 
         //Texte
         let texteSuggestion = create("div", suggestionContainer, null, "texteSuggestion");

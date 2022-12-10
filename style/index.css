@@ -337,7 +337,7 @@ main {
 /* search bar */
 .wrap {
     position: fixed;
-    
+
     top: 0;
     font-size: 150%;
 }
@@ -625,9 +625,16 @@ main {
 
 /*Users*/
 
+#usersContainer {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 30px;
+}
+
 .user {
     display: flex;
     height: 100px;
+    padding-bottom: 110px;
 }
 
 .user:hover {
@@ -649,10 +656,6 @@ main {
     color: #B3B3B3;
 }
 
-.texteUser .emailUser {
-    color: #B3B3B3;
-}
-
 .user button {
     height: 30px;
     width: 30px;
@@ -669,11 +672,6 @@ main {
     transition: all 0.5s ease;
 }
 
-.labelUser {
-    padding: 10px;
-    text-align: center;
-    font-size: 150%;
-}
 
 /*Suggestions*/
 
@@ -736,12 +734,6 @@ main {
     transition: all 0.5s ease;
 }
 
-.labelSuggestion {
-    padding: 10px;
-    text-align: center;
-    font-size: 150%;
-}
-
 /*formulaire*/
 
 .formPlaylist {
@@ -802,10 +794,11 @@ main {
     margin-left: 12px;
 }
 
-.textDate{
+.textDate {
     margin-top: 20px;
-    color:#353232;
-}    
+    color: #353232;
+}
+
 /*Recommandations*/
 .infosRecommandation {
     display: flex;
@@ -819,4 +812,20 @@ main {
 .auteurRecommandation {
     font-size: 13px;
     margin-left: 40px;
+}
+
+/*Admin*/
+.infosAdmin {
+    display: flex;
+    background: linear-gradient(#520635, rgb(18, 18, 18));
+    justify-content: center;
+    height: 25vh;
+    margin-bottom: 30px;
+    margin-left: -40px;
+}
+
+.nomAdmin {
+    padding-top: 20%;
+    text-align: center;
+    font-size: 250%;
 }
