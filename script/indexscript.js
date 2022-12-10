@@ -51,7 +51,6 @@ function getIdSession() {
     return idSession
 }
 
-
 /*------------------------LOAD PAGE------------------------------*/
 //en fonction de l'url
 
@@ -62,7 +61,6 @@ function loadPage(url) {
     //page accueil
     if (url == "accueil") {
         page = url
-        console.log(page)
 
         //Reset
         jsonMusiques = []
@@ -98,7 +96,12 @@ function loadPage(url) {
 
         //Si pas connecté
         if (idSession == null) {
-            pageErreur()
+            //Si pas connecté
+            if (getUrl() != "accueil") {
+                window.history.replaceState(stateObj,
+                    "accueil", "?page=accueil");
+                loadPage(getUrl())
+            }
 
         } else {
 
@@ -161,6 +164,7 @@ function loadPage(url) {
             create("div", main, null, null, "usersContainer")
             create("div", main, null, null, "suggestionsContainer")
             create("div", main, null, null, "playlistsContainer")
+            create("p", main, "Liste des musiques :", "label");
             create("div", main, null, null, "musiquesContainer")
 
             //affiche les musiques
@@ -204,41 +208,52 @@ function loadPage(url) {
         page = url
         removeAllChild(main)
         createFormulairePopup()
-        let historicContainer = create("div", main, null, null, "historicContainer")
-        create("p", main, "Liste des musiques :", "label");
-        let musiquesContainer = create("div", main, null, null, "musiquesContainer")
-        let infosHistoricContainer = create("div", historicContainer, null, "infosHistoric");
-        //Texte
-        let texteHistoricContainer = create("div", infosHistoricContainer, null, "texteInfoHistoric");
-        //Nom,auteur
-        create("p", texteHistoricContainer, "Historique", "nomPlaylist");
-        create("p", texteHistoricContainer, "Les musiques que vous avez écouté ", "auteurHistoric");
-        listenrecently()
+        //Si pas connecté
+        if (idSession == null) {
+            pageErreur()
+
+        } else {
+            let historicContainer = create("div", main, null, null, "historicContainer")
+            create("p", main, "Liste des musiques :", "label");
+            let musiquesContainer = create("div", main, null, null, "musiquesContainer")
+            let infosHistoricContainer = create("div", historicContainer, null, "infosHistoric");
+            //Texte
+            let texteHistoricContainer = create("div", infosHistoricContainer, null, "texteInfoHistoric");
+            //Nom,auteur
+            create("p", texteHistoricContainer, "Historique", "nomPlaylist");
+            create("p", texteHistoricContainer, "Les musiques que vous avez écouté ", "auteurHistoric");
+            listenrecently()
+        }
     }
     else if (url == "recommandations") {
         page = url
         removeAllChild(main)
         createFormulairePopup()
-        let recommandationContainer = create("div", main, null, null, "recommandationContainer")
-        let musiqueContainer = create("div", main, null, null, "musiquesContainer")
-        create("p", musiqueContainer, "Liste des recommandations :", "label");
-        let infosRecommandationContainer = create("div", recommandationContainer, null, "infosRecommandation");
-        //Texte
-        let texteRecommandationContainer = create("div", infosRecommandationContainer, null, "texteInfoRecommandation");
-        //Nom,auteur
-        create("p", texteRecommandationContainer, "Recommandations", "nomPlaylist");
-        create("p", texteRecommandationContainer, "Les musiques que vous nous recommandons ! ", "auteurRecommandation");
+        //Si pas connecté
+        if (idSession == null) {
+            pageErreur()
+
+        } else {
+            let recommandationContainer = create("div", main, null, null, "recommandationContainer")
+            let musiqueContainer = create("div", main, null, null, "musiquesContainer")
+            create("p", musiqueContainer, "Liste des recommandations :", "label");
+            let infosRecommandationContainer = create("div", recommandationContainer, null, "infosRecommandation");
+            //Texte
+            let texteRecommandationContainer = create("div", infosRecommandationContainer, null, "texteInfoRecommandation");
+            //Nom,auteur
+            create("p", texteRecommandationContainer, "Recommandations", "nomPlaylist");
+            create("p", texteRecommandationContainer, "Les musiques que vous nous recommandons ! ", "auteurRecommandation");
 
 
-        //affiche les musiques
-        let jsonR = []
-        //initialisation jsonAllMusique
-        axios.get("crud/recommandation.php")
-            .then(function (response) {
-                jsonR = response.data
-                afficheMusiques(jsonR)
-            })
-
+            //affiche les musiques
+            let jsonR = []
+            //initialisation jsonAllMusique
+            axios.get("crud/recommandation.php")
+                .then(function (response) {
+                    jsonR = response.data
+                    afficheMusiques(jsonR)
+                })
+        }
     }
 
     //page non trouvée
@@ -283,94 +298,112 @@ document.querySelector("#accueil").addEventListener("click", function () {
         */
     }
 })
+function testCo() {
+    //PAS CONNECTE
+    if (idSession == null) {
+        //login
+        document.querySelector(".header--button--login").addEventListener("click", connection)
 
-//PAS CONNECTE
-if (idSession == null) {
-    //login
-    document.querySelector(".header--button--login").addEventListener("click", connection)
+        //sign up
+        document.querySelector(".header--button--signUp").addEventListener("click", inscription)
 
-    //sign up
-    document.querySelector(".header--button--signUp").addEventListener("click", inscription)
+        //suggestion
+        document.querySelector("#suggestion").addEventListener("click", function () {
+            openPopup("Vous devez être connecté pour suggérer des musiques")
+        })
 
-    //suggestion
-    document.querySelector("#suggestion").addEventListener("click", function () {
-        openPopup("Vous devez être connecté pour suggérer des musiques")
-    })
+        //Ecoutées récemment
+        document.querySelector("#recent").addEventListener("click", function () {
+            openPopup("Vous devez être connecté pour voir votre historique")
+        })
 
-    //Ecoutées récemment
-    document.querySelector("#recent").addEventListener("click", function () {
-        openPopup("Vous devez être connecté pour voir votre historique")
-    })
+        //Formulaire playlist
+        document.querySelector("#formplaylist").addEventListener("click", function () {
+            openPopup("Vous devez être connecté pour créer une playlist")
+        })
 
-    //Formulaire playlist
-    document.querySelector("#formplaylist").addEventListener("click", function () {
-        openPopup("Vous devez être connecté pour créer une playlist")
-    })
+        //Likes
+        document.querySelector("#likeplaylist").addEventListener("click", function () {
+            openPopup("Vous devez être connecté voir vos like")
+        })
 
-    //Likes
-    document.querySelector("#likeplaylist").addEventListener("click", function () {
-        openPopup("Vous devez être connecté voir vos like")
-    })
+        //Recommandations
+        document.querySelector("#recommandations").addEventListener("click", function () {
+            openPopup("Vous devez être connecté pour voir vos recommandations")
+        })
 
-    //CONNECTE
-} else {
-    /*
-    //login
-    document.querySelector(".header--button--login").addEventListener("click",connection)
-    */
-    if (testAdmin) {
-        document.querySelector(".header--button--user").addEventListener("click", function () {
-            if (getUrl() != "admin") {
-                window.history.replaceState(stateObj,
-                    "accueil", "?page=admin");
-                loadPage(getUrl())
-            }
+        //CONNECTE
+    } else {
+        if (testAdmin) {
+            document.querySelector(".header--button--user").addEventListener("click", function () {
+                if (getUrl() != "admin") {
+                    window.history.replaceState(stateObj,
+                        "accueil", "?page=admin");
+                    loadPage(getUrl())
+                }
+            })
+        }
+        //suggestion
+        document.querySelector("#suggestion").addEventListener("click", suggestion)
+
+        //Ecoutées récemment
+        document.querySelector("#recent").addEventListener("click", recent)
+
+        //Formulaire playlist
+        document.querySelector("#formplaylist").addEventListener("click", createplaylist)
+
+        //Likes
+        document.querySelector("#likeplaylist").addEventListener("click", like)
+
+        //Recommandations
+        document.querySelector("#recommandations").addEventListener("click", recommandations)
+
+        //Logout
+        document.querySelector(".header--button--disconnect").addEventListener("click", function () {
+            axios.get("crud/logout.php")
+                .then(function () {
+                    //retirer les boutons
+                    let bR = document.querySelector(".header--buttons--right")
+                    removeAllChild(bR)
+                    //ajouter les boutons
+                    create("button", bR, "S'inscrire", "header--button--signUp").addEventListener("click", inscription)
+                    create("button", bR, "Se connecter", "header--button--login").addEventListener("click", connection)
+                    //fin de session
+                    idSession = null
+                    //retirer l'event listener des boutons
+                    removeEvent()
+                    //test si on est connecté
+                    testCo()
+                    //retour à l'accueil
+                    if (getUrl() != "accueil") {
+                        window.history.replaceState(stateObj,
+                            "accueil", "?page=accueil");
+                        loadPage(getUrl())
+                    }
+                })
         })
     }
-
-    //suggestion
-    document.querySelector("#suggestion").addEventListener("click", suggestion)
-
-    //Ecoutées récemment
-    document.querySelector("#recent").addEventListener("click", function () {
-        if (getUrl() != "recent") {
-            window.history.replaceState(stateObj,
-                "accueil", "?page=recent");
-            loadPage(getUrl())
-        }
-    })
-
-    //Formulaire playlist
-    document.querySelector("#formplaylist").addEventListener("click", createplaylist)
-
-    //Likes
-    document.querySelector("#likeplaylist").addEventListener("click", function () {
-        if (getUrl() != "like") {
-            window.history.replaceState(stateObj,
-                "accueil", "?page=like");
-            loadPage(getUrl())
-        }
-    })
-
-    //Recommandations
-    document.querySelector("#recommandations").addEventListener("click", function () {
-        if (getUrl() != "recommandations") {
-            window.history.replaceState(stateObj,
-                "accueil", "?page=recommandations");
-            loadPage(getUrl())
-        }
-    })
 }
 
+function removeEvent() {
+    document.querySelector(".header--button--login").removeEventListener("click", connection)
+    document.querySelector(".header--button--signUp").removeEventListener("click", inscription)
+    document.querySelector("#suggestion").removeEventListener("click", suggestion)
+    document.querySelector("#formplaylist").removeEventListener("click", createplaylist)
+    document.querySelector("#recent").removeEventListener("click", recent)
+    document.querySelector("#likeplaylist").removeEventListener("click", like)
+    document.querySelector("#recommandations").removeEventListener("click", recommandations)
+}
 
+testCo()
 /*------------------------AFFICHE MUSIQUES------------------------------*/
 
 function afficheMusiques(musiques) {
     let musiquesContainer = document.querySelector("#musiquesContainer")
     let numDate = 0;
     for (musique of musiques) {
-        let musiqueContainer = create("div", musiquesContainer, null, "musique", musique.id);        
-        
+        let musiqueContainer = create("div", musiquesContainer, null, "musique", musique.id);
+
 
         //Musique
         let imageMusique = create("div", musiqueContainer, null, "imageMusique");
@@ -543,20 +576,29 @@ function afficheInfosPlaylist(pl) {
 
 //affiche users
 function afficheUsers(users) {
+    let infosAdmin = create("div", usersContainer, null, "infosAdmin");
+    //Texte
+    let texteAdmin = create("div", infosAdmin, null, "texteInfoAdmin");
+    //Nom,auteur
+    create("p", texteAdmin, "Administrateur", "nomAdmin");
     //Container
-    create("p", usersContainer, "Utilisateurs", "labelUser");
+    create("p", usersContainer, "Liste des utilisateurs :", "label");
 
     for (user of users) {
         if (user.id != 1000) {
             //Container
             let userContainer = create("div", usersContainer, null, "user", user.id);
 
+            //Image
+            let imageUser = create("div", userContainer, null, "imageMusique");
+            let image = create("img", imageUser);
+            image.src = "images/user/" + user.images;
+
             //Texte
             let texteUser = create("div", userContainer, null, "texteUser");
 
             //id,login,mail
             create("p", texteUser, "Login : " + user.login, "loginUser");
-            create("span", texteUser, "Email : " + user.email, "emailUser");
             create("p", texteUser, "ID : " + user.id, "idUser");
 
             //Bouton de suppression d'une musique si admin
@@ -626,11 +668,16 @@ function deleteUser(id) {
 //affiche suggestions
 function afficheSuggestions(suggestions) {
     //Container
-    create("p", suggestionsContainer, "Suggestions", "labelSuggestion");
+    create("p", suggestionsContainer, "Liste des suggestions :", "label");
 
     for (suggestion of suggestions) {
         //Container
         let suggestionContainer = create("div", suggestionsContainer, null, "suggestion", suggestion.id);
+
+        //Image
+        let imageUser = create("div", suggestionContainer, null, "imageMusique");
+        let image = create("img", imageUser);
+        image.src = "images/user/" + suggestion.image_user;
 
         //Texte
         let texteSuggestion = create("div", suggestionContainer, null, "texteSuggestion");
