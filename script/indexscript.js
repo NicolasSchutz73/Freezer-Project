@@ -417,10 +417,25 @@ function afficheMusiques(musiques) {
         create("p", texteMusique, musique.nom_music, "nomMusique");
         create("p", texteMusique, musique.nom_artiste, "auteurMusique");
         create("span", texteMusique, musique.genre, "genreMusique");
-        if(getUrl()=="recent"){
-            axios.get("crud/getDate.php").then(function(response){
-                let resp = response.data[numDate]  
-                let textDate = create("div", texteMusique,resp, "textDate") 
+        if (getUrl() == "recent") {
+            axios.get("crud/getDate.php").then(function (response) {
+                let resp = response.data[numDate]
+                tabDate = resp.split("/")
+
+                sommeMusic = parseInt(tabDate[0]) + parseInt(tabDate[1]) * 60 + parseInt(tabDate[2]) * 3600 + parseInt(tabDate[3]) * 86400 + parseInt(tabDate[4]) * 2.6 * Math.pow(10, 6) + parseInt(tabDate[5]) * 3.15 * Math.pow(10, 7)
+                var now = new Date();
+                var annee = now.getFullYear();
+                var mois = now.getMonth() + 1;
+                var jour = now.getDate();
+                var heure = now.getHours();
+                var minute = now.getMinutes();
+                var seconde = now.getSeconds();
+                sommeDate = seconde + minute * 60 + heure * 3600 + jour * 86400 + mois * 2.6 * Math.pow(10, 6) + annee * 3.15 * Math.pow(10, 7)
+
+                finalres = sommeDate - sommeMusic
+                console.log(finalres)
+                console.log(date(finalres))
+                let textDate = create("div", texteMusique, date(finalres), "textDate")
                 numDate++
             })
         }
@@ -452,7 +467,7 @@ function afficheMusiques(musiques) {
             var minute = now.getMinutes();
             var seconde = now.getSeconds();
 
-            axios.get("crud/addHistoric.php?idMusic=" + idMusic + "&date=Ecouté le " + jour + "/" + mois + "/" + annee + " à " + heure + " : " + minute + " : " + seconde + " secondes ")
+            axios.get("crud/addHistoric.php?idMusic=" + idMusic + "&date=" + seconde + "/" + minute + "/" + heure + "/" + jour + "/" + mois + "/" + annee)
             getAudiofromData(idMusic - 1)
             count = startMusicNextPrevious(count)
         })
@@ -729,14 +744,84 @@ function listenrecently() {
 
 
 /*------------------- DATE -------------------------*/
-function date(){
-    /*Récuperer la date courante */
-    let now = new Date();
-    let annee = now.getFullYear();
-    let mois  = now.getMonth() + 1;
-    let jour  = now.getDate();
-    let heure = now.getHours();
-    let minute = now.getMinutes();
-    let seconde = now.getSeconds();
-    
+function date(seconde) {
+    let phrase = "Ecouté il y a plus de "
+    if (seconde > 3.15 * Math.pow(10, 7)) {
+        phrase += Unite(Math.trunc(seconde / 3.15 * Math.pow(10, 7))) + " an"
+    }
+    else if (seconde > 2.6 * Math.pow(10, 6)) {
+        phrase += Unite(Math.trunc(seconde / 2.6 * Math.pow(10, 6))) + " mois"
+    }
+    else if (seconde > 86400) {
+        phrase = "Ecouté il y a "
+        if ((Math.trunc(seconde / 86400)) == 1) {
+            phrase += Unite(Math.trunc(seconde / 86400)) + " jour"
+        }
+        else { phrase += Unite(Math.trunc(seconde / 86400)) + " jours" }
+    }
+    else if (seconde > 3600) {
+        if ((Math.trunc(seconde / 3600)) == 1) {
+            phrase += Unite(Math.trunc(seconde / 3600)) + " heure"
+        }
+        else { phrase += Unite(Math.trunc(seconde / 3600)) + " heure" }
+    }
+    else if (seconde > 60) {
+        phrase = "Ecouté il y a "
+        if ((Math.trunc(seconde / 60)) == 1) {
+            phrase += Unite(Math.trunc(seconde / 60), "f") + " minute"
+        }
+        else { phrase += Unite(Math.trunc(seconde / 60)) + " minutes" }
+    }
+    else {
+        phrase = "Ecouté à l'instant"
+    }
+    return phrase
+}
+
+/*------------------- FUNCTION QUI TRANSFORMER CHIFFRE EN LETTRE -------------------------*/
+function Unite(nombre, genre = null) {
+    var unite;
+    switch (nombre) {
+        case 0: unite = "zéro"; break;
+        case 1:
+            if (genre == "f") { unite = "une" }
+            else { unite = "un" }; break;
+        case 2: unite = "deux"; break;
+        case 3: unite = "trois"; break;
+        case 4: unite = "quatre"; break;
+        case 5: unite = "cinq"; break;
+        case 6: unite = "six"; break;
+        case 7: unite = "sept"; break;
+        case 8: unite = "huit"; break;
+        case 9: unite = "neuf"; break;
+    }//fin switch
+    return unite;
+}
+
+
+/*------------------------FONCTION RECENT------------------------------*/
+function recent() {
+    if (getUrl() != "recent") {
+        window.history.replaceState(stateObj,
+            "accueil", "?page=recent");
+        loadPage(getUrl())
+    }
+}
+
+/*------------------------FONCTION LIKE------------------------------*/
+function like() {
+    if (getUrl() != "like") {
+        window.history.replaceState(stateObj,
+            "accueil", "?page=like");
+        loadPage(getUrl())
+    }
+}
+
+/*------------------------FONCTION RECOMMANDATIONS------------------------------*/
+function recommandations() {
+    if (getUrl() != "recommandations") {
+        window.history.replaceState(stateObj,
+            "accueil", "?page=recommandations");
+        loadPage(getUrl())
+    }
 }
