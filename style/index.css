@@ -334,6 +334,20 @@ main {
     margin-right: 10px;
 }
 
+.header--button--user img{
+    height: 20px;
+    width: 20px;
+    object-fit: cover;
+    border-radius: 50%;
+
+}
+
+#img-compte {
+    height: 120px;
+    width: 120px;
+    object-fit: cover;
+}
+
 /* search bar */
 .wrap {
     position: fixed;

@@ -374,8 +374,7 @@ function createplaylist(){
 
 //creation playlist
 function createMusique(){
-    console.log("formMusique")
-    //recup formulaire via id musique
+    //recup formulaire
     axios.get("pages/nouvelleMusique.php")
     .then(function (response) {
         //affichage page formulaire
@@ -445,8 +444,7 @@ function createMusique(){
             } else if(musique.files[0]['name']=='' || musique.files[0]['size']>maxMusiqueFileSize || !acceptedMusiqueFiles.includes(musique.files[0]['type'])){
                 invalidForm.innerHTML = "Cette musique n'est pas valide"
             } else {
-                console.log("valid form")
-                
+
                 formData.append("nomMusique",nomMusique.value);
                 formData.append("nomArtiste",nomArtiste.value);
                 formData.append("genre", genre.value);
@@ -473,4 +471,101 @@ function createMusique(){
             })       
         })
         
+}
+
+function compte(){
+
+    //recup formulaire
+    axios.get("pages/compte.php")
+    .then(function (response) {
+    //affichage page formulaire
+    document.querySelector(".formulaire").innerHTML = response.data;
+
+    //image
+    let imgCompte = document.querySelector("#img-compte")
+    axios.get("crud/getImageUser.php")
+    .then(function(response){
+
+        imgCompte.src="images/user/"+response.data[0]["image"]
+        //ouverture formulaire
+        openForm()
+        //variables formulaire
+        var maxImageFileSize = 8000000 //8MB
+        var acceptedImageFiles = ['image/png','image/jpeg']
+
+        //caractère invalides pour le nom de playlists
+        const specialChars = /[<>]/;
+
+        //selecteurs
+        var pwd = document.querySelector("#pwd")
+        var pwdconfirm = document.querySelector("#pwdconfirm")
+        var image = document.querySelector("#image")
+        var invalidFormImage = document.querySelector("#invalidform-image")
+        var invalidFormPwd = document.querySelector("#invalidform-password")
+        var fileName = document.querySelector("#file-name")
+
+        var formData = new FormData();
+
+        //Bouton de confirmation
+        let buttonFormImage = document.querySelector("#imageconfirm")
+        let buttonFormPwd = document.querySelector("#newpwd")
+
+        //affiche nom fichier
+        image.addEventListener("change",function(){
+            fileName.innerHTML = ""
+            if(image.files[0]!=undefined){
+                fileName.innerHTML = image.files[0]['name']
+            }
+        })
+
+        buttonFormImage.addEventListener("click",function(){
+        if(image.files[0]==undefined){
+            invalidFormImage.innerHTML = "Veuillez choisir une image"
+        } else if(image.files[0]['name']=='' || image.files[0]['size']>maxImageFileSize || !acceptedImageFiles.includes(image.files[0]['type'])){
+            invalidFormImage.innerHTML = "Cette image n'est pas valide"
+        } else {
+            formData.append("image",image.files[0])
+
+            axios.post("crud/updateImageUser.php",formData, {
+                header: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then(function() {
+                closeForm()
+                openPopup("Votre photo de profil a été changée avec succès !")
+
+                //update header
+                var imageHeader = document.querySelector(".header--button--user img")
+                axios.get("crud/getImageUser.php")
+                .then(function(response){
+                    imageHeader.src="images/user/"+response.data[0]["image"]
+                })
+
+            })
+        }
+        })
+
+        buttonFormPwd.addEventListener("click",function(){
+            if(pwd.value=="" || specialChars.test(pwd.value) || pwd.value!=pwdconfirm.value){
+                invalidFormPwd.innerHTML = "Veuillez remplir correctement le formulaire"
+            } else {
+                
+                formData.append("pwd",pwd.value)
+
+                axios.post("crud/updatepwd.php", formData, {
+                    header: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then(function(){
+                    closeForm()
+                    openPopup("Votre mot de passe a bien été changé")
+
+                })
+            
+            }
+        })
+
+
+    })
+    })
 }

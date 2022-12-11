@@ -29,10 +29,11 @@
         $id = $_SESSION['id'];
 
         // Récupération du pseudo
-        $pseudo = mysqli_query($mysqli, "SELECT `login` FROM `utilisateurs` WHERE `id` = $id");
+        $pseudo = mysqli_query($mysqli, "SELECT `login`,`image` FROM `utilisateurs` WHERE `id` = $id");
         $data = mysqli_fetch_array($pseudo);
         if (isset($data['login'])) {
             $pseudo = $data['login'];
+            $image = $data['image'];
         }
 
         // Variable de SESSION 
@@ -45,7 +46,7 @@
         */
         echo '<div class="header--buttons--right">';
         echo "<button class='header--button--user' id=$id >";
-        echo "<i class='fa-solid fa-user'></i> $pseudo </button>";
+        echo "<span><img src=images/user/$image></span> $pseudo </button>";
         echo '<button class="header--button--disconnect">';
         echo '<i class="fa-solid fa-right-from-bracket"></i> </button>';
         echo '</div>';

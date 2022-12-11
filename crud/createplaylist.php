@@ -13,7 +13,6 @@ $iduser = $_POST["session"];
 
 #Creation fichier
 //Image avec nom aléatoire
-//Image avec nom aléatoire
 $split = explode(".", $image['name']);
 $hashimage = (randHash(8) . "." . $split[1]);
 $hashlink = randHash(12);

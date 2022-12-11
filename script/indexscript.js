@@ -346,6 +346,9 @@ function testCo() {
             document.querySelector("#suggestion").addEventListener("click", createMusique)
             document.querySelector("#suggestion span").innerHTML = "Ajouter musique"
         } else {
+        document.querySelector(".header--button--user").addEventListener("click", function () {
+            compte()
+        })
         //suggestion
         document.querySelector("#suggestion").addEventListener("click", suggestion)
         }
