@@ -466,6 +466,17 @@ main {
     color: #dfdfdf;
 }
 
+.edit-playlist {
+    margin-top: 10px;
+    color:#B3B3B3;
+}
+
+.edit-playlist:hover {
+    color:#e6e6e6;
+    transition: all 0.5s ease;
+    cursor: pointer;
+}
+
 /*affichage*/
 
 #dataContainer {

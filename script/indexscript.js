@@ -23,6 +23,7 @@ let jsonMusiques = []
 let jsonPlay = []
 let page = ""
 let idsPlaylist = ''
+let playlistOwner = false
 
 //Function pour récupérer l'url courante et son paramètre
 function getUrl() {
@@ -57,6 +58,7 @@ function getIdSession() {
 
 
 function loadPage(url) {
+    playlistOwner = false
 
     //page accueil
     if (url == "accueil") {
@@ -118,12 +120,16 @@ function loadPage(url) {
         //page playlist (12 car longueur du hashlink)
     } else if (url.length == 12) {
         page = "playlist"
-        console.log(page)
 
         axios.get("crud/getplaylist.php?pl=" + url)
             .then(function (response) {
-                let playlistDatas = response.data[0];
+            let playlistDatas = response.data[0];
+            axios.get("crud/getUserName.php")
+            .then(function(response){
+
+                playlistOwner=(response.data[0]['login']==playlistDatas['auteur'] || testAdmin)
                 idsPlaylist = playlistDatas.musiques
+
 
                 //Mise a jour jsonMusiques
                 axios.get("crud/getmusiquesplaylist.php?id=" + idsPlaylist + "&search=null")
@@ -134,6 +140,7 @@ function loadPage(url) {
 
                 //Reset
                 removeAllChild(main)
+                createFormulairePopup()
 
                 //Container playlist
                 playlistsContainer = create("div", main, null, null, "playlistsContainer")
@@ -141,10 +148,11 @@ function loadPage(url) {
                 //Container musiques
                 create("p", main, "Liste des musiques :", "label");
                 create("div", main, null, null, "musiquesContainer")
-                createFormulairePopup()
 
                 afficheInfosPlaylist(playlistDatas)
+
                 chercheMusic()
+            })
             })
 
 
@@ -575,8 +583,16 @@ function afficheInfosPlaylist(pl) {
     //Texte
     let texteInfoContainer = create("div", infosPlaylistContainer, null, "texteInfoPlaylist");
     //Nom,auteur
-    create("p", texteInfoContainer, pl.nom, "nomPlaylist");
+    create("p", texteInfoContainer, pl.nom+" ", "nomPlaylist");
     create("p", texteInfoContainer, "Playlist créée par " + pl.auteur, "auteurPlaylist");
+    if(playlistOwner){
+        let editPlaylist = create("p",texteInfoContainer,"Editer la playlist ","edit-playlist")
+        let i = create("i",editPlaylist,null,"fa-solid")
+        i.classList.add("fa-pen")
+       editPlaylist.addEventListener("click",function(){
+        editPlaylistForm()
+       })
+    }
 }
 
 

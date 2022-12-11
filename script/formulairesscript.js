@@ -569,3 +569,128 @@ function compte(){
     })
     })
 }
+
+function editPlaylistForm(){
+    
+    //recup formulaire
+    axios.get("pages/editPlaylist.php")
+    .then(function(response)  {
+        //affichage page formulaire
+        document.querySelector(".formulaire").innerHTML = response.data;
+        //ouverture formulaire
+        openForm()
+
+        
+        axios.get("crud/getplaylist.php?pl=" + getUrl())
+        .then(function (response) {
+        var datas = response.data[0]
+        document.querySelector(".formulaire img").src = "images/playlist/"+datas['image'];
+        
+        //variables formulaire
+        var maxFileSize = 8000000 //8MB
+        var maxNameSize = 30
+        var acceptedFiles = ['image/png','image/jpeg']
+
+        //caractère invalides pour le nom de playlists
+        const specialChars = /[<>]/;
+
+        //selecteurs
+        var nom = document.querySelector("#name")
+        var image = document.querySelector("#image")
+        var invalidFormImage = document.querySelector("#invalidform-image")
+        var invalidFormName = document.querySelector("#invalidform-name")
+        var fileName = document.querySelector("#file-name")
+        
+        var formData = new FormData();
+
+        //Bouton de confirmation
+        let buttonFormImage = document.querySelector("#imageconfirm")
+        let buttonFormName = document.querySelector("#nameconfirm")
+        var deleteCross = document.querySelector("#delete-playlist-cross")
+
+        //affiche le nom du fichier
+        image.addEventListener("change",function(){
+            fileName.innerHTML = ""
+            if(image.files[0]!=undefined){
+                fileName.innerHTML = image.files[0]['name']
+            }
+        })
+
+        buttonFormImage.addEventListener("click",function(){
+            if(image.files[0]==undefined){
+                invalidFormImage.innerHTML = "Veuillez choisir une image"
+            } else if(image.files[0]['name']=='' || image.files[0]['size']>maxFileSize || !acceptedFiles.includes(image.files[0]['type'])){
+                invalidFormImage.innerHTML = "Cette image n'est pas valide"
+            } else {
+                
+                formData.append("image",image.files[0])
+                formData.append("link",datas['hashlink'])
+                
+                axios.post("crud/updateImagePlaylist.php",formData, {
+                    headers: {
+                      'Content-Type': 'multipart/form-data'
+                    }
+                }).then(function () {
+
+                    closeForm()
+                    //rechargement
+                    loadPlaylistsSide()
+                    loadPage(getUrl())
+                    
+                    openPopup("La playlist à été mise à jour")
+
+                  })
+            }
+        })
+
+        buttonFormName.addEventListener("click",function(){
+            //verification nom de la playlist
+            if(nom.value=="" || specialChars.test(nom.value) || nom.value.length>maxNameSize){
+                invalidFormName.innerHTML = "Ce nom de playlist n'est pas valide"
+            } else {
+                formData.append("nom",nom.value)
+                formData.append("link",datas['hashlink'])
+                
+                axios.post("crud/updateNamePlaylist.php",formData, {
+                    headers: {
+                      'Content-Type': 'multipart/form-data'
+                    }
+                }).then(function () {
+
+                    closeForm()
+                    //rechargement
+                    loadPlaylistsSide()
+                    loadPage(getUrl())
+                    
+                    openPopup("La playlist à été mise à jour")
+
+                  })
+            }
+        })
+
+        deleteCross.addEventListener("click",function(){
+
+            formData.append("link",datas['hashlink'])
+                
+                axios.post("crud/deletePlaylist.php",formData, {
+                    headers: {
+                      'Content-Type': 'multipart/form-data'
+                    }
+                }).then(function () {
+                    closeForm()
+
+                    //redirection
+                    window.history.replaceState(stateObj,
+                        "accueil", "?page=accueil");
+                    loadPage(getUrl())
+        
+                    //rechargement
+                    loadPlaylistsSide()
+                    
+                    openPopup("La playlist à supprimée avec succès")
+                })
+        })
+            
+        })
+    })
+}

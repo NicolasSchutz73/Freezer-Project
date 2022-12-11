@@ -47,7 +47,7 @@
 
 .formulaire button {
     display: block;
-    width: 15vh;
+    width: 30vh;
     height: 5vh;
     margin-left: auto;
     margin-right: auto;
@@ -212,4 +212,14 @@
 
 input[type="file"] {
     display: none;
+}
+
+#delete-playlist {
+    color: #bb2323
+}
+
+#delete-playlist-cross:hover {
+    color: #ea2d2d;
+    transition: all 0.2s ease;
+    cursor: pointer;
 }
