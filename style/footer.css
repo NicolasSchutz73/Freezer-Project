@@ -271,3 +271,15 @@ body {
     top: -30px;
     right: 10px;
 }
+
+@media only screen and (max-width: 530px) {
+
+    #barAudio #conteneurTimeBar {
+        margin-top: 2rem;
+    }
+
+    #iconFullScreen {
+        top: 37%;
+    }
+}
+

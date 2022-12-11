@@ -45,6 +45,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="<?php echo HOST_JS . '/scriptFooter.js' ?>"></script>
+<script src="<?php echo HOST_JS . '/scriptResponsive.js' ?>"></script>
+
 </body>
 
 </html>
