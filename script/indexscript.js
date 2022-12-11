@@ -342,9 +342,13 @@ function testCo() {
                     loadPage(getUrl())
                 }
             })
-        }
+            //ajout musique
+            document.querySelector("#suggestion").addEventListener("click", createMusique)
+            document.querySelector("#suggestion span").innerHTML = "Ajouter musique"
+        } else {
         //suggestion
         document.querySelector("#suggestion").addEventListener("click", suggestion)
+        }
 
         //Ecoutées récemment
         document.querySelector("#recent").addEventListener("click", recent)
@@ -497,10 +501,10 @@ function deleteMusic(id) {
 /*------------------------AFFICHE PLAYLISTS SIDEBAR------------------------------*/
 
 function loadPlaylistsSide() {
+    let playlistsSideContainer = document.querySelector(".playlists-user-sidebar")
+    removeAllChild(playlistsSideContainer)
     if (idSession != null) {
         //containers
-        let menuExtra = document.querySelector(".menu-extra")
-        let playlistsSideContainer = create("div", menuExtra, null, "playlists-user-sidebar")
         axios.get("crud/getPlaylistsUser.php?idUser=" + idSession).then(function (response) {
             var playlists = response.data
             for (playlist of playlists) {
@@ -694,7 +698,7 @@ function afficheSuggestions(suggestions) {
         //Bouton d'ajout
         let buttonAddSuggestion = create("button", suggestionContainer, "+", "buttonAdd", suggestion.id)
         buttonAddSuggestion.addEventListener("click", function () {
-            addSuggestion(buttonAddSuggestion.id)
+            createMusique()
         })
 
         //Bouton de suppression

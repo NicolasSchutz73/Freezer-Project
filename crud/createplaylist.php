@@ -4,28 +4,36 @@ function randHash($len = 32)
     return substr(md5(openssl_random_pseudo_bytes(20)), -$len);
 }
 
-function add_playlist($nom, $auteur, $image)
-{
-    #Connection a la DB
-    include("dbConnect.php");
+#Connection a la DB
+include("dbConnect.php");
 
-    $ret = "";
-    if ($nom != "") {
-        #Creation fichier
-        //Image avec nom aléatoire
-        $split = explode(".", $image['name']);
-        $hashimage = (randHash(8) . "." . $split[1]);
-        $hashlink = randHash(12);
-        move_uploaded_file($image['tmp_name'], "images/playlist/" . $hashimage);
+$nom= $_POST["nom"];
+$image = $_FILES["image"];
+$iduser = $_POST["session"];
 
-        #Ajout DB
-        $sql = "INSERT INTO `playlists`(`nom`, `auteur`, `image`,`musiques`, `hashlink`) VALUES ('$nom','$auteur','$hashimage','','$hashlink')";
-        mysqli_query($mysqli, $sql);
-        echo ("<p style='color:green'> . $sql .</p>");
-    } else {
-        echo ("<p style='color: darkred'> Remplissez correctement le formulaire !</p>");
-    }
+#Creation fichier
+//Image avec nom aléatoire
+//Image avec nom aléatoire
+$split = explode(".", $image['name']);
+$hashimage = (randHash(8) . "." . $split[1]);
+$hashlink = randHash(12);
+move_uploaded_file($image['tmp_name'], "../images/playlist/".$hashimage);
 
-    #Fermeture connection
-    mysqli_close($mysqli);
+//recup nom d'utilisateur
+$sql = "SELECT login FROM `utilisateurs` WHERE id=$iduser";
+$result = mysqli_query($mysqli, $sql);
+$emparray = array();
+while ($row = mysqli_fetch_assoc($result)) {
+    $emparray[] = $row;
 }
+$auteur = $emparray[0]['login'];
+
+#Ajout DB
+$sql = "INSERT INTO `playlists`(`nom`, `auteur`, `image`,`musiques`, `hashlink`) VALUES ('$nom','$auteur','".$hashimage."','','$hashlink')";
+//echo($sql);
+mysqli_query($mysqli, $sql);
+
+#Fermeture connection
+mysqli_close($mysqli);
+
+?>

@@ -48,6 +48,8 @@
                 <span id= "titreLike" class="menu--item--text">Titre liké</span>
             </a>
         </div>
+        <div class="playlists-user-sidebar">
+        </div>
     </div>
 
 

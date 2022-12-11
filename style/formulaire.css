@@ -13,7 +13,7 @@
 
 .formulaire-container{
     width: 50vh;
-    height: 60vh;
+    height: 68vh;
     background-color: rgb(54 54 54);
     border-radius: 3px;
     text-align: center;
@@ -99,6 +99,7 @@
 
 .formulaire p {
     margin: 1.5vh;
+    overflow: hidden;
 }
 
 .formulaire img {
@@ -186,3 +187,29 @@
     transition: visibility 0s 0.2s, opacity 0.2s linear;
 }
 
+/* File */
+
+.formulaire-file {
+    width: 20vh;
+    height: 4vh;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+    background-color: #5d366d;
+    border: solid 1px black;
+    color: white;
+    border-radius: 3px;
+    font-weight: bold;
+    font-size: 13px;
+    padding: 0.8vh;
+}
+
+.formulaire-file:hover {
+    background-color:#3c2346;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+input[type="file"] {
+    display: none;
+}

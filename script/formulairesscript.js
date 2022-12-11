@@ -188,6 +188,7 @@ function connection(){
 
                 } else {
                     var idCompte = response.data
+                    idSession = idCompte
                     
                     //connection
                     axios.get("config/startsession.php?id="+idCompte)
@@ -245,12 +246,12 @@ function inscription(){
                     .then(function (response) {
                         //id du compte
                         var idCompte = response.data
+                        idSession = idCompte
 
                         //connection
                         axios.get("config/startsession.php?id="+idCompte)
                         //actualise la page
                         location.reload()
-
                     })
                 }
             })
@@ -261,6 +262,7 @@ function inscription(){
 
 //Suggestion
 function suggestion(){
+
     //recup formulaire via id musique
     axios.get("pages/suggestion.php")
     .then(function (response) {
@@ -305,5 +307,170 @@ function createplaylist(){
         //ouverture formulaire
         openForm()
 
-    })
+        //variables formulaire
+        var maxFileSize = 8000000 //8MB
+        var maxPlaylistNameSize = 30
+        var acceptedFiles = ['image/png','image/jpeg']
+
+        //caractère invalides pour le nom de playlists
+        const specialChars = /[<>]/;
+
+        //selecteurs
+        var nomPlaylist = document.querySelector("#nomPlaylist")
+        var imagePlaylist = document.querySelector("#imagePlaylist")
+        var invalidForm = document.querySelector("#invalidform")
+        var fileName = document.querySelector("#file-name")
+        
+        var formData = new FormData();
+        
+        //Bouton de confirmation
+        let buttonForm = document.querySelector(".formulaire button")
+
+        //affiche le nom du fichier
+        imagePlaylist.addEventListener("change",function(){
+            fileName.innerHTML = ""
+            if(imagePlaylist.files[0]!=undefined){
+                fileName.innerHTML = imagePlaylist.files[0]['name']
+            }
+
+        })
+
+        buttonForm.addEventListener("click", function () {
+            invalidForm.innerHTML = ""
+            //verification nom de la playlist
+            if(nomPlaylist.value=="" || specialChars.test(nomPlaylist.value) || nomPlaylist.value.length>maxPlaylistNameSize){
+                invalidForm.innerHTML = "Ce nom de playlist n'est pas valide"
+
+            //verification fichier
+            } else if(imagePlaylist.files[0]==undefined){
+                invalidForm.innerHTML = "Veuillez choisir un fichier"
+            } else if(imagePlaylist.files[0]['name']=='' || imagePlaylist.files[0]['size']>maxFileSize || !acceptedFiles.includes(imagePlaylist.files[0]['type'])){
+                invalidForm.innerHTML = "Ce fichier n'est pas valide"
+            } else {
+                console.log("valid form")
+                formData.append("nom",nomPlaylist.value);
+                formData.append("image", imagePlaylist.files[0]);
+                formData.append("session",idSession);
+    
+                axios.post("crud/createplaylist.php",formData, {
+                        headers: {
+                          'Content-Type': 'multipart/form-data'
+                        }
+                    }).then(function () {
+                        loadPlaylistsSide()
+                        closeForm()
+                        //rechargement main si sur l'accueil
+                        if(page=="accueil"){
+                            loadPage(getUrl())
+                        }
+                        openPopup("La playlist a été créée avec succès !")
+
+                      })
+            }
+
+            })       
+        })
+}
+
+//creation playlist
+function createMusique(){
+    console.log("formMusique")
+    //recup formulaire via id musique
+    axios.get("pages/nouvelleMusique.php")
+    .then(function (response) {
+        //affichage page formulaire
+        document.querySelector(".formulaire").innerHTML = response.data;
+        //ouverture formulaire
+        openForm()
+
+        //variables formulaire
+        var maxImageFileSize = 8000000 //8MB
+        var maxMusiqueFileSize = 8000000 //8MB
+        var maxNameSize = 30
+        var acceptedImageFiles = ['image/png','image/jpeg']
+        var acceptedMusiqueFiles = ['audio/mpeg']
+
+        //caractère invalides pour le nom de playlists
+        const specialChars = /[<>]/;
+
+        //selecteurs
+        var nomMusique = document.querySelector("#nomMusique")
+        var nomArtiste = document.querySelector("#nomArtiste")
+        var genre = document.querySelector("#genre")
+        var imageMusique = document.querySelector("#imageMusique")
+        var musique = document.querySelector("#musique")
+        var invalidForm = document.querySelector("#invalidform")
+        var fileNameImage = document.querySelector("#file-name-image")
+        var fileNameMusique = document.querySelector("#file-name-musique")
+        
+        var formData = new FormData();
+        
+        //Bouton de confirmation
+        let buttonForm = document.querySelector(".formulaire button")
+
+        //affiche les noms des fichier
+        imageMusique.addEventListener("change",function(){
+            fileNameImage.innerHTML = ""
+            if(imageMusique.files[0]!=undefined){
+                fileNameImage.innerHTML = imageMusique.files[0]['name']
+            }
+        })
+
+        musique.addEventListener("change",function(){
+            fileNameMusique.innerHTML = ""
+            if(musique.files[0]!=undefined){
+                fileNameMusique.innerHTML = musique.files[0]['name']
+            }
+        })
+
+        buttonForm.addEventListener("click", function () {
+            invalidForm.innerHTML = ""
+            //verification nom de la musique/artiste
+            if(nomMusique.value=="" || specialChars.test(nomMusique.value) || nomMusique.value.length>maxNameSize){
+                invalidForm.innerHTML = "Ce nom de musique n'est pas valide"
+            } else if(nomArtiste.value=="" || specialChars.test(nomArtiste.value) || nomArtiste.value.length>maxNameSize){
+                invalidForm.innerHTML = "Ce nom d'auteur n'est pas valide"
+            }else if(genre.vale=="" || specialChars.test(genre.value) || genre.value.length>maxNameSize){
+                invalidForm.innerHTML = "Ce genre n'est pas valide"
+
+            //verification fichiers
+            //image
+            } else if(imageMusique.files[0]==undefined){
+                invalidForm.innerHTML = "Veuillez choisir une image"
+            } else if(imageMusique.files[0]['name']=='' || imageMusique.files[0]['size']>maxImageFileSize || !acceptedImageFiles.includes(imageMusique.files[0]['type'])){
+                invalidForm.innerHTML = "Cette image n'est pas valide"
+            //musique
+            } else if(musique.files[0]==undefined){
+                invalidForm.innerHTML = "Veuillez choisir une musique"
+            } else if(musique.files[0]['name']=='' || musique.files[0]['size']>maxMusiqueFileSize || !acceptedMusiqueFiles.includes(musique.files[0]['type'])){
+                invalidForm.innerHTML = "Cette musique n'est pas valide"
+            } else {
+                console.log("valid form")
+                
+                formData.append("nomMusique",nomMusique.value);
+                formData.append("nomArtiste",nomArtiste.value);
+                formData.append("genre", genre.value);
+                formData.append("imageMusique", imageMusique.files[0]);
+                formData.append("musique", musique.files[0]);
+    
+                axios.post("crud/createmusique.php",formData, {
+                        headers: {
+                          'Content-Type': 'multipart/form-data'
+                        }
+                    }).then(function () {
+
+                        closeForm()
+                        //rechargement main si sur l'accueil
+                        if(page=="accueil" || page=="admin"){
+                            loadPage(getUrl())
+                        }
+                        openPopup("La musique a été ajoutée avec succès !")
+
+                      })
+                
+            }
+
+            })       
+        })
+        
 }
