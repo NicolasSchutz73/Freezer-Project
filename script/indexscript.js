@@ -372,6 +372,8 @@ function testCo() {
                     idSession = null
                     //retirer l'event listener des boutons
                     removeEvent()
+                    //retire les playlists du side bar
+                    removeAllChild(document.querySelector(".playlists-user-sidebar"))
                     //test si on est connecté
                     testCo()
                     //retour à l'accueil
@@ -498,7 +500,7 @@ function loadPlaylistsSide() {
     if (idSession != null) {
         //containers
         let menuExtra = document.querySelector(".menu-extra")
-        let playlistsSideContainer = create("div", menuExtra, null, ".playlists-user-sidebar")
+        let playlistsSideContainer = create("div", menuExtra, null, "playlists-user-sidebar")
         axios.get("crud/getPlaylistsUser.php?idUser=" + idSession).then(function (response) {
             var playlists = response.data
             for (playlist of playlists) {
