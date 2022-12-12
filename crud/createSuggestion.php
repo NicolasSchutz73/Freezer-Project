@@ -20,13 +20,13 @@ if ($musique != "" and $artiste != "") {
     $login = $emparray[0]['login'];
 
     //recup image de l'utilisateur 
-    $sql = "SELECT images FROM `utilisateurs` WHERE id=$iduser";
+    $sql = "SELECT image FROM `utilisateurs` WHERE id=$iduser";
     $result = mysqli_query($mysqli, $sql);
     $emparray = array();
     while ($row = mysqli_fetch_assoc($result)) {
         $emparray[] = $row;
     }
-    $image = $emparray[0]['images'];
+    $image = $emparray[0]['image'];
 
     //Insertion suggestion
     $sql = "INSERT INTO `suggestions`(`utilisateur`, `musique`, `artiste`, `commentaire`,`image_user`) VALUES ('$login','$musique','$artiste','$commentaire','$image')";
