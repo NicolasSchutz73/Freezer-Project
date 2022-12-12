@@ -193,28 +193,36 @@ function connection() {
                             //connection
                             axios.get("config/startsession.php?id=" + idCompte)
                             closeForm()
-                            //retirer les boutons
-                            let bR = document.querySelector(".header--buttons--right")
-                            removeAllChild(bR)
-                            //ajouter les boutons deconnection et user
-                            let button = create("button", bR, null, "header--button--user", idSession)
-                            let ico = create("i", button)
-                            ico.classList.add("fa-solid", "fa-user")
-                            button.appendChild(document.createTextNode(" " + login + " "))
-                            let button2 = create("button", bR, null, "header--button--disconnect")
-                            let ico2 = create("i", button2)
-                            ico2.classList.add("fa-solid", "fa-right-from-bracket")
-                            button2.addEventListener("click", logout)
-                            //testAdmin
-                            if (idSession == 1000) { testAdmin = true } else { testAdmin = false }
-                            //removeEventPopup
-                            removeEventPopup()
-                            //ajout like footer
-                            document.querySelector("#likeMusic").classList.remove("disable")
-                            //initialisation page
-                            loadPlaylistsSide()
-                            //testCO
-                            testCo()
+                            //récupération de l'image de profil
+                            axios.get("crud/getImageUser.php").then(function (response) {
+                                var imgU = response.data[0].image
+                                //retirer les boutons
+                                let bR = document.querySelector(".header--buttons--right")
+                                removeAllChild(bR)
+                                //ajouter les boutons deconnection et user
+                                let button = create("button", bR, null, "header--button--user", idSession)
+                                //<span><img src=images/user/$image></span>
+                                let span = create("span", button)
+                                let img = create("img", span)
+                                img.src = "images/user/" + imgU
+
+                                button.appendChild(document.createTextNode(" " + login + " "))
+                                let button2 = create("button", bR, null, "header--button--disconnect")
+                                let ico2 = create("i", button2)
+                                ico2.classList.add("fa-solid", "fa-right-from-bracket")
+                                button2.addEventListener("click", logout)
+
+                                //testAdmin
+                                if (idSession == 1000) { testAdmin = true } else { testAdmin = false }
+                                //removeEventPopup
+                                removeEventPopup()
+                                //ajout like footer
+                                document.querySelector("#likeMusic").classList.remove("disable")
+                                //initialisation page
+                                loadPlaylistsSide()
+                                //testCO
+                                testCo()
+                            })
                         }
                     })
             })
@@ -272,28 +280,36 @@ function inscription() {
                                     //connection
                                     axios.get("config/startsession.php?id=" + idCompte)
                                     closeForm()
-                                    //retirer les boutons
-                                    let bR = document.querySelector(".header--buttons--right")
-                                    removeAllChild(bR)
-                                    //ajouter les boutons deconnection et user
-                                    let button = create("button", bR, null, "header--button--user", idSession)
-                                    let ico = create("i", button)
-                                    ico.classList.add("fa-solid", "fa-user")
-                                    button.appendChild(document.createTextNode(" " + login + " "))
-                                    let button2 = create("button", bR, null, "header--button--disconnect")
-                                    let ico2 = create("i", button2)
-                                    ico2.classList.add("fa-solid", "fa-right-from-bracket")
-                                    button2.addEventListener("click", logout)
-                                    //testAdmin
-                                    if (idSession == 1000) { testAdmin = true } else { testAdmin = false }
-                                    //removeEventPopup
-                                    removeEventPopup()
-                                    //ajout like footer
-                                    document.querySelector("#likeMusic").classList.remove("disable")
-                                    //initialisation page
-                                    loadPlaylistsSide()
-                                    //testCO
-                                    testCo()
+                                    //récupération de l'image de profil
+                                    axios.get("crud/getImageUser.php").then(function (response) {
+                                        var imgU = response.data[0].image
+                                        //retirer les boutons
+                                        let bR = document.querySelector(".header--buttons--right")
+                                        removeAllChild(bR)
+                                        //ajouter les boutons deconnection et user
+                                        let button = create("button", bR, null, "header--button--user", idSession)
+                                        //<span><img src=images/user/$image></span>
+                                        let span = create("span", button)
+                                        let img = create("img", span)
+                                        img.src = "images/user/" + imgU
+
+                                        button.appendChild(document.createTextNode(" " + login + " "))
+                                        let button2 = create("button", bR, null, "header--button--disconnect")
+                                        let ico2 = create("i", button2)
+                                        ico2.classList.add("fa-solid", "fa-right-from-bracket")
+                                        button2.addEventListener("click", logout)
+
+                                        //testAdmin
+                                        if (idSession == 1000) { testAdmin = true } else { testAdmin = false }
+                                        //removeEventPopup
+                                        removeEventPopup()
+                                        //ajout like footer
+                                        document.querySelector("#likeMusic").classList.remove("disable")
+                                        //initialisation page
+                                        loadPlaylistsSide()
+                                        //testCO
+                                        testCo()
+                                    })
                                 })
                         }
                     })

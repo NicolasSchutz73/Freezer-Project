@@ -334,11 +334,11 @@ main {
     margin-right: 10px;
 }
 
-.header--button--user img{
-    height: 20px;
-    width: 20px;
+.header--button--user img {
+    height: 11px;
+    width: 11px;
     object-fit: cover;
-    border-radius: 50%;
+    border-radius: 25%;
 
 }
 
@@ -468,11 +468,11 @@ main {
 
 .edit-playlist {
     margin-top: 10px;
-    color:#B3B3B3;
+    color: #B3B3B3;
 }
 
 .edit-playlist:hover {
-    color:#e6e6e6;
+    color: #e6e6e6;
     transition: all 0.5s ease;
     cursor: pointer;
 }
