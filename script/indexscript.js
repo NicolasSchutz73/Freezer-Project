@@ -388,6 +388,7 @@ testCo()
 function afficheMusiques(musiques) {
     let musiquesContainer = document.querySelector("#musiquesContainer")
     let numDate = 0;
+    var indiceDelete = 1;
     for (musique of musiques) {
         let musiqueContainer = create("div", musiquesContainer, null, "musique", musique.id);
 
@@ -442,6 +443,14 @@ function afficheMusiques(musiques) {
             })
         }
 
+        //Bouton de suppression d'une musique de playlists
+        if (playlistOwner || testAdmin) {
+            let buttonDelete = create("button", musiqueContainer, "-", "buttonDelete", indiceDelete)
+            buttonDelete.addEventListener("click", function () {
+                deleteMusicPlaylist(buttonDelete.id)
+            })
+        }
+
         imageMusique.addEventListener("click", () => {
             jsonPlay = jsonMusiques
             idMusic = musiqueContainer.getAttribute('id')
@@ -458,7 +467,7 @@ function afficheMusiques(musiques) {
             getAudiofromData(idMusic - 1)
             count = startMusicNextPrevious(count)
         })
-
+        indiceDelete+=1;
     }
 }
 
@@ -479,6 +488,21 @@ function deleteMusic(id) {
                 })
         })
 }
+
+function deleteMusicPlaylist(id) {
+    axios.get("crud/deleteMusicPlaylist.php?id="+id+"&hashlink="+getUrl())
+        .then(function () {
+            //reinitialisation jsonMusiques
+            axios.get("crud/getmusiquesplaylist.php?id=" + idsPlaylist + "&search=null")
+                .then(function (response) {
+                    jsonMusiques = []
+                    jsonMusiques.push(response.data)
+                    loadPage(getUrl())
+                    openPopup("La musique a été retirée de la playlist")
+                })
+        })
+}
+
 /*------------------------AFFICHE PLAYLISTS SIDEBAR------------------------------*/
 
 function loadPlaylistsSide() {
