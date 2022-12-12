@@ -107,7 +107,7 @@ function loadPage(url) {
             playlistsContainer = create("div", main, null, null, "playlistsContainer")
             create("p", main, "Liste des musiques :", "label");
             musiquesContainer = create("div", main, null, null, "musiquesContainer")
-            afficheTitreliké()
+            afficheTitrelike()
 
 
         }
@@ -351,7 +351,7 @@ function testCo() {
         document.querySelector("#formplaylist").addEventListener("click", createplaylist)
 
         //Likes
-        document.querySelector("#likeplaylist").addEventListener("click", like)
+        document.querySelector("#likeplaylist").addEventListener("click", like_fct)
 
         //Recommandations
         document.querySelector("#recommandations").addEventListener("click", recommandations)
@@ -367,7 +367,7 @@ function removeEvent() {
     document.querySelector("#suggestion").removeEventListener("click", suggestion)
     document.querySelector("#formplaylist").removeEventListener("click", createplaylist)
     document.querySelector("#recent").removeEventListener("click", recent)
-    document.querySelector("#likeplaylist").removeEventListener("click", like)
+    document.querySelector("#likeplaylist").removeEventListener("click", like_fct)
     document.querySelector("#recommandations").removeEventListener("click", recommandations)
     document.querySelector("#suggestion").removeEventListener("click", createMusique)
     document.querySelector("#suggestion span").innerHTML = "Suggestion"
@@ -608,7 +608,7 @@ function afficheUsers(users) {
 
 /*------------------------AFFICHE TITRE LIKE------------------------------*/
 
-function afficheTitreliké() {
+function afficheTitrelike() {
     axios.get("crud/getMusicLiked.php").then(function (response) {
         let infosPlaylistContainer = create("div", playlistsContainer, null, "infosPlaylist");
         //Image
@@ -951,7 +951,7 @@ function recent() {
 }
 
 /*------------------------FONCTION LIKE------------------------------*/
-function like() {
+function like_fct() {
     if (getUrl() != "like") {
         window.history.replaceState(stateObj,
             "accueil", "?page=like");
