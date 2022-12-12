@@ -27,7 +27,7 @@
         <div id="conteneurTimeBar">
             <div id="timeBar">
                 <p id="affichageTime">0:00</p>
-                <input type="range" id="timeSlider" min="0" max="100" value="0" step="1">
+                <input type="range" id="timeSlider" min="0" max="0" value="0" step="1">
                 <p id="timeFinalAudio"></p>
             </div>
         </div>
