@@ -341,7 +341,7 @@ function testCo() {
                 compte()
             })
             //suggestion
-            document.querySelector("#suggestion").addEventListener("click", suggestion)
+            document.querySelector("#suggestion").addEventListener("click", suggestion_fct)
         }
 
         //Ecoutées récemment
@@ -364,7 +364,7 @@ function testCo() {
 function removeEvent() {
     document.querySelector(".header--button--login").removeEventListener("click", connection)
     document.querySelector(".header--button--signUp").removeEventListener("click", inscription)
-    document.querySelector("#suggestion").removeEventListener("click", suggestion)
+    document.querySelector("#suggestion").removeEventListener("click", suggestion_fct)
     document.querySelector("#formplaylist").removeEventListener("click", createplaylist)
     document.querySelector("#recent").removeEventListener("click", recent)
     document.querySelector("#likeplaylist").removeEventListener("click", like_fct)

@@ -303,7 +303,7 @@ function inscription() {
 
 
 //Suggestion
-function suggestion() {
+function suggestion_fct() {
 
     //recup formulaire via id musique
     axios.get("pages/suggestion.php")
