@@ -447,7 +447,7 @@ function afficheMusiques(musiques) {
         }
 
         //Bouton de suppression d'une musique de playlists
-        if (playlistOwner || testAdmin) {
+        if (playlistOwner || (testAdmin && getUrl().length == 12)) {
             let buttonDelete = create("button", musiqueContainer, "-", "buttonDelete", indiceDelete)
             buttonDelete.addEventListener("click", function () {
                 deleteMusicPlaylist(buttonDelete.id)
@@ -482,12 +482,10 @@ function deleteMusic(id) {
             //reinitialisation jsonMusiques
             axios.get("crud/getallmusics.php?search=null")
                 .then(function (response) {
-                    jsonMusiques = []
-                    jsonMusiques.push(response.data)
                     jsonAllMusique = []
                     jsonAllMusique.push(response.data)
                     removeAllChild(musiquesContainer)
-                    afficheMusiques(jsonAllMusiques[0])
+                    afficheMusiques(jsonAllMusique[0])
                 })
         })
 }
