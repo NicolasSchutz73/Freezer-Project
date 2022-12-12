@@ -7,12 +7,12 @@ $login = $_GET["login"];
 $pwd = $_GET["pwd"];
 
 //image par défaut
-$images = "default.png";
+$image = "default.png";
 
 //hash mdp
 $salt = "sdK2mqlOs4dUibu57SZVGT8qHsmiOm6AqZs5DdkGN4KvghM3dqkfN5DhghplJG539qdm7hSFG8Kgv9qmhcetYHvDERfHF412csr79hfEScgmKH53dSXCVtyh75gDSer1";
 $pwd = hash("sha256", $pwd . $salt);
-$requete = "INSERT INTO `utilisateurs` (`login`, `pwd`, `images`) VALUES ('$login', '$pwd', '$images');";
+$requete = "INSERT INTO `utilisateurs` (`login`, `pwd`, `image`) VALUES ('$login', '$pwd', '$image');";
 
 //envoie
 $resultat = mysqli_query($mysqli, $requete);

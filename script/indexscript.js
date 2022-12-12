@@ -99,11 +99,7 @@ function loadPage(url) {
         //Si pas connecté
         if (idSession == null) {
             //Si pas connecté
-            if (getUrl() != "accueil") {
-                window.history.replaceState(stateObj,
-                    "accueil", "?page=accueil");
-                loadPage(getUrl())
-            }
+            pageErreur()
 
         } else {
 
@@ -120,39 +116,41 @@ function loadPage(url) {
         //page playlist (12 car longueur du hashlink)
     } else if (url.length == 12) {
         page = "playlist"
+        console.log(page)
 
         axios.get("crud/getplaylist.php?pl=" + url)
             .then(function (response) {
-            let playlistDatas = response.data[0];
-            axios.get("crud/getUserName.php")
-            .then(function(response){
-
-                playlistOwner=(response.data[0]['login']==playlistDatas['auteur'] || testAdmin)
-                idsPlaylist = playlistDatas.musiques
-
-
-                //Mise a jour jsonMusiques
-                axios.get("crud/getmusiquesplaylist.php?id=" + idsPlaylist + "&search=null")
+                let playlistDatas = response.data[0];
+                axios.get("crud/getUserName.php")
                     .then(function (response) {
-                        jsonMusiques = []
-                        jsonMusiques.push(response.data)
+
+                        playlistOwner = (response.data[0]['login'] == playlistDatas['auteur'] || testAdmin)
+                        idsPlaylist = playlistDatas.musiques
+
+
+                        //Mise a jour jsonMusiques
+                        axios.get("crud/getmusiquesplaylist.php?id=" + idsPlaylist + "&search=null")
+                            .then(function (response) {
+                                jsonMusiques = []
+                                jsonMusiques.push(response.data)
+                            })
+
+                        //Reset
+                        removeAllChild(main)
+                        createFormulairePopup()
+
+                        //Container playlist
+                        playlistsContainer = create("div", main, null, null, "playlistsContainer")
+
+                        //Container musiques
+                        create("p", main, "Liste des musiques :", "label");
+                        create("div", main, null, null, "musiquesContainer")
+                        createFormulairePopup()
+
+                        afficheInfosPlaylist(playlistDatas)
+
+                        chercheMusic()
                     })
-
-                //Reset
-                removeAllChild(main)
-                createFormulairePopup()
-
-                //Container playlist
-                playlistsContainer = create("div", main, null, null, "playlistsContainer")
-
-                //Container musiques
-                create("p", main, "Liste des musiques :", "label");
-                create("div", main, null, null, "musiquesContainer")
-
-                afficheInfosPlaylist(playlistDatas)
-
-                chercheMusic()
-            })
             })
 
 
@@ -309,6 +307,7 @@ document.querySelector("#accueil").addEventListener("click", function () {
 function testCo() {
     //PAS CONNECTE
     if (idSession == null) {
+        console.log("pas connecté")
         //login
         document.querySelector(".header--button--login").addEventListener("click", connection)
 
@@ -316,49 +315,33 @@ function testCo() {
         document.querySelector(".header--button--signUp").addEventListener("click", inscription)
 
         //suggestion
-        document.querySelector("#suggestion").addEventListener("click", function () {
-            openPopup("Vous devez être connecté pour suggérer des musiques")
-        })
+        document.querySelector("#suggestion").addEventListener("click", sugPopup)
 
         //Ecoutées récemment
-        document.querySelector("#recent").addEventListener("click", function () {
-            openPopup("Vous devez être connecté pour voir votre historique")
-        })
+        document.querySelector("#recent").addEventListener("click", recPopup)
 
         //Formulaire playlist
-        document.querySelector("#formplaylist").addEventListener("click", function () {
-            openPopup("Vous devez être connecté pour créer une playlist")
-        })
+        document.querySelector("#formplaylist").addEventListener("click", plaPopup)
 
         //Likes
-        document.querySelector("#likeplaylist").addEventListener("click", function () {
-            openPopup("Vous devez être connecté voir vos like")
-        })
+        document.querySelector("#likeplaylist").addEventListener("click", likePopup)
 
         //Recommandations
-        document.querySelector("#recommandations").addEventListener("click", function () {
-            openPopup("Vous devez être connecté pour voir vos recommandations")
-        })
+        document.querySelector("#recommandations").addEventListener("click", recPopup)
 
         //CONNECTE
     } else {
         if (testAdmin) {
-            document.querySelector(".header--button--user").addEventListener("click", function () {
-                if (getUrl() != "admin") {
-                    window.history.replaceState(stateObj,
-                        "accueil", "?page=admin");
-                    loadPage(getUrl())
-                }
-            })
+            document.querySelector(".header--button--user").addEventListener("click", admin)
             //ajout musique
             document.querySelector("#suggestion").addEventListener("click", createMusique)
             document.querySelector("#suggestion span").innerHTML = "Ajouter musique"
         } else {
-        document.querySelector(".header--button--user").addEventListener("click", function () {
-            compte()
-        })
-        //suggestion
-        document.querySelector("#suggestion").addEventListener("click", suggestion)
+            document.querySelector(".header--button--user").addEventListener("click", function () {
+                compte()
+            })
+            //suggestion
+            document.querySelector("#suggestion").addEventListener("click", suggestion)
         }
 
         //Ecoutées récemment
@@ -374,31 +357,7 @@ function testCo() {
         document.querySelector("#recommandations").addEventListener("click", recommandations)
 
         //Logout
-        document.querySelector(".header--button--disconnect").addEventListener("click", function () {
-            axios.get("crud/logout.php")
-                .then(function () {
-                    //retirer les boutons
-                    let bR = document.querySelector(".header--buttons--right")
-                    removeAllChild(bR)
-                    //ajouter les boutons
-                    create("button", bR, "S'inscrire", "header--button--signUp").addEventListener("click", inscription)
-                    create("button", bR, "Se connecter", "header--button--login").addEventListener("click", connection)
-                    //fin de session
-                    idSession = null
-                    //retirer l'event listener des boutons
-                    removeEvent()
-                    //retire les playlists du side bar
-                    removeAllChild(document.querySelector(".playlists-user-sidebar"))
-                    //test si on est connecté
-                    testCo()
-                    //retour à l'accueil
-                    if (getUrl() != "accueil") {
-                        window.history.replaceState(stateObj,
-                            "accueil", "?page=accueil");
-                        loadPage(getUrl())
-                    }
-                })
-        })
+        document.querySelector(".header--button--disconnect").addEventListener("click", logout)
     }
 }
 
@@ -410,7 +369,18 @@ function removeEvent() {
     document.querySelector("#recent").removeEventListener("click", recent)
     document.querySelector("#likeplaylist").removeEventListener("click", like)
     document.querySelector("#recommandations").removeEventListener("click", recommandations)
+    document.querySelector("#suggestion").removeEventListener("click", createMusique)
+    document.querySelector("#suggestion span").innerHTML = "Suggestion"
 }
+
+function removeEventPopup() {
+    document.querySelector("#formplaylist").removeEventListener("click", plaPopup)
+    document.querySelector("#recent").removeEventListener("click", recPopup)
+    document.querySelector("#likeplaylist").removeEventListener("click", likePopup)
+    document.querySelector("#recommandations").removeEventListener("click", recPopup)
+    document.querySelector("#suggestion").removeEventListener("click", sugPopup)
+}
+
 
 testCo()
 /*------------------------AFFICHE MUSIQUES------------------------------*/
@@ -583,15 +553,15 @@ function afficheInfosPlaylist(pl) {
     //Texte
     let texteInfoContainer = create("div", infosPlaylistContainer, null, "texteInfoPlaylist");
     //Nom,auteur
-    create("p", texteInfoContainer, pl.nom+" ", "nomPlaylist");
+    create("p", texteInfoContainer, pl.nom, "nomPlaylist");
     create("p", texteInfoContainer, "Playlist créée par " + pl.auteur, "auteurPlaylist");
-    if(playlistOwner){
-        let editPlaylist = create("p",texteInfoContainer,"Editer la playlist ","edit-playlist")
-        let i = create("i",editPlaylist,null,"fa-solid")
+    if (playlistOwner) {
+        let editPlaylist = create("p", texteInfoContainer, "Editer la playlist ", "edit-playlist")
+        let i = create("i", editPlaylist, null, "fa-solid")
         i.classList.add("fa-pen")
-       editPlaylist.addEventListener("click",function(){
-        editPlaylistForm()
-       })
+        editPlaylist.addEventListener("click", function () {
+            editPlaylistForm()
+        })
     }
 }
 
@@ -616,7 +586,7 @@ function afficheUsers(users) {
             //Image
             let imageUser = create("div", userContainer, null, "imageMusique");
             let image = create("img", imageUser);
-            image.src = "images/user/" + user.images;
+            image.src = "images/user/" + user.image;
 
             //Texte
             let texteUser = create("div", userContainer, null, "texteUser");
@@ -849,4 +819,65 @@ function recommandations() {
             "accueil", "?page=recommandations");
         loadPage(getUrl())
     }
+}
+
+/*------------------------FONCTION ADMIN------------------------------*/
+function admin() {
+    if (getUrl() != "admin") {
+        window.history.replaceState(stateObj,
+            "accueil", "?page=admin");
+        loadPage(getUrl())
+    }
+}
+
+/*------------------------FONCTION LOGOUT------------------------------*/
+function logout() {
+    axios.get("crud/logout.php")
+        .then(function () {
+            //retirer les boutons
+            let bR = document.querySelector(".header--buttons--right")
+            removeAllChild(bR)
+            //ajouter les boutons
+            create("button", bR, "S'inscrire", "header--button--signUp").addEventListener("click", inscription)
+            create("button", bR, "Se connecter", "header--button--login").addEventListener("click", connection)
+            //fin de session
+            idSession = null
+            //test admin
+            testAdmin = false
+            //retirer l'event listener des boutons
+            removeEvent()
+            //retire les playlists du side bar
+            removeAllChild(document.querySelector(".playlists-user-sidebar"))
+            //retire le bouton like
+            document.querySelector("#likeMusic").classList.add("disable")
+            //test si on est connecté
+            testCo()
+            //retour à l'accueil
+            if (getUrl() != "accueil") {
+                window.history.replaceState(stateObj,
+                    "accueil", "?page=accueil");
+                loadPage(getUrl())
+            }
+        })
+}
+
+/*------------------------FONCTION POPUP------------------------------*/
+function sugPopup() {
+    openPopup("Vous devez être connecté pour suggérer des musiques")
+}
+
+function recPopup() {
+    openPopup("Vous devez être connecté pour voir votre historique")
+}
+
+function plaPopup() {
+    openPopup("Vous devez être connecté pour créer une playlist")
+}
+
+function likePopup() {
+    openPopup("Vous devez être connecté pour voir vos like")
+}
+
+function recPopup() {
+    openPopup("Vous devez être connecté pour voir vos recommandations")
 }
