@@ -14,9 +14,19 @@ while ($row = mysqli_fetch_assoc($result)) {
 }
 
 #récupère le genre le plus présent
-$genre = array_count_values($genres);
-arsort($genre);
-$genre = array_keys($genre)[0];
+if (count($genres) == 0) {
+    $sql_ = "select * from musics";
+    $result_ = mysqli_query($mysqli, $sql_);
+    $emparray = array();
+    while ($row = mysqli_fetch_assoc($result_)) {
+        $emparray[] = $row;
+    }
+    $genre = $emparray[rand(0, count($emparray) - 1)]['genre'];
+} else {
+    $genre = array_count_values($genres);
+    arsort($genre);
+    $genre = array_keys($genre)[0];
+}
 
 
 #Selection data

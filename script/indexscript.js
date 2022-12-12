@@ -257,7 +257,10 @@ function loadPage(url) {
             axios.get("crud/recommandation.php")
                 .then(function (response) {
                     jsonR = response.data
-                    afficheMusiques(jsonR)
+                    if (jsonR.length == 0) {
+                        console.log("Aucune recommandation pour le moment !")
+                        create("p", document.querySelector("#musiquesContainer"), "Aucune recommandation pour le moment !")
+                    } else { console.log(jsonR); afficheMusiques(jsonR) }
                 })
         }
     }
@@ -467,7 +470,7 @@ function afficheMusiques(musiques) {
             getAudiofromData(idMusic - 1)
             count = startMusicNextPrevious(count)
         })
-        indiceDelete+=1;
+        indiceDelete += 1;
     }
 }
 
@@ -490,7 +493,7 @@ function deleteMusic(id) {
 }
 
 function deleteMusicPlaylist(id) {
-    axios.get("crud/deleteMusicPlaylist.php?id="+id+"&hashlink="+getUrl())
+    axios.get("crud/deleteMusicPlaylist.php?id=" + id + "&hashlink=" + getUrl())
         .then(function () {
             //reinitialisation jsonMusiques
             axios.get("crud/getmusiquesplaylist.php?id=" + idsPlaylist + "&search=null")
