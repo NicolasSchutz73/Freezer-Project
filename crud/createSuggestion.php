@@ -29,7 +29,7 @@ if ($musique != "" and $artiste != "") {
     $image = $emparray[0]['image'];
 
     //Insertion suggestion
-    $sql = "INSERT INTO `suggestions`(`utilisateur`, `musique`, `artiste`, `commentaire`,`image_user`) VALUES ('$login','$musique','$artiste','$commentaire','$image')";
+    $sql = "INSERT INTO `suggestions`(`utilisateur`, `musique`, `artiste`, `commentaire`,`image`) VALUES ('$login','$musique','$artiste','$commentaire','$image')";
     $result = mysqli_query($mysqli, $sql);
     echo ("OK");
 } else {

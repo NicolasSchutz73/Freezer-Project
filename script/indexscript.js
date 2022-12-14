@@ -227,7 +227,7 @@ function loadPage(url) {
             let texteHistoricContainer = create("div", infosHistoricContainer, null, "texteInfoHistoric");
             //Nom,auteur
             create("p", texteHistoricContainer, "Historique", "nomPlaylist");
-            create("p", texteHistoricContainer, "Les musiques que vous avez écouté ", "auteurHistoric");
+            create("p", texteHistoricContainer, "Les musiques que vous avez écoutées ", "auteurHistoric");
             listenrecently()
         }
     }
@@ -643,7 +643,7 @@ function afficheTitrelike() {
         //Texte
         let texteInfoContainer = create("div", infosPlaylistContainer, null, "texteInfoPlaylist");
         //Nom,auteur
-        create("p", texteInfoContainer, "Titre likés", "nomPlaylist");
+        create("p", texteInfoContainer, "Titres likés", "nomPlaylist");
         create("p", texteInfoContainer, "Les musiques que vous aimez ", "auteurPlaylist");
 
         let idmusiques = response.data[0].musiques
@@ -696,7 +696,7 @@ function afficheSuggestions(suggestions) {
         //Image
         let imageUser = create("div", suggestionContainer, null, "imageMusique");
         let image = create("img", imageUser);
-        image.src = "images/user/" + suggestion.image_user;
+        image.src = "images/user/" + suggestion.image;
 
         //Texte
         let texteSuggestion = create("div", suggestionContainer, null, "texteSuggestion");
