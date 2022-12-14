@@ -159,6 +159,39 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
+#hamburger {
+    position: fixed;
+    z-index: 998;
+    margin-left: 1rem;
+    margin-top: 1rem;
+    border: none;
+    cursor: pointer;
+    width: 40px;
+    height: 32px;
+    background: none;
+    display: none;
+}
+
+#hamburger span {
+    display: flex;
+    width: 29px;
+    height: 2px;
+    margin-bottom: 5px;
+    position: relative;
+    background: #ffffff;
+    border-radius: 3px;
+    z-index: 999;
+    transform-origin: 5px 0;
+    transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+    background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+    opacity 0.55s ease;
+}
+.closeIcon {
+    display: none;
+}
+.showMenu {
+    transform: translateY(0);
+}
 
 .sidebar {
     background-color: rgba(4, 4, 4);
@@ -167,6 +200,8 @@ body {
     position: fixed;
     height: 100%;
     width: 230px;
+    /*transform: translate(-100%, 0);*/
+    transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
 }
 
 .sidebar .brand {
@@ -396,10 +431,6 @@ main {
     left: 40%;
     /*transform: (-50%, 50%);*/
 }
-
-
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {}
 
 ::-webkit-scrollbar {
     width: 16px;
@@ -836,4 +867,62 @@ main {
     padding-top: 20%;
     text-align: center;
     font-size: 250%;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 530px) {
+    main {
+        padding: 60px 0 11px 10px;
+    }
+
+    .header {
+        position: static;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .wrapSearch {
+        width: 30%;
+        position: static;
+    }
+
+    .header--buttons--right button {
+        padding: 11px 10px;
+    }
+
+    .imagePlaylistWrap img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .playlistIndex {
+        width: 100px;
+        margin: 0.5rem;
+    }
+
+    #musiquesContainer {
+        padding-left: 10px;
+    }
+
+    .musique {
+        margin-bottom: 1rem;
+    }
+
+    .sidebar {
+        /*transform: translate(-100%, 0px);*/
+        width: 100%;
+        padding-top: 5.5rem;
+    }
+
+    ::-webkit-scrollbar {
+        width: 0;
+    }
+
+    body {
+        overflow-x: hidden;
+    }
+
+    #hamburger {
+        display: block;
+    }
 }

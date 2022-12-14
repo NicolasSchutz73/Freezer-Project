@@ -3,8 +3,11 @@ const containerBtnAudio = document.querySelector("#conteneurButtonAudio");
 const btnVolume = document.querySelector("#volume");
 const displayTime = document.querySelector("#affichageTime");
 const displayFinalTime = document.querySelector("#timeFinalAudio");
+const hamburger= document.querySelector("#hamburger");
 
 // evenement sur redimensionnement de la fenetre
+
+//footer
 if (window.addEventListener) {
     window.addEventListener('resize', function () {
         if (window.innerWidth < 530) {  // si inferieur a 530px
@@ -39,6 +42,31 @@ if (window.addEventListener) {
             displayTime.style.display = 'block';
             displayFinalTime.style.display = 'block';
             btnFullScreen.style.right = '0%';
+        }
+    })
+}
+
+
+//sidebar
+const sidebar = document.querySelector(".sidebar");
+
+if (window.addEventListener) {
+    window.addEventListener('resize', function () {
+        if (window.innerWidth < 530) {
+            sidebar.style.transform = "translateX(-100%)"
+
+            hamburger.onclick = function () {
+                if (sidebar.style.transform === "translateX(-100%)") {
+                    sidebar.style.transform = "translateX(0)";
+                }
+                else {
+                    sidebar.style.transform = "translateX(-100%)";
+                }
+            }
+        }
+        else {
+            sidebar.style.transform = "translate(0)";
+
         }
     })
 }
