@@ -1,4 +1,10 @@
 <!-- SIDEBAR -->
+<button id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
+
 <nav class="sidebar">
     <div class="brand">
         <img src="<?php echo HOST_IMG . '/index/logo.png'; ?>" alt="logo">
@@ -51,7 +57,6 @@
         <div class="playlists-user-sidebar">
         </div>
     </div>
-
-
 </nav>
+
 <!-- /SIDEBAR -->
